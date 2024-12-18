@@ -1,0 +1,295 @@
+<form [formGroup]="vinculationForm" (ngSubmit)="submitForm()" autocomplete="off">
+    <div class="section-title">
+        Datos bancarios
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label>No. Cuenta bancaria para pago *</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="numero_cuenta" formControlName="numero_cuenta">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'numero_cuenta'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Tipo de cuenta *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="type_cuenta_id"
+                name="type_cuenta_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of lists['typeAccounts']; track opt.id) {
+                    <option [value]="opt.id">{{opt.name}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'type_cuenta_id'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Banco *</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="nombre_banco" formControlName="nombre_banco">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'nombre_banco'}"></ng-container>
+        </div>
+    </div>
+
+
+    <div class="section-title">
+        Aceptación de pólizas
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label class="large-txt">Confirmo socialización de la politica de polizas para las contrataciones <a [href]="apiUrlFront + 'public/Politica_polizas_en_proyectos.pdf'" target="_blank">Link PDF</a> *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="poliza" type="radio" value="1" formControlName="poliza"> Si</label>
+                <label><input name="poliza" type="radio" value="0" formControlName="poliza"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'poliza'}"></ng-container>
+        </div>
+    </div>
+
+
+    <div class="section-title">
+        Declaración de conflicto de intereses
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label class="large-txt">¿Usted, su cónyuge, compañero(a) permanente o algún familiar hasta el cuarto grado de consanguinidad, segundo de afinidad o primero civil, tiene algún interés o vínculo con empleado, proveedores, competidores directos o indirectos de LA PRODUCTORA o en el sector audiovisual? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="vinculo" type="radio" value="1" formControlName="vinculo" (ngModelChange)="setDescriptionControl($event, 'vinculo')"> Si</label>
+                <label><input name="vinculo" type="radio" value="0" formControlName="vinculo" (ngModelChange)="setDescriptionControl($event, 'vinculo')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'vinculo'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <p class="small-p">
+                En caso que su respuesta sea afirmativa, por favor informe, con el mayor detalle posible, cuál es el  interés o participación que la vincula a usted o su familiar con el sector, en caso que se trate de un vínculo con alguna persona (natural o jurídica) del sector por favor indique el nombre de la persona u organización, el cargo, la función desempeñada y el periodo de ejecución de esta tarea, en ambos casos por favor adicione cualquier otra información pertinente: 
+            </p>
+        </div>
+        @if (fVinculation['vinculo'].value == 1) {
+            <div class="content-col m-8">
+                <input type="text" name="vinculo_description" formControlName="vinculo_description">
+                <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'vinculo_description'}"></ng-container>
+            </div>
+        }
+
+        <div class="content-col m-8">
+            <label class="large-txt">¿Hay alguna otra situación no incluida en la pregunta anterior que pueda afectar su relación o vinculación con LA PRODUCTORA, particularmente la exclusividad en el desarrollo de sus actividades? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="relacion" type="radio" value="1" formControlName="relacion" (ngModelChange)="setDescriptionControl($event, 'relacion')"> Si</label>
+                <label><input name="relacion" type="radio" value="0" formControlName="relacion" (ngModelChange)="setDescriptionControl($event, 'relacion')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'relacion'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <p class="small-p">
+                En caso que su respuesta sea afirmativa por favor proporcione los detalles de esa situación y cualquier otra información que permita a LA PRODUCTORA evaluar el caso concreto. 
+            </p>
+        </div>
+        @if (fVinculation['relacion'].value == 1) {
+            <div class="content-col m-8">
+                <input type="text" name="relacion_description" formControlName="relacion_description">
+                <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'relacion_description'}"></ng-container>
+            </div>
+        }
+        <p class="small-p">
+            Declaro que la información suministrada es veraz y completa; igualmente me comprometo a actualizarla en caso que se produzca algún cambio significativo. 
+
+            Acuerdan las partes que esta declaración hace parte del contrato de prestación de servicios y que la omisión parcial o total de cualquier información de la solicitada en este formulario de Declaración de Conflicto de Intereses podrá ser considerado como una falta grave, de acuerdo con lo dispuesto por el artículo 62, literal A, numeral 6.
+        </p>
+    </div>
+
+
+
+    <div class="section-title">
+        Tratamiento de datos personales
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <p class="small-p">
+                Para nosotros es muy importante estar en contacto con usted, por ello deseamos contar con su autorización a LA PRODUCTORA para la recolección, almacenamiento y uso de los datos para las finalidades que se relacionan a continuación adicionales a las propias derivadas del contrato suscrito entre las partes. (Aplica para proveedores localizados dentro y fuera de Colombia)
+            </p>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">Atender los requerimientos por parte de las áreas involucradas en cuanto a alternativas de proveedores efectivos para la prestación de servicios y realizar cotizaciones *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="requirements" type="radio" value="1" formControlName="requirements" (ngModelChange)="setDescriptionControl($event, 'requirements')"> Si</label>
+                <label><input name="requirements" type="radio" value="0" formControlName="requirements" (ngModelChange)="setDescriptionControl($event, 'requirements')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'requirements'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>Invitar a eventos y capacitaciones *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="permisos_eventos" type="radio" value="1" formControlName="permisos_eventos"> Si</label>
+                <label><input name="permisos_eventos" type="radio" value="0" formControlName="permisos_eventos"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'permisos_eventos'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">Utilizar fotos e imágenes en páginas web, redes sociales, prensa escrita y digital *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="autorizacion_media" type="radio" value="1" formControlName="autorizacion_media"> Si</label>
+                <label><input name="autorizacion_media" type="radio" value="0" formControlName="autorizacion_media"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'autorizacion_media'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">Compartir datos con contratistas, productores, empresas y agentes del mercado, siempre y cuando tenga relación con el desarrollo de las actividades propias de la industria de producción de material audiovisual *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="datos_otros" type="radio" value="1" formControlName="datos_otros"> Si</label>
+                <label><input name="datos_otros" type="radio" value="0" formControlName="datos_otros"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'datos_otros'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">Realizar verificación de datos y referencias *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="data_verification" type="radio" value="1" formControlName="data_verification"> Si</label>
+                <label><input name="data_verification" type="radio" value="0" formControlName="data_verification"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'data_verification'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <p class="small-p">
+                En cumplimento de la Ley Estatutaria 1581 de 2012, reglamentada por el Decreto No. 1377 de 2013, así como en lo dispuesto por el Concepto 235910 de 2013 como Titular de la información tiene derecho a conocer, actualizar y rectificar sus datos personales, solicitar prueba de la autorización otorgada para su tratamiento, ser informado sobre el uso que se ha dado a los mismos, presentar quejas ante la SIC por infracción a la ley, revocar la autorización y/o solicitar la supresión de sus datos en los casos en que sea procedente y acceder en forma gratuita a los mismos. Nuestra política de tratamiento de la información puede ser consultada en nuestra página web. 
+            </p>
+        </div>
+    </div>
+
+
+
+    <div class="section-title">
+        Programa de ética y cumplimiento
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label class="large-txt">Declaro que he leído los Lineamientos del Programa de Ética y Cumplimiento (PEC) para proveedores y que en todo caso adoptaremos  y seguiremos dichos lineamientos en la ejecución de los servicios prestados. <a [href]="apiUrlFront + 'public/LINEAMIENTOS_PEC_PROVEEDORES.pdf'" target="_blank">Link PDF</a> *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="pec" type="radio" value="1" formControlName="pec"> Si</label>
+                <label><input name="pec" type="radio" value="0" formControlName="pec"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'pec'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">¿En su empresa existe un manual de ética? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="ethics_manual" type="radio" value="1" formControlName="ethics_manual"> Si</label>
+                <label><input name="ethics_manual" type="radio" value="0" formControlName="ethics_manual"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ethics_manual'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">¿Su empresa posee un programa de gestión del riesgo y anticorrupción? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="anti_corruption" type="radio" value="1" formControlName="anti_corruption" (ngModelChange)="setDescriptionControl($event, 'anti_corruption')"> Si</label>
+                <label><input name="anti_corruption" type="radio" value="0" formControlName="anti_corruption" (ngModelChange)="setDescriptionControl($event, 'anti_corruption')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'anti_corruption'}"></ng-container>
+        </div>
+        @if (fVinculation['anti_corruption'].value == 1) {
+            <div class="content-col m-8">
+                <p class="small-p">
+                    ¿Qué gestiones realiza para controlar el riesgo de anticorrupción?
+                </p>
+            </div>
+            <div class="content-col m-8">
+                <input type="text" name="anti_corruption_description" formControlName="anti_corruption_description">
+                <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'anti_corruption_description'}"></ng-container>
+            </div>
+        }
+        <div class="content-col m-8">
+            <label class="large-txt">¿Declara usted que todas las actividades realizadas estan basadas en la buena fé, son practicas transparentes libres soborno y/o actuaciones corruptas? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="good_faith" type="radio" value="1" formControlName="good_faith"> Si</label>
+                <label><input name="good_faith" type="radio" value="0" formControlName="good_faith"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'good_faith'}"></ng-container>
+        </div>
+    </div>
+
+
+
+    <div class="section-title">
+        Prevención de lavado de activos y financiación del terrorismo
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label class="large-txt">Declaro y garantizo bajo gravedad de juramento, que ningún activo o pasivo del patrimonio proviene de actividades ilícitas relacionadas o que puedan asociarse al riesgo LA/FT *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="oath" type="radio" value="1" formControlName="oath"> Si</label>
+                <label><input name="oath" type="radio" value="0" formControlName="oath"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'oath'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label class="large-txt">¿Autoriza usted a utilizar los datos de los terceros consignados en el presente formulario para consultar listas públicas que permitan validar la reputaciónd el tercero? *</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="third_parties" type="radio" value="1" formControlName="third_parties"> Si</label>
+                <label><input name="third_parties" type="radio" value="0" formControlName="third_parties"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'third_parties'}"></ng-container>
+        </div>
+    </div>
+
+
+    <div class="section-title">
+        Acuerdo de confidencialidad
+    </div>
+    <div class="content-row">
+        <div class="content-col m-8">
+            <p class="small-p">
+                Las Partes hemos convenido celebrar el presente Acuerdo de Confidencialidad, el cual se regirá por la ley aplicable y vigente en la materia y especialmente por lo dispuesto este acuerdo, previas las siguientes consideraciones: (1) La Productora suscribió un contrato para la producción de una obra audiovisual con NETFLIX ESTUDIOS INTERNACIONALES, LLC, empresa legalmente organizada en Estados Unidos de América (en adelante el “Beneficiario del Servicio”), en virtud del cual la primera debe producir la serie tentativamente titulada “Cien Años de Soledad Temporada 2” (en adelante, la “Obra Audiovisual” o el “Proyecto”); (2) El Beneficiario del Servicio confirió mandato a la Productora para que dicha sociedad, en su nombre y representación, llevara a cabo todas las contrataciones necesarias para realizar los servicios de producción en el territorio colombiano; (3) En el marco de lo anterior, la Productora podría tener un potencial interés en sus servicios, por lo que compartirá con la Compañía información confidencial relacionada con su negocio y con sus activos de propiedad intelectual.  Para mantener la reserva y confidencialidad de la información intercambiada entre las Partes, han acordado celebrar el Acuerdo, el cual se regirá por las siguientes cláusulas: 
+
+                1.	Este Acuerdo tiene por objeto definir, mantener y garantizar las obligaciones de confidencialidad absoluta que asume la Parte Receptora respecto de la información que le será suministrada por la Parte Reveladora y/o a la que tenga acceso la Parte Receptora para efectos de la participación en la Obra Audiovisual. De acuerdo con lo anterior, la Parte Receptora no podrá utilizar la información a la que tenga acceso para ningún propósito diferente a aquellos expresamente autorizados por la Parte Reveladora.
+                2.	Se entenderá como “Información Confidencial” la información privada, confidencial, no pública y/o privilegiada a la cual tengan acceso las Partes durante las negociaciones que adelanten con el fin de celebrar el o los contratos que correspondan, con ocasión de la ejecución de la Obra Audiovisual, que no esté a disposición del público, incluyendo pero sin limitarse: a) los guiones, personajes, talento, locaciones, contratistas y/o proveedores contratados para la Obra Audiovisual y, en general, todo dato o información que la Parte Reveladora le suministre a la Parte Receptora en relación con el Proyecto o la Obra Audiovisual, independientemente de su clasificación y/o contenido; b) la Información sujeta a reserva, privilegiada o que sea relacionada con marcas, patentes, diseños, derecho de reproducción, derechos de autor o secretos comerciales, bien sea suministrada verbalmente, por escrito, en medios magnéticos u otros idóneos para su transmisión o que sea obtenida o conocida directamente por la Parte Receptora de la Parte Reveladora; b) toda la información, sea o no clasificada como tal, que se relacione con los archivos, los documentos de negocios de la Parte Reveladora, o la información relativa al Proyecto; c) cualquier información legal, técnica, de ingeniería, operativa, económica, financiera, comercial, estratégica y cualquier otra relacionada con las operaciones de negocios de la Parte Reveladora, bien sea que la misma sea escrita, oral o visual, de la cual tenga conocimiento o a la que tenga acceso la Parte Receptora por cualquier medio o circunstancia en relación con las conversaciones que realicen las partes; d) toda actividad, presente, pasada o futura de la Parte Reveladora que se relacione con las discusiones entre las Partes con relación al Proyecto y/o la tecnología de la Parte Reveladora; e) los contratos que se generen con objeto de las conversaciones que realicen las Partes así como sus contenidos, actividades, información vinculada y/o cualquier tipo de información que resulte de su celebración y/o ejecución; f) artes, diseños, fotografías, imágenes, documentos escritos, sus soportes, información de resultados de investigación, secretos empresariales, descubrimientos, invenciones, ideas, software, proyectos o borradores definitivos o provisionales, conceptos, know-how, técnicas, diseños, especificaciones, dibujos, diagramas, datos, actividades y operaciones comerciales, listas de clientes, información financiera, portafolio de productos, bases de datos, reportes, informes, estudios y otra información técnica y comercial bien sea que dicha información sea verbal, escrita, magnética, visual, gráfica, física o de cualquier otra clase; g) cualquier información de propiedad de la Parte Reveladora o de cualquier tercero que haya autorizado a la Parte Reveladora su uso.
+                3.	La Parte Receptora se obliga, como también sus contratistas y empleados, y terceros sobre los cuales directa o indirectamente ejerza control, a mantener estricta confidencialidad sobre la documentación e información que conozcan, reciban, accedan o intercambien con ocasión de las conversaciones y/o de la celebración de los contratos que se llegaren a celebrar con ocasión del desarrollo de la Obra Audiovisual. En particular, la Parte Receptora se obliga a: (1) Proteger la confidencialidad de la información verbal, escrita o que por cualquier otro medio reciba, restringiendo su uso exclusivamente a sus empleados o funcionarios que tengan absoluta necesidad de conocerla. En todo caso la Parte Receptora será responsable de la Información Confidencial que deba ser compartida en los términos de esta cláusula. (2) Usar toda la Información Confidencial relacionada con las conversaciones y/o con el Proyecto, que reciba solamente para la negociación, celebración y ejecución de este. Por lo tanto, la Parte Receptora acuerda que la Información Confidencial que obtenga de la Parte Reveladora no se utilizará, directa o indirectamente, para el enriquecimiento de la Parte Receptora o de terceros, o en detrimento de la Parte Reveladora. (3) Conservar la Información Confidencial con la obligación de mantenerla en reserva, durante toda la vigencia del Acuerdo, y en caso de ser necesario de acuerdo con la ley, por el término que dicha ley establezca. (4) Salvo por mandato escrito de autoridad competente, abstenerse de divulgar o revelar a cualquier título la información a la que tenga acceso, salvo que medie previa y expresa autorización escrita por la Parte Reveladora. En caso de estar obligada a revelar en virtud de lo establecido por la legislación vigente o por orden escrita emitida por autoridad competente, la Parte Receptora deberá informar de manera inmediata a la Productora sobre las solicitudes de suministro de la Información Confidencial que le sean efectuadas.(5) Cumplir con la obligación de confidencialidad de la misma forma y con el mismo cuidado con el que se realiza la protección de la información confidencial propia. (6) Tomar todas las precauciones y medidas necesarias para garantizar la confidencialidad de la Información Confidencial. (7)  Abstenerse de entregar o realizar, para sí o para terceros, copias, arreglos, reproducciones, adaptaciones o cualquier otra clase de edición, manipulación o modificación de la Información Confidencial. (8) Mantener indemne a la Parte Reveladora por los perjuicios que se causen con ocasión del incumplimiento de cualquiera de las obligaciones de confidencialidad y reserva contenidas en este Acuerdo, bien sea a través de sus empleados, funcionarios o de subcontratistas autorizados para el efecto por la Parte Reveladora. (9) Devolver o destruir, de conformidad con la instrucción impartida por la Parte Reveladora, toda la Información Confidencial a la que haya tenido acceso y que sea susceptible de ser devuelta o destruida, incluyendo aquella que sus empleados, dependientes, asesores o subcontratistas autorizados conserven, así como cualquier material o propuesta que pueda haber preparado incorporando Información Confidencial o haciendo referencia a la Información confidencial. La devolución o destrucción de la documentación se deberá efectuar en un plazo no mayor a los cinco (5) días calendario siguientes a la solicitud por escrito por la Parte Reveladora o a la finalización de las negociaciones en caso de no celebrarse el o los contratos que pudieran considerarse para el desarrollo de la Obra Audiovisual. La devolución o destrucción de la Información Confidencial deberá ser certificada por la Parte Receptora mediante escrito firmado por su representante legal. Sin perjuicio de lo anterior, los deberes de confidencialidad se mantendrán respecto de toda la información que no pueda ser destruida o devuelta, e independientemente de la devolución o destrucción de cualquier material que hubiera preparado la Parte Receptora. 
+                4.	La Parte Receptora entiende y acepta que únicamente la Productora y/o el Beneficiario del Servicio serán los encargados de controlar y autorizar la emisión de toda la publicidad, comunicados de prensa y conferencias de prensa relacionados con la Obra Audiovisual. Siendo así, la Parte Receptora se obliga a no participar en la publicidad, cualquier tipo de comunicado de medios de comunicación nacionales e internacionales, conferencias de prensa, ni a comunicarse con medios de comunicación, ni autorizar a nadie más a comunicarse con la prensa en su nombre, ya sea directa o indirectamente, de ningún modo en conexión con la Obra Audiovisual. También se obliga a no vender ningún derecho sobre historias de vida o cualquier otro derecho a ningún tercero en la medida que estén relacionados con o incluyan Información Confidencial relacionado de forma directa o indirecta con la Obra Audiovisual. De igual forma, se obliga a no participar de ningún modo en la preparación, producción o elaboración de materiales producidos por terceros que estén relacionados con la Obra Audiovisual, incluyendo, sin limitación alguna, libros, artículos para revistas, artículos para periódicos, programas para televisión, sitios web, redes sociales, servicios de microblogging, sitios web con contenidos generados o subidos por los usuarios, foros en línea, hilos de discusión o secciones de comentarios, sitios web o blogs personales, sitios web modificados por los usuarios o cualquier otro sitio web, plataforma, programa, aplicación u otra forma o método de comunicación, ya sea conocido actualmente o diseñado en el futuro. La Parte Receptora entiende y acepta que ni la Parte Receptora ni ninguno de sus agentes, representantes y/o empleados o contratistas están autorizados a divulgar la Información Confidencial vía Facebook, Instagram, Tik Tok, X, YouTube, MySpace, FourSquare, Pinterest o cualquier otro sitio web, plataforma, aplicación o servicio similar, ya sea que exista actualmente o en el futuro. La Parte Receptora entiende y acepta que cualquier divulgación o apropiación indebida de la Información Confidencial que infrinja este Acuerdo constituirá un incumplimiento grave de este Acuerdo y le causará daños y perjuicios sustanciales e irreparables a la Parte Reveladora y al Beneficiario del Servicio.
+                5.	La Parte Receptora reconoce la propiedad exclusiva de la Parte Reveladora sobre la Información Confidencial. Asimismo, reconoce la propiedad de la Parte Reveladora sobre aquella Información Confidencial a la que en forma sucesiva tenga acceso, se desarrolle entre las Partes o por cualquier medio llegue a conocer durante las negociaciones, y en caso de suscribirse, durante la celebración del Proyecto y su posterior ejecución.
+                6.	 La Parte receptora llevará una bitácora en la cual registre a todos y cada uno de los contratistas, empleados y terceros que lleguen a tener acceso a la Información Confidencial. 
+                7.	Ni la ejecución de este Acuerdo, ni el suministro de cualquier información en virtud de este, se interpretará, directa o indirectamente, como otorgamiento por parte de la Parte Reveladora a la Parte Receptora o a sus representantes, de licencia alguna o derecho para utilizar Información Confidencial para su propio beneficio o beneficio de cualquier otra persona natural o jurídica. De acuerdo con lo anterior, ninguna disposición contenida en este Acuerdo podrá interpretarse como cesión u otorgamiento de derechos, licencia o similares sobre cualquier invento, descubrimiento o mejora realizada concebida o adquirida antes, durante o después de la fecha del presente Acuerdo.
+                8.	El Acuerdo estará vigente por el periodo de tiempo que duren las negociaciones de que trata el presente Acuerdo, y adicionalmente, por el periodo de vigencia que resulte de la celebración de el o los contratos que se ejecuten en desarrollo de la Obra Audiovisual, en caso tal de que sea celebrado, y veinte (20) años adicionales, contados a partir de la finalización de dicho Proyecto o de las negociaciones. La obligación de confidencialidad sobre los secretos comerciales que se den a conocer se mantendrá vigente mientras la información tenga esta calidad.
+                9.	 Ninguna de las Partes tiene obligación alguna para revelar cualquier Información Confidencial a la otra Parte.  Además, ni este Acuerdo ni la revelación o recepción de la Información Confidencial de conformidad con el presente, constituirá ni implicará cualquier promesa o intención de cualquier parte de celebrar cualquier otro contrato u operación o de continuar discusiones en relación con el mismo. La participación de la Parte Receptora en el Proyecto estará sujeta al cumplimiento de las etapas dispuestas por la Parte Reveladora, la decisión unilateral de la Parte Reveladora de avanzar en el Proyecto con la Parte Receptora, y la firma de los documentos necesarios en cada etapa posterior. 
+                10.	Ninguna disposición contenida en este Acuerdo prohibirá ni restringirá el derecho de la Parte Reveladora a compartir la Información Confidencial a cualquier tercero para cualquier propósito, ni a desarrollar, usar, otorgar una licencia, adquirir o comercializar productos o servicios que sean similares o competidores con aquellos productos y servicios de Parte Receptora. 
+                11.	Ninguna de las Partes considerará que se haya realizado una manifestación u otorgado una garantía, expresa o implícita, en relación con la Información Confidencial, incluyendo sin limitación, cualquier manifestación o garantía de comerciabilidad, de aptitud para un propósito específico, o del incumplimiento de los derechos de propiedad intelectual o similares de terceros. La Productora no concede ningún derecho del cual sea titular bajo patente, copyright, derechos de autor, o cualquier otra propiedad intelectual, ni este Acuerdo concederá a la Parte Receptora derecho alguno sobre cualquier material del guion o la Oba Audiovisual. La Parte Receptora no podrá utilizar y no adquirirá ningún derecho en virtud de este Acuerdo, sobre el nombre de la Productora o del Beneficiario del Servicio. 
+                12.	Las Partes reconocen que la Parte Reveladora podría sufrir un daño irreparable en el evento de que la Parte Receptora incumpliera sus obligaciones en virtud del presente acuerdo. Por lo tanto, en caso de que la Parte Receptora incumpla las obligaciones de confidencialidad en este Acuerdo, las Partes acuerdan que los perjuicios derivados del incumplimiento deberán ser tasados por el juez del Acuerdo de acuerdo con lo dispuesto en la cláusula 18 del Acuerdo (mecanismo de resolución de controversias). En cualquier caso, la Parte Receptora entiende y aprueba que, ante cualquier eventual incumplimiento, la Parte Reveladora podrá solicitar inicie ante el juez del Acuerdo que se decreten las  medidas cautelares que a su bien sean aplicables para que cese dicho incumplimiento. 
+                13.	La Parte Receptora reconoce que en ningún caso tendrá derecho a ejercer ninguna acción encaminada a limitar, restringir o prohibir la producción, distribución, exhibición, licencia y/o explotación de la Obra Audiovisual ni el uso, publicación o difusión de cualquier material relacionado con la misma. En cualquier caso, la única y exclusiva acción que la Pate Receptora tendrá por cualquier incumplimiento de la Parte Reveladora será una acción por daños y perjuicios.  
+                14.	En caso de que la Parte Receptora incumpla cualquiera de sus obligaciones de confidencialidad bajo este Acuerdo, se considerará que ha cometido un incumplimiento material del mismo, y en consecuencia deberá pagar a la Parte Reveladora a título de pena la suma equivalente a cincuenta salarios mínimos legales vigentes (50 SMLMV)  como compensación anticipada por los daños sufridos debido a dicho incumplimiento. La penalización deberá ser pagada por la Parte Receptora a la Parte Reveladora dentro de los treinta (30) días calendario siguientes a la notificación escrita del incumplimiento por parte de la Parte Reveladora. El pago de la penalización no exime a la Parte Receptora de su obligación de seguir cumpliendo las obligaciones de confidencialidad a su cargo establecidas en el Acuerdo, ni limita el derecho de la Parte Reveladora a buscar cualquier otro recurso legal o equitativo disponible para proteger sus derechos e intereses. Las Partes reconocen que la penalización establecida en este artículo representa una estimación razonable y proporcionada de los daños previstos que podría sufrir la Parte Reveladora como resultado del incumplimiento de las obligaciones de confidencialidad por parte de la Parte Receptora.
+                15.	 La Parte Receptora deberá adoptar todas las medidas para minimizar o mitigar cualquier perjuicio que se pueda derivar por su incumplimiento al presente Acuerdo y notificar de manera inmediata, a la Parte Reveladora acerca de dicha situación.
+                16.	Este Acuerdo no establece una empresa conjunta, asociación, sociedad de hecho u otro tipo de negocio entre las Partes y, en ningún caso, las Partes informarán a otras personas de la formación de una empresa conjunta, asociación, sociedad de hecho y otro negocio, a menos que dicha entidad se haya formado como consecuencia de un contrato debidamente acordado y suscrito por ambas Partes. En este sentido, la Parte Receptora no podrá realizar gestiones propias del contrato de agencia comercial.
+                17.	Otras disposiciones: (i) En caso de que alguna de las disposiciones del presente Acuerdo fuere considerada ilegal, inválida o inejecutable por algún tribunal de jurisdicción competente, las demás disposiciones aquí contenidas permanecerán con pleno vigor y efecto; (ii) El presente Acuerdo sólo podrá modificarse mediante mutuo acuerdo escrito firmado por las Partes, sin dicha formalidad la modificación se reputará inexistente; (iii) El Acuerdo, constituye el acuerdo único y total entre las Partes en relación con el objeto del mismo y prevalece sobre cualquier propuesta verbal o escrita, sobre todas las demás comunicaciones entre las Partes con respecto al objeto del este; (iv) Ninguna de las Partes podrá alegar en ningún caso, para justificar el incumplimiento de sus obligaciones, el desconocimiento del presente Acuerdo, o de cualquier otra normativa supranacional, estatal o local aplicable al mismo; (v) El presente Acuerdo se regirá, interpretará y ejecutará íntegramente por leyes de la República de Colombia, sus actualizaciones y desarrollo jurisprudencial.
+                18.	Mecanismo de resolución de controversias: Cualquier diferencia entre las partes que no pueda ser resuelta mediante arreglo directo, será sometida y resuelta, de manera definitiva, por medio del procedimiento de arbitraje nacional abreviado, administrado por el Centro de Arbitraje y Conciliación de la Cámara de Comercio de Bogotá (“CACCCB”), de acuerdo con las siguientes reglas: (i) El tribunal estará integrado por un (1) árbitro designado por las Partes de común acuerdo. En caso de que no fuere posible, será designado por el CACCCB, a solicitud de cualquiera de las Partes; (ii) El Tribunal decidirá en derecho; (iii) Los costos del tribunal estarán a cargo de la parte vencida; (iv) El procedimiento se sujetará a los reglamentos del CACCCB y se aplicarán de conformidad con los criterios que en ellos se establezcan. 
+
+            </p>
+        </div>
+    </div>
+
+
+
+    <div class="content-buttons">
+        <button type="submit">ENVIAR FORMULARIO</button>
+    </div>
+</form>
+
+
+<ng-template #errorTemplate let-control="control">
+    @if (fVinculation[control].getError('required') != null && fVinculation[control].dirty) {
+        <span class="validation-label">{{ 'Campo requerido' }}</span>
+    }
+    @if (fVinculation[control].getError('pattern') != null && fVinculation[control].dirty) {
+        <span class="validation-label">{{ 'Campo requerido' }}</span>
+    }
+</ng-template>

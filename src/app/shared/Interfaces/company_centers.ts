@@ -1,0 +1,4 @@
+export enum COMPANYCENTERS {
+    MEXICO =  'MEXICO',
+    COLOMBIA =  'COLOMBIA',
+}

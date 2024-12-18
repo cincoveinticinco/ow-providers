@@ -1,0 +1,257 @@
+<form [formGroup]="juridicoForm" (ngSubmit)="submitForm()" autocomplete="off">
+    <div class="content-row">
+        <div class="content-col m-8">
+            <label>Razón social o compañia *</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="name" formControlName="name">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'name'}"></ng-container>
+        </div>
+        <div class="content-col m-3">
+            <label>Tipo documento empresa *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="document_type_id"
+                name="document_type_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of lists['legal_documents_types']; track opt.id) {
+                    <option [value]="opt.id">{{opt.document_type_esp}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document_type_id'}"></ng-container>
+        </div>
+        <div class="content-col m-5">
+            <label>NIT (Sin dígito de verificación)*</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="document" formControlName="document">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>Nombre representante legal *</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="representante_legal" formControlName="representante_legal">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'representante_legal'}"></ng-container>
+        </div>
+        <div class="content-col m-3">
+            <label>Tipo documento representante legal *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="responsible_f_document_type_id"
+                name="responsible_f_document_type_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of lists['natural_documents_types']; track opt.id) {
+                    <option [value]="opt.id">{{opt.document_type_esp}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'responsible_f_document_type_id'}"></ng-container>
+        </div>
+        <div class="content-col m-5">
+            <label>Documento representante legal *</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="f_document_representative" formControlName="f_document_representative">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'f_document_representative'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>Tipo de régimen *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="type_regimen_id"
+                name="type_regimen_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of lists['typeRegimens']; track opt.id) {
+                    <option [value]="opt.id">{{opt.name}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'type_regimen_id'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Dirección de residencia</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="direccion" formControlName="direccion">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'direccion'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Teléfono celular</label>
+            <p class="lbl-eng"></p>
+            <input type="text" name="telefono" formControlName="telefono">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'telefono'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>País donde está creada/constituida la empresa *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="pais_id"
+                name="pais_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of paises; track opt.id) {
+                    <option [value]="opt.id">{{opt.country_name_esp}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'pais_id'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Jurisdicción persona jurídica *</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="jurisdiccion_id"
+                name="jurisdiccion_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of jurisdicciones; track opt.id) {
+                    <option [value]="opt.id">{{opt.name}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'jurisdiccion_id'}"></ng-container>
+        </div>
+
+        <ng-container formArrayName="ciiu">
+            @for (CIIU of ciiu.controls; track $index; let i = $index) {
+                <div class="content-col m-4">
+                    <label>CIIU</label>
+                    <p class="lbl-eng"></p>
+                    <input type="text" name="ciiu_{{i}}" [formControlName]="i" [maxlength]="4">
+                    <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ciiu'}"></ng-container>
+                </div>
+
+                @if (i == 0) {
+                    <div class="content-col m-4 left-ciiu">
+                        <div class="add-ciiu" (click)="addCiiu()">
+                            <button type="button" class="add-button">
+                                <span class="material-symbols-outlined">add</span>
+                            </button>
+                            <span>Agregar otro número CIIU</span>
+                        </div>
+                    </div>
+                } @else {
+                    <div class="content-col m-4 left-ciiu">
+                        <button type="button" class="delete-button" (click)="deleteCiiu(i)">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
+                }
+            }
+        </ng-container>
+
+        <div class="content-col m-4">
+            <label>Actividad económica a la que se dedica como persona natural o jurídica*</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="actividad_economica_id"
+                name="actividad_economica_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of actividadesEconomicas; track opt.id) {
+                    <option [value]="opt.id">{{opt.economic_activity}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'actividad_economica_id'}"></ng-container>
+        </div>
+        <div class="content-col m-4">
+            <label>Industria a la que pertenece, de acuerdo con su actividad económica*</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="industria_id"
+                name="industria_id">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of industrias; track opt.id) {
+                    <option [value]="opt.id">{{opt.name}}</option>
+                } @empty {
+                    <option disabled>No hay opciones para mostrar</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'industria_id'}"></ng-container>
+        </div>
+
+        <div class="content-col m-4">
+            <label>Número total de empleados de la empresa</label>
+            <p class="lbl-eng"></p>
+            <input type="number" name="employees_number" formControlName="employees_number">
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'employees_number'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>Su servicio requiere de contratación de personal o de terceros que quede a la disposición del proyecto</label>
+            <p class="lbl-eng"></p>
+            <div class="input-choose-option">
+                <label><input name="requires_external_staff" type="radio" value="1" formControlName="requires_external_staff" (ngModelChange)="setDescriptionControl($event, 'requires_external_staff')"> Si</label>
+                <label><input name="requires_external_staff" type="radio" value="0" formControlName="requires_external_staff" (ngModelChange)="setDescriptionControl($event, 'requires_external_staff')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'requires_external_staff'}"></ng-container>
+        </div>
+
+        <div class="content-col m-8">
+            <label>Es usted una persona expuesta políticamente (PEP)? *</label>
+            <p class="lbl-eng"></p>
+            <p class="small-p">Se entiende por PEP aquella que sea servidora pública de carácter nacional o territorial, cuando tenga asignada o delegada funciones de: expedición de normas o regulaciones, dirección general, formulación de políticas institucionales y adopción de planes, programas y proyectos, manejo directo de bienes, dineros o valores del Estado, administración de justicia o facultades administrativo sancionatorias, y los particulares que tengan a su cargo la dirección o manejo de recursos en los movimientos o partidos políticos. También se considerarán PEP los cargos que de manera enunciativa se listan en el artículo 2 del Decreto 830 de 2021, así como aquellos que tengan algún grado de poder o capacidad de acceso a fondos públicos y / o reconocimiento público.</p>
+            <div class="input-choose-option">
+                <label><input name="pep" type="radio" value="1" formControlName="pep" (ngModelChange)="setDescriptionControl($event, 'pep')"> Si</label>
+                <label><input name="pep" type="radio" value="0" formControlName="pep" (ngModelChange)="setDescriptionControl($event, 'pep')"> No</label>
+            </div>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'pep'}"></ng-container>
+        </div>
+        @if (fJuridico['pep'].value == 1) {
+            <div class="content-col m-8">
+                <label>Detalle? *</label>
+                <p class="lbl-eng"></p>
+                <input type="text" name="pep_description" formControlName="pep_description">
+                <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'pep_description'}"></ng-container>
+            </div>
+        }
+        <div class="content-col m-8">
+            <label>Fotocopia cédula de ciudadanía representante legal por ambos lados ampliada al 150% (no puede verse borrosa u oscura. debe ser totalmente clara)*</label>
+            <p class="lbl-eng"></p>
+            <app-filebox [formControlName]="'documento_identificacion_vendors'"></app-filebox>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'documento_identificacion_vendors'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>fotocopia del rut actualizado y cuya actividad económica coincida con la descripción del servicio a prestar no mayor a 30 días de expedición *</label>
+            <p class="lbl-eng"></p>
+            <app-filebox [formControlName]="'rut_vendors'"></app-filebox>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'rut_vendors'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <label>Certificado camara y comercio no mayor a 30 días *</label>
+            <p class="lbl-eng"></p>
+            <app-filebox [formControlName]="'rut_vendors'"></app-filebox>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'rut_vendors'}"></ng-container>
+        </div>
+        <div class="content-col m-8">
+            <p class="small-p">
+                <input type="checkbox" class="checkbox-p" formControlName="autorizacion_datos" name="autorizacion_datos">  He leído y acepto la Política de Tratamiento de Datos Personales (LA PRODUCTORA está comprometida con el Tratamiento legal, lícito, confidencial y seguro de sus datos personales. Consulte la Política de Tratamiento de Datos Personales en: www.dynamo.net, donde puede conocer sus derechos, así como la forma de ejercerlos. Atenderemos todas las observaciones, consultas o reclamos en el canal habilitado, contenido en la Política de Tratamiento de Información de DYNAMO)
+                <a href="https://dynamo.net/es/politicas-de-tratamiento-de-datos-personales/" target="_blank">https://dynamo.net/es/politicas-de-tratamiento-de-datos-personales/</a>
+            </p>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'autorizacion_datos'}"></ng-container>
+        </div>
+    </div>
+    <div class="content-buttons">
+        <button type="submit">ENVIAR FORMULARIO</button>
+    </div>
+</form>
+<ng-template #errorTemplate let-control="control">
+    @if (fJuridico[control].getError('required') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Campo requerido' }}</span>
+    }
+    @if (fJuridico[control].getError('pattern') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Campo inválido' }}</span>
+    }
+    @if (fJuridico[control].getError('without_spaces_points') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'El campo no debe tener espacios ni puntos' }}</span>
+    }
+    @if (fJuridico[control].getError('minlength') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Minimo 9 carácteres' }}</span>
+    }
+    @if (fJuridico[control].getError('maxlength') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Máximo 9 carácteres' }}</span>
+    }
+    @if (fJuridico[control].getError('email') != null && fJuridico[control].touched) {
+        <span class="validation-label">Correo electrónico no válido</span>
+    }
+</ng-template>

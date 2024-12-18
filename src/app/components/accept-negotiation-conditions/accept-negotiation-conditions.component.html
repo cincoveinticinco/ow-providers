@@ -1,0 +1,33 @@
+<div class="popup-container" (click)="close()">
+  <div class="popup-body" (click)="$event.stopPropagation()">
+
+
+    <p class="small-p conditions">
+      Confirmo que he leído, entiendo y acepto las condiciones de mí negociación aquí planteadas, las cuales se verán reflejadas en el Deal Memo.
+    </p>
+
+    <div class="content-buttons">
+      <button class="decline-button" type="button" (click)="confirmDecline()">No</button>
+      <button class="accept-button" type="button" (click)="accept()">SI</button>
+    </div>
+
+  </div>
+</div>
+
+@if (openDecline) {
+  <div class="popup-container" (click)="closeDecline()">
+    <div class="popup-body" (click)="$event.stopPropagation()">
+
+      <div class="content-col m-9">
+        <label>Motivo *</label>
+        <p class="lbl-eng"></p>
+        <textarea cdkTextareaAutosize type="text" name="reason" [(ngModel)]="reason" required></textarea>
+      </div>
+
+      <div class="content-buttons">
+        <button class="accept-button" type="button" [disabled]="!reason" (click)="decline()">GUARDAR</button>
+      </div>
+
+    </div>
+  </div>
+}

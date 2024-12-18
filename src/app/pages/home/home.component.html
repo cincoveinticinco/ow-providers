@@ -1,0 +1,36 @@
+@if (!loading) {
+    <div class="center-content">
+        <div class="content">
+            <app-header></app-header>
+            @if (error) {
+                <div class="alert-message">{{ error }}</div>
+            }
+            @switch (view) {
+                @case ('home') {
+                    <p class="align-center">Por favor haz clic en continuar para enviar un token al correo registrado</p>
+                    <button class="btn-center" (click)="generateToken(); view = 'token'">Continuar</button>
+                }
+                @case ('token') {
+                    <p class="align-center">Hemos enviado el token de seguridad a {{ crewCastEmailSecret }}. Por favor ingresa este token para continuar</p>
+                    <div class="bottom-gap">
+                      <app-input-token
+                        #tokenInput="ngModel"
+                        [(ngModel)]="token"
+                      ></app-input-token>
+                    </div>
+                    <button style="margin: 30px auto" class="btn-center" [disabled]="tokenInput.invalid" (click)="sendToken()">Validar token</button>
+                    <span class="lgl-content">Haz <a (click)="generateToken(); view = 'new-token'">clic acá</a> para generar un nuevo token</span>
+                }
+                @case ('new-token') {
+                    <p class="align-center">Hemos enviado el token de seguridad a {{ crewCastEmailSecret }}. Por favor ingresa este token para continuar</p>
+                    <button class="btn-center" (click)="setView('token')">Continuar</button>
+                }
+            }
+        </div>
+    </div>
+}
+@else {
+    <div class="loader">
+        <div class="custom-loader"></div>
+    </div>
+}

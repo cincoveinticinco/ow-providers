@@ -1,0 +1,7 @@
+<div class="lateral-menu">
+    <button class="tiny-button" (click)="logOut()">Cerrar sesión</button>
+
+    @if (!hideSave) {
+        <button class="save-button tiny-button" (click)="guardarProgreso()" type="button" >Guardar</button>
+    }
+</div>

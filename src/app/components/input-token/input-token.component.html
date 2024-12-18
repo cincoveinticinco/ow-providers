@@ -1,0 +1,17 @@
+<div class="token-content" [formGroup]="form">
+    @for (digit of token.controls; track $index;) {
+        <div class="input-token">
+            <input
+                #tokenDigit
+                pattern="\d*"
+                inputmode="numeric"
+                [formControl]="getControlByIndex($index)"
+                maxlength="1"
+                minlength="1"
+                (keydown)="goFordwardInput($event, $index)"
+                (keydown.backspace)="goBackwardInput($event, $index)"
+            >
+        </div>
+    } 
+</div>
+  

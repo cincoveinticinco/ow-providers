@@ -1,0 +1,24 @@
+<app-lateral-menu [crew]="crew" [hideSave]="true"></app-lateral-menu>
+
+<div class="center-content">
+    @if (!loading) {
+      <div class="content full-width">
+        <img class="title-logo" src="assets/images/logodynamo.png">
+        <h2></h2>
+        <p class="align-center">
+          @switch (typeRoute) {
+            @case ('docs') {
+              Gracias por realizar la carga de documentos, nuestro equipo realizará la revisión y te estaremos contactando próximamente.
+            }
+            @default {
+              Gracias por completar este primer paso, lo estaremos contactando próximamente.
+            }
+          }
+        </p>
+      </div>
+    } @else {
+      <div class="loader">
+          <div class="custom-loader"></div>
+      </div>
+  }
+</div>

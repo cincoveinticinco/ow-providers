@@ -1,0 +1,166 @@
+<div class="section-title">
+    Datos del formulario inicial
+</div>
+<div class="content-row">
+    <div class="content-col m-4">
+        <label>Proyecto</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.proj_name || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Empresa por la que va el proveedor</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.project_enterprise || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Departamento</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.department || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Tipo de servicio</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.service_types || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Tipo de contribuyente</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.person_type_eng || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Tipo de identificación</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.document_type_eng || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>
+            @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+                NIT./TAX I.D
+            } @else {
+                Número de identificación
+            }
+        </label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.document || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Razón social / nombre</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.name || '--'}}</p>
+    </div>
+
+    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+        <div class="content-col m-4">
+            <label>Nombre representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.legal_representative_name || '--'}}</p>
+        </div>
+        <div class="content-col m-4">
+            <label>Tipo documento representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
+        </div>
+        <div class="content-col m-8">
+            <label>Número identificación representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.legal_representative_document || '--'}}</p>
+        </div>
+    }
+
+    <div class="content-col m-4">
+        <label>Dirección</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Teléfono</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.telephone || '--'}}</p>
+    </div>
+
+    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+        <div class="content-col m-4">
+            <label>Regimen tributario</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.f_contractor_regime_type || '--'}}</p>
+        </div>
+        <div class="content-col m-4">
+            <label>CIIU</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.ciiu || '--'}}</p>
+        </div>
+    }
+
+    <div class="content-col m-4">
+        <label>Fecha inicio</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.hiring_start_date ? (detailCrew.hiring_start_date | date:'dd-MM-yyyy') : '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Fecha de terminación</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.hiring_end_date? (detailCrew.hiring_end_date | date: 'dd-MM-yyyy') : '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Valor total del servicio</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.payment_netos ? ('$' + (detailCrew.payment_netos | number:'1.0-2')) : '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Valor del servicio en letras</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.payment_value_in_words || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>¿Esta contratación requiere anticipo qué %?</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{( detailCrew?.payment_advance_percentage | percent)|| '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Valor de anticipo</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">${{detailCrew?.payment_advance | number:'1.0-2'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Divisa</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.responses_payment[0]?.currency_types || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Frecuencia</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.responses_payment[0]?.frecuency || '--'}}</p>
+    </div>
+    <div class="content-col m-8">
+        <label>Correo del proveedor</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.email || '--'}}</p>
+    </div>
+
+
+    @if (detailCrew?.cotizations?.length) {
+        <div class="content-col m-4">
+            <label>Número de cotización</label>
+            <p class="lbl-eng"></p>
+        </div>
+        <div class="content-col m-4">
+            <label>Fecha de cotización</label>
+            <p class="lbl-eng"></p>
+        </div>
+        @for (cotizacion of detailCrew.cotizations; track $index) {
+            <div class="content-col m-4">
+                <p style="margin: 0;" class="previus-answer small-p">{{cotizacion?.cotization_number  || '--'}}</p>
+            </div>
+            <div class="content-col m-4">
+                <p style="margin: 0;" class="previus-answer small-p">{{cotizacion?.cotization_vigency? (cotizacion.cotization_vigency | date: 'dd-MM-yyyy') : '--'}}</p>
+            </div>
+        }
+    }
+
+    <div class="content-col m-8">
+        <label>Observaciones</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{detailCrew?.observations || '--'}}</p>
+    </div>
+
+</div>

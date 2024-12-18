@@ -1,0 +1,40 @@
+<div class="main-content">
+    <app-header></app-header>
+    <app-lateral-menu [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" [typeCrew]="typeCrew"></app-lateral-menu>
+
+
+    <h1 class="form-title">Formulario de vinculación</h1>
+    <h1 class="form-title">{{ crew?.person_type_esp}}</h1>
+    <div class="section-title">
+        Datos del contratista
+    </div>
+
+    <form [formGroup]="crewForm" autocomplete="off">
+        <div class="content-row">
+            <div class="content-col m-8">
+                <label>Tipo de persona</label>
+                <p class="lbl-eng"></p>
+                <select formControlName="type_persona_id" name="type_persona_id">
+                    <option disabled value="0">Seleccione una opción</option>
+                    @for (opt of typePersons; track opt.id) {
+                        <option [value]="opt.id">{{opt.value}}</option>
+                    } @empty {
+                        <option disabled>No hay opciones para mostrar</option>
+                    }
+                 </select>
+            </div>
+        </div>
+    </form>
+
+    @if (fCrew['type_persona_id'].value == TIPOPERSONA.Natural) {
+        <app-vendor-natural [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+    }
+    @if (fCrew['type_persona_id'].value == TIPOPERSONA.Juridica) {
+        <app-vendor-juridico [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+    }
+</div>
+@if (loading) {
+    <div class="sp-loader-container">
+        <div class="custom-loader"></div>
+    </div>
+}

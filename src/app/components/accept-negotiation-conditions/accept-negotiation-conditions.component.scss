@@ -1,0 +1,26 @@
+.popup-body {
+  max-height: 80%;
+  min-width: 500px;
+}
+
+
+.content-buttons {
+  button {
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .decline-button:hover {
+    background-color: var(--primary-color);
+  }
+
+  .accept-button {
+    background-color: var(--secondary-color);
+  }
+}
+
+.conditions {
+  border-top: 1px solid var(--font-color);
+  padding-top: 50px;
+}
