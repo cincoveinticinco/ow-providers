@@ -573,6 +573,7 @@ export class GlobalService {
     form.get('documento_identificacion_empresa')?.setValue(this.getDocumentLink(40));
     form.get('rut')?.setValue(this.getDocumentLink(35));
     form.get('rut_vendors')?.setValue(this.getDocumentLink(167));
+    form.get('camara_comercio')?.setValue(this.getDocumentLink(44));
     form.get('documento_identificacion_vendors')?.setValue(this.getDocumentLink(168));
     form.get('actor_pep')?.setValue(crew?.actor_pep ? "1" : "0");
     form.get('lr_actor')?.setValue(crew?.lr_actor_value ? "1" : "0");

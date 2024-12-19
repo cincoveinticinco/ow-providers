@@ -75,6 +75,7 @@ export class VendorJuridicoComponent {
       pep_description: new FormControl(''),
       documento_identificacion_vendors: new FormControl('', Validators.required),
       rut_vendors: new FormControl('', Validators.required),
+      camara_comercio: new FormControl('', Validators.required),
       telefono: new FormControl('', [Validators.required, Validators.pattern('^[0-9+-]+$')]),
       direccion: new FormControl('', Validators.required),
       type_regimen_id: new FormControl(null, Validators.required),
