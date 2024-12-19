@@ -120,11 +120,7 @@ export class InitialFormComponent implements OnInit {
         return this._cS.changeStatus({ second_form: isMexForm });
       })
     ).subscribe(() => {
-      if (isMexForm || this.typeCrew == TIPOCREW.Vendor) {
-        this.notify.emit();
-      } else {
-        this.router.navigate(['thanks', this.crewId]);
-      }
+      this.router.navigate(['thanks', this.crewId]);
 
       this.loading = false;
     });
@@ -190,7 +186,7 @@ export class InitialFormComponent implements OnInit {
       )
         .subscribe((value) => {
           setTimeout(() => {
-            this.loading = false;
+            this.notify.emit();
           }, 3500)
         });
     }

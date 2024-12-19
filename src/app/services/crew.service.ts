@@ -130,7 +130,10 @@ export class CrewService {
 
     let params = new HttpParams().set('document_id', documentId);
 
-    return this.http.delete(`${environment.apiUrl}finance_manager/delete_document_vendor`, { params })
+    return this.http.delete(`${environment.apiUrl}finance_manager/delete_document_vendor`, {
+      params: params,
+      headers: this.headers
+    })
     .pipe(map( response => response))
   }
 
