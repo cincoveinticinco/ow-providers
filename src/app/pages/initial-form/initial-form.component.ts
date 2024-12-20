@@ -60,7 +60,7 @@ export class InitialFormComponent implements OnInit {
     private _gS: GlobalService,
   ) {
     this.crewForm = this.fb.group({
-      type_persona_id: new FormControl({ value: 0, disabled: false }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
+      type_persona_id: new FormControl({ value: 0, disabled: true }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
     });
   }
 
@@ -126,6 +126,16 @@ export class InitialFormComponent implements OnInit {
     });
   }
 
+  updateForm() {
+    const dataForm = this._cS.getGeneralForm();
+    const formData = this._gS.setInitialForm(this.crewForm.get('type_persona_id')?.value, dataForm.form);
+    this._cS.updateCrewCast(formData).subscribe({
+      next: () => {
+        this.notify.emit();
+      }
+    });
+  }
+
   submitFile(ev: any) {
     this.loading = true;
     const { value, formControlName } = ev;
@@ -186,7 +196,7 @@ export class InitialFormComponent implements OnInit {
       )
         .subscribe((value) => {
           setTimeout(() => {
-            this.notify.emit();
+            this.updateForm();
           }, 3500)
         });
     }

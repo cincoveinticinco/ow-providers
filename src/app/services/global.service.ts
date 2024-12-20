@@ -384,6 +384,7 @@ export class GlobalService {
       manager_email: data['manager_email'],
       manager_telephone: data['manager_telephone'],
       actor_pep_description: data['actor_pep_description'],
+      verification_digit: data['verification_digit'],
       lr_actor: data['lr_actor'],
       telephone: data['telefono'],
       address: data['direccion'],
@@ -583,6 +584,7 @@ export class GlobalService {
     form.get('manager_email')?.setValue(crew?.manager_email || '');
     form.get('manager_telephone')?.setValue(crew?.manager_telephone || '');
     form.get('actor_pep_description')?.setValue(crew?.actor_pep_description || '');
+    form.get('verification_digit')?.setValue(crew?.verification_digit || null);
     form.get('documento_identificacion_actor')?.setValue(this.getDocumentLink(303));
     form.get('direccion')?.setValue(crew?.address || '');
     form.get('telefono')?.setValue(crew?.telephone || '');
@@ -592,6 +594,8 @@ export class GlobalService {
     form.get('type_regimen_id')?.setValue(crew?.f_contractor_regime_types_id || '');
     form.get('requires_external_staff')?.setValue(crew?.requires_external_staff ? "1" : "0");
     form.get('employees_number')?.setValue(crew?.employees_number || '');
+
+    console.log(form.value);
 
 
     if (form.get('ciiu')) {

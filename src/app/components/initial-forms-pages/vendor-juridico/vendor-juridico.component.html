@@ -21,12 +21,27 @@
             </select>
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document_type_id'}"></ng-container>
         </div>
-        <div class="content-col m-5">
-            <label>NIT (Sin dígito de verificación)*</label>
+
+        <div class="content-col m-4">
+            <label>NIT (Con dígito de verificación)*</label>
             <p class="lbl-eng"></p>
             <input type="text" name="document" formControlName="document">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document'}"></ng-container>
         </div>
+        <div class="content-col m-1">
+            <label>DV*</label>
+            <p class="lbl-eng"></p>
+            <select
+                formControlName="verification_digit"
+                name="verification_digit">
+                <option disabled value="0">Seleccione una opción</option>
+                @for (opt of VERIFICATION_DIGITS; track opt.id) {
+                    <option [value]="opt.id">{{opt.name}}</option>
+                }
+            </select>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'verification_digit'}"></ng-container>
+        </div>
+
         <div class="content-col m-8">
             <label>Nombre representante legal *</label>
             <p class="lbl-eng"></p>

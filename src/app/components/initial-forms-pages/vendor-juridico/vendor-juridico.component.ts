@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { TIPOCREW } from '../../../shared/Interfaces/typo_crew';
 import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
-import { STATUSFORM } from '../../../shared/Interfaces/status_form';
+import { STATUSFORM, VERIFICATION_DIGITS } from '../../../shared/Interfaces/status_form';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GlobalService } from '../../../services/global.service';
@@ -35,6 +35,7 @@ export class VendorJuridicoComponent {
   readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
   readonly STATUSFORM = STATUSFORM;
+  readonly VERIFICATION_DIGITS = VERIFICATION_DIGITS;
 
   @HostListener('submit', ['$event'])
   onFormSubmit() {
@@ -90,6 +91,7 @@ export class VendorJuridicoComponent {
       manager_telephone: new FormControl(''),
       autorizacion_datos: new FormControl(false, Validators.compose([Validators.requiredTrue])),
       actor_pep_description: new FormControl(''),
+      verification_digit: new FormControl(null, Validators.required),
     });
   }
 

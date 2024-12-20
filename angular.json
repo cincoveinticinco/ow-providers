@@ -57,7 +57,27 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
-            }
+            },
+            "staging": {
+							"outputPath": "dist/staging",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.staging.ts"
+								}
+							],
+							"optimization": false,
+							"outputHashing": "all",
+							"sourceMap": true,
+							"namedChunks": false,
+							"aot": false,
+							"extractLicenses": true,
+							"budgets": [
+								{
+									"type": "anyComponentStyle"
+								}
+							]
+						}
           },
           "defaultConfiguration": "production"
         },
