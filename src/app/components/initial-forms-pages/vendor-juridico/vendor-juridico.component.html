@@ -25,7 +25,7 @@
         <div class="content-col m-4">
             <label>NIT (Con dígito de verificación)*</label>
             <p class="lbl-eng"></p>
-            <input type="text" name="document" formControlName="document">
+            <input type="text" mask="000000000" name="document" formControlName="document" [allowNegativeNumbers]="true">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document'}"></ng-container>
         </div>
         <div class="content-col m-1">
@@ -85,13 +85,13 @@
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'type_regimen_id'}"></ng-container>
         </div>
         <div class="content-col m-4">
-            <label>Dirección de residencia</label>
+            <label>Dirección de residencia *</label>
             <p class="lbl-eng"></p>
             <input type="text" name="direccion" formControlName="direccion">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'direccion'}"></ng-container>
         </div>
         <div class="content-col m-4">
-            <label>Teléfono celular</label>
+            <label>Teléfono celular *</label>
             <p class="lbl-eng"></p>
             <input type="text" name="telefono" formControlName="telefono">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'telefono'}"></ng-container>
@@ -132,7 +132,7 @@
                 <div class="content-col m-4">
                     <label>CIIU</label>
                     <p class="lbl-eng"></p>
-                    <input type="text" name="ciiu_{{i}}" [formControlName]="i" [maxlength]="4">
+                    <input type="text" name="ciiu_{{i}}" [formControlName]="i" mask="0000" [maxlength]="4">
                     <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ciiu'}"></ng-container>
                 </div>
 
@@ -227,7 +227,7 @@
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'documento_identificacion_vendors'}"></ng-container>
         </div>
         <div class="content-col m-8">
-            <label>fotocopia del rut actualizado y cuya actividad económica coincida con la descripción del servicio a prestar no mayor a 30 días de expedición *</label>
+            <label>Fotocopia del rut actualizado y cuya actividad económica coincida con la descripción del servicio a prestar no mayor a 30 días de expedición *</label>
             <p class="lbl-eng"></p>
             <app-filebox [formControlName]="'rut_vendors'"></app-filebox>
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'rut_vendors'}"></ng-container>

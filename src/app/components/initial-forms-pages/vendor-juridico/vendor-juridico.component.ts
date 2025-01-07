@@ -8,9 +8,9 @@ import { GlobalService } from '../../../services/global.service';
 import { CrewService } from '../../../services/crew.service';
 import { withoutSpacesPoints } from '../../../shared/validators/without-spaces-points.validator';
 import { info_files } from '../../../shared/Interfaces/files_types';
-import { emailValidator } from '../../../shared/validators/email.validator';
 import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
+import { NgxMaskDirective } from 'ngx-mask'
 
 @Component({
   selector: 'app-vendor-juridico',
@@ -20,6 +20,7 @@ import { FileboxComponent } from '../../filebox/filebox.component';
     CommonModule,
 
     FileboxComponent,
+    NgxMaskDirective,
   ],
   templateUrl: './vendor-juridico.component.html',
 })
@@ -62,14 +63,14 @@ export class VendorJuridicoComponent {
     this.juridicoForm = this.fb.group({
       name: new FormControl('', Validators.compose([Validators.required])),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(9), withoutSpacesPoints()])),
-      representante_legal: new FormControl('', Validators.compose([Validators.required])),
+      representante_legal: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),
       f_document_representative: new FormControl('', [Validators.required, withoutSpacesPoints()]),
       manager_name: new FormControl(''),
       manager_email: new FormControl(''),
       responsible_f_document_type_id: new FormControl(0),
       pais_id: new FormControl({value: 0, disabled: true}, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
       jurisdiccion_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
-      actividad_economica_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
+      actividad_economica_id: new FormControl({ value: 0, disabled: true }, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       industria_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       pep: new FormControl(''),
       ciiu: new FormArray([]),

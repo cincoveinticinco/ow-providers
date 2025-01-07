@@ -9,6 +9,7 @@ import { info_files } from '../../../shared/Interfaces/files_types';
 import { withoutSpacesPoints } from '../../../shared/validators/without-spaces-points.validator';
 import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-vendor-natural',
@@ -18,6 +19,7 @@ import { FileboxComponent } from '../../filebox/filebox.component';
     CommonModule,
 
     FileboxComponent,
+    NgxMaskDirective,
   ],
   templateUrl: './vendor-natural.component.html',
 })
@@ -61,7 +63,7 @@ export class VendorNaturalComponent {
       name: new FormControl('', Validators.compose([Validators.required])),
       document_type_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), withoutSpacesPoints()])),
-      lugar_expedicion: new FormControl('', Validators.compose([Validators.required])),
+      lugar_expedicion: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),
       nacionalidad: new FormControl('', Validators.required),
       telefono: new FormControl('', [Validators.required, Validators.pattern('^[0-9+-]+$')]),
       direccion: new FormControl('', Validators.required),

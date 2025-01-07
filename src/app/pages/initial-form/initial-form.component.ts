@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { STATUSFORM } from '../../shared/Interfaces/status_form';
 import { VendorNaturalComponent } from '../../components/initial-forms-pages/vendor-natural/vendor-natural.component';
 import { VendorJuridicoComponent } from '../../components/initial-forms-pages/vendor-juridico/vendor-juridico.component';
+import { Countries } from '../../shared/Interfaces/company_centers';
 
 @Component({
   selector: 'app-initial-form',
@@ -60,7 +61,7 @@ export class InitialFormComponent implements OnInit {
     private _gS: GlobalService,
   ) {
     this.crewForm = this.fb.group({
-      type_persona_id: new FormControl({ value: 0, disabled: true }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
+      type_persona_id: new FormControl<number>({ value: 0, disabled: true }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
     });
   }
 
@@ -81,7 +82,7 @@ export class InitialFormComponent implements OnInit {
   }
 
   setPersonsTypes() {
-    if ([TIPOCREW.CrewMexico, TIPOCREW.CastMexico].includes(this.typeCrew!)) {
+    if (this.crew.country_id == Countries.Mex) {
       this.typePersons = [
         { id: TIPOPERSONA.Fisica, value: 'Fisica' },
         { id: TIPOPERSONA.Moral, value: 'Moral' },

@@ -26,10 +26,10 @@
         </div>
     </form>
 
-    @if (fCrew['type_persona_id'].value == TIPOPERSONA.Natural) {
+    @if (TIPOPERSONA.Natural == crewForm.get('type_persona_id')?.value || TIPOPERSONA.Fisica == crewForm.get('type_persona_id')?.value) {
         <app-vendor-natural [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
     }
-    @if (fCrew['type_persona_id'].value == TIPOPERSONA.Juridica) {
+    @if (TIPOPERSONA.Juridica == crewForm.get('type_persona_id')?.value || TIPOPERSONA.Moral == crewForm.get('type_persona_id')?.value) {
         <app-vendor-juridico [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
     }
 </div>
