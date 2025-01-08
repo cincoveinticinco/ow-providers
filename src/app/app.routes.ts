@@ -4,16 +4,31 @@ import { authGuard } from './guards/auth.guard';
 import { FormsHomeComponent } from './pages/forms-home/forms-home.component';
 import { ThanksComponent } from './pages/thanks/thanks.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { VinculationFormComponent } from './pages/vinculation-form/vinculation-form.component';
 
 export const routes: Routes = [
   {
     path: 'home/:id',
-    component: HomeComponent
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
+      {
+        path: 'request/:requestId',
+        component: HomeComponent,
+      }
+    ]
   },
   {
     path: 'complete-form/:id',
     canActivate: [authGuard],
     component: FormsHomeComponent
+  },
+  {
+    path: 'viculation/:requestId',
+    //canActivate: [authGuard],
+    component: VinculationFormComponent
   },
   {
     path: 'thanks/:id',

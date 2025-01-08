@@ -2,28 +2,12 @@
     <app-header></app-header>
     <app-lateral-menu [crew]="crew"></app-lateral-menu>
     @if (!loading) {
-        @switch (typeCrew) {
-            @case (TIPOCREW.Vendor) {
-                <h1 class="form-title">Formulario de vinculación - PROVEEDOR</h1>
-                <app-previous-answers-vendor [crew]="crew" [typeCrew]="typeCrew" [detailCrew]="crewResponseDetail" />
-                <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [crewAnswers]="crewAnswers" />
-            }
-        }
+        <h1 class="form-title">Formulario de vinculación - PROVEEDOR</h1>
+        <app-previous-answers-vendor [crew]="crew" [typeCrew]="typeCrew" [detailCrew]="crewResponseDetail" />
+        <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [crewAnswers]="crewAnswers" />
     } @else {
         <div class="loader">
             <div class="custom-loader"></div>
         </div>
     }
 </div>
-
-
-@if (view == 'viewNegotiationConditions') {
-    <app-accept-negotiation-conditions
-      [crew]="crew"
-      [typeCrew]="typeCrew"
-      [crewResponseDetail]="crewResponseDetail"
-      (onAccept)="sendForm()"
-      (onDecline)="sendForm(true, $event)"
-      (onClose)="changeView()"
-    />
-}

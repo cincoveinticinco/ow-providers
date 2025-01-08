@@ -8,12 +8,12 @@
         @case (TypeView.InitialForm) {
             <app-initial-form [lists]="lists" [crewId]="crewId" [typeCrew]="typeCrew" [crew]="crew" [crewAnswers]="crewAnswers" (notify)="loadData()"></app-initial-form>
         }
-        @case (TypeView.VinculationForm) {
+        <!-- @case (TypeView.VinculationForm) {
             <app-vinculation-form [typeCrew]="typeCrew" [crew]="crew" (notify)="loadData()"></app-vinculation-form>
         }
         @case (TypeView.Docs) {
             <app-documentation-form [typeCrew]="typeCrew" [crew]="crew"></app-documentation-form>
-        }
+        } -->
         @default {
             <app-welcome-pending [crew]="crew" [typeCrew]="typeCrew"></app-welcome-pending>
         }

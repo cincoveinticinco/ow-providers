@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { InputTokenComponent } from '../../components/input-token/input-token.component';
 import { FormsModule } from '@angular/forms';
-import { CrewService } from '../../services/crew.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
@@ -21,11 +20,11 @@ export class HomeComponent implements OnInit{
   crewCastEmailSecret: string = '';
   token: string = '';
   vendorId: number = 0;
+  requestId: number | null = null;
   loading: boolean = false;
   subs: Subscription[] = [];
 
   constructor(
-    private _cS: CrewService,
     private route: ActivatedRoute,
     private auth: AuthService,
     private router: Router,
@@ -34,18 +33,15 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.subs.push(this.route.params.subscribe((params: any) => {
       this.vendorId = Number(params.id);
+      this.requestId = Number(params?.requestId) || null;
     }));
   }
 
 
-  requestToken() {
-
-  }
-
   generateToken(){
     this.loading = true;
     this.error = '';
-    this.subs.push(this.auth.generateCrewToken(this.vendorId).subscribe((data:any) => {
+    this.subs.push(this.auth.generateCrewToken(this.vendorId, this.requestId).subscribe((data:any) => {
       this.crewCastEmailSecret = data.email;
       if(data.error){
         this.error = data.msg;
@@ -62,14 +58,25 @@ export class HomeComponent implements OnInit{
 
   sendToken(){
     this.loading = true;
-    this.subs.push(this.auth.loginCrew(this.token, this.vendorId).subscribe((data:any) => {
+    this.subs.push(this.auth.loginCrew(this.token, this.vendorId, this.requestId).subscribe((data:any) => {
       if(data.error){
         this.error = data.msg;
         this.loading = false;
         return;
       }
-      this.loading = false;
-      this.router.navigate(['complete-form', this.vendorId]);
+
+      switch (data?.type_view) {
+        case 1:
+          this.router.navigate(['complete-form', this.vendorId]);
+          break;
+        case 2:
+          this.router.navigate(['vinculation', this.vendorId]);
+          break;
+        default:
+          this.router.navigate(['thanks', this.vendorId]);
+          break;
+      }
+
     }));
   }
 

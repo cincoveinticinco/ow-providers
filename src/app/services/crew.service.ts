@@ -70,12 +70,12 @@ export class CrewService {
     });
   }
 
-  getVinculationInfo(crew_id: any) {
+  getVinculationInfo(requestId: number) {
     this.setHeaders();
-    return this.http.get(`${environment.apiUrl}dynamo/getDetailCrewCastDocuments`, {
+    return this.http.get(`${environment.apiUrl}finance_manager/vinculation_po_request`, {
       headers: this.headers,
       params: new HttpParams()
-        .set('crew_id', crew_id),
+        .set('fm_request_po_id', requestId?.toString()),
     });
   }
 

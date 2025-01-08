@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from './../../environments/environment';
 import { shareReplay, tap } from 'rxjs';
 
@@ -12,11 +12,12 @@ export class AuthService {
   private loginApiUrl: string = environment.apiUrlFront;
   crewId: any = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private route: ActivatedRoute) { }
 
-  loginCrew(token: string, vendorId: number) {
+  loginCrew(token: string, vendorId: number, requestId?: number | null) {
     let params = new HttpParams().set('token', token);
     params = params.set('id', vendorId.toString());
+    if (requestId) params = params.set('fm_request_po_id', requestId.toString());
 
     return this.http.get(`${environment.apiUrl}finance_manager/validateToken`, {params}).pipe(
       tap(res => this.setCrewSession(res)),
@@ -28,8 +29,8 @@ export class AuthService {
     localStorage.setItem('id_crew_token', authResult.vendor_token);
   }
 
-  generateCrewToken(vendorId: any) {
-    return this.http.post(`${environment.apiUrl}finance_manager/sendToken`, { id: vendorId }).pipe(
+  generateCrewToken(vendorId: any, requestId?: number | null) {
+    return this.http.post(`${environment.apiUrl}finance_manager/sendToken`, { id: vendorId, fm_request_po_id: requestId }).pipe(
       shareReplay(1)
     )
   }

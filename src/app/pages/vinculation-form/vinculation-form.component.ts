@@ -5,7 +5,7 @@ import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu
 import { CrewService } from '../../services/crew.service';
 import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { PreviousAnswersVendorComponent } from '../../components/vinculation-pages/previous-answers-vendor/previous-answers-vendor.component';
 import { VinculationVendorComponent } from '../../components/vinculation-pages/vinculation-vendor/vinculation-vendor.component';
@@ -30,8 +30,8 @@ export class VinculationFormComponent implements OnInit{
   readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
 
-  @Input() typeCrew: any = null;
-  @Input() crew: any = null;
+  typeCrew: any = null;
+  crew: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
 
@@ -41,16 +41,26 @@ export class VinculationFormComponent implements OnInit{
   lists: any = {};
   view: string = '';
   currentForm: any = null;
+  requestId: number = 0;
 
-  constructor(private _cS: CrewService, private auth: AuthService, private router: Router, private _gS: GlobalService) {}
+  constructor(
+    private _cS: CrewService,
+    private auth: AuthService,
+    private router: Router,
+    private _gS: GlobalService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.route.params.subscribe((params: any) => {
+      this.requestId = Number(params.requestId);
+      this.loadData();
+    });
   }
 
   loadData() {
     this.loading = true;
-    this._cS.getVinculationInfo(this._cS.getCrewId()).subscribe({
+    this._cS.getVinculationInfo(this.requestId).subscribe({
       next: (data: any) => {
         this.lists['generos'] = data.gender || [];
         this.lists['tiposSangre'] = data.blood_type || [];

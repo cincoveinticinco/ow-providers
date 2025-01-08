@@ -8,10 +8,74 @@
         <p class="previus-answer small-p">{{crew?.proj_name || '--'}}</p>
     </div>
     <div class="content-col m-4">
-        <label>Empresa por la que va el proveedor</label>
+        <label>Tipo de persona</label>
         <p class="lbl-eng"></p>
         <p class="previus-answer small-p">{{detailCrew?.project_enterprise || '--'}}</p>
     </div>
+    <div class="content-col m-4">
+        <label>Razón social o compañia</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.name || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Tipo de documento empresa</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.name || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>
+            @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+                NIT (con dígito de verificación)
+                Número de identificación
+            }
+        </label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.document || '--'}}</p>
+    </div>
+
+    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+        <div class="content-col m-4">
+            <label>Nombre representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.legal_representative_name || '--'}}</p>
+        </div>
+        <div class="content-col m-4">
+            <label>Tipo documento representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
+        </div>
+        <div class="content-col m-8">
+            <label>Documento representante legal</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.legal_representative_document || '--'}}</p>
+        </div>
+    }
+
+    <div class="content-col m-4">
+        <label>Dirección</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
+    </div>
+    <div class="content-col m-4">
+        <label>Teléfono</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.telephone || '--'}}</p>
+    </div>
+
+    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
+        <div class="content-col m-4">
+            <label>Tipo de regimen</label>
+            <p class="lbl-eng"></p>
+            <p class="previus-answer small-p">{{crew?.f_contractor_regime_type || '--'}}</p>
+        </div>
+    }
+
+    <div class="content-col m-4">
+        <label>CIIU</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{crew?.ciiu || '--'}}</p>
+    </div>
+
     <div class="content-col m-4">
         <label>Departamento</label>
         <p class="lbl-eng"></p>
@@ -32,64 +96,8 @@
         <p class="lbl-eng"></p>
         <p class="previus-answer small-p">{{crew?.document_type_eng || '--'}}</p>
     </div>
-    <div class="content-col m-4">
-        <label>
-            @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
-                NIT./TAX I.D
-            } @else {
-                Número de identificación
-            }
-        </label>
-        <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{crew?.document || '--'}}</p>
-    </div>
-    <div class="content-col m-4">
-        <label>Razón social / nombre</label>
-        <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{crew?.name || '--'}}</p>
-    </div>
 
-    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
-        <div class="content-col m-4">
-            <label>Nombre representante legal</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{crew?.legal_representative_name || '--'}}</p>
-        </div>
-        <div class="content-col m-4">
-            <label>Tipo documento representante legal</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
-        </div>
-        <div class="content-col m-8">
-            <label>Número identificación representante legal</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{crew?.legal_representative_document || '--'}}</p>
-        </div>
-    }
-
-    <div class="content-col m-4">
-        <label>Dirección</label>
-        <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
-    </div>
-    <div class="content-col m-4">
-        <label>Teléfono</label>
-        <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{crew?.telephone || '--'}}</p>
-    </div>
-
-    @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
-        <div class="content-col m-4">
-            <label>Regimen tributario</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{crew?.f_contractor_regime_type || '--'}}</p>
-        </div>
-        <div class="content-col m-4">
-            <label>CIIU</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{crew?.ciiu || '--'}}</p>
-        </div>
-    }
+    
 
     <div class="content-col m-4">
         <label>Fecha inicio</label>
