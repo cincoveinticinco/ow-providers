@@ -26,7 +26,7 @@ export const routes: Routes = [
     component: FormsHomeComponent
   },
   {
-    path: 'viculation/:requestId',
+    path: 'vinculation/:requestId',
     //canActivate: [authGuard],
     component: VinculationFormComponent
   },

@@ -10,6 +10,7 @@ import { withoutSpacesPoints } from '../../../shared/validators/without-spaces-p
 import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask';
+import { Countries } from '../../../shared/Interfaces/company_centers';
 
 @Component({
   selector: 'app-vendor-natural',
@@ -110,6 +111,10 @@ export class VendorNaturalComponent {
   }
 
   setData() {
+    if (this.crew?.country_id == Countries.Col) {
+      this.lists.typeRegimens = this.lists?.typeRegimens?.filter((item: any) => [1, 2].includes(item.id));
+    }
+
     this.jurisdicciones = this.lists['jurisdicciones'];
     this.actividadesEconomicas = this.lists['economicActivities'];
     this.industrias = this.lists['industrias'];

@@ -4,5 +4,6 @@ export enum COMPANYCENTERS {
 }
 
 export enum Countries {
+    Col = 34,
     Mex = 52,
 }
