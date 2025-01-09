@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { CrewService } from './crew.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Countries } from '../shared/Interfaces/company_centers';
+import { withoutSpacesPoints } from '../shared/validators/without-spaces-points.validator';
+import { onlyNumbersValidator } from '../shared/validators/only-numbers.validator';
+import { lettersAndNumbersValidator } from '../shared/validators/only-letters-numbers.validator';
+import { DocumentType } from '../shared/Interfaces/typo_persona';
 
 @Injectable({
   providedIn: 'root'
@@ -399,152 +404,136 @@ export class GlobalService {
     return formData;
   }
 
-  setVinculationForm(data: any) {
+  setVinculationForm(data: any, save_and_send?: boolean) {
     var formData = {
-      crew_id: this._cS.getCrewId(),
-      artistic_name: data[('artistic_name')],
-      birth_date: data[('fecha_nacimiento')],
-      nationality: data[('nacionalidad')],
-      genders_id: data[('genero_id')] != "0" ? data[('genero_id')] : null,
-      address: data[('direccion')],
-      city: data[('ciudad')],
-      telephone: data[('telefono')],
-      eps: data[('eps')],
-      afp: data[('pension')],
-      children_number: data[('madre_padre_description')],
-      occupation: data[('profesion')],
-      emergency_contact_name: data[('nombre_emergencia')],
-      emergency_contact_telephone: data[('telefono_emergencia')],
-      bank_branch: data[('nombre_banco')],
-      bank_key: data[('numero_cuenta')],
-      f_payment_regime_methods_id: data[('pago_medio_id')] != "0" ? data[('pago_medio_id')] : null,
-      blood_type_id: data[('grupo_sanguineo')] != "0" ? data[('grupo_sanguineo')] : null,
-      bank_account_type_id: data[('type_cuenta_id')] != "0" ? data[('type_cuenta_id')] : null,
-      occupational_risk_administrators_id: data[('arl_id')] != "0" ? data[('arl_id')] : null,
-      f_type_contributing_epses_id: data[('eps_id')] != "0" ? data[('eps_id')] : null,
-      f_contractor_regime_types_id: data[('type_regimen_id')] != "0" ? data[('type_regimen_id')] : null,
-      f_type_of_company_regimes_id: data[('type_crew_id')] != "0" ? data[('type_crew_id')] : null,
+      fm_request_po_id: data?.fm_request_po_id,
+      save_and_send: !!save_and_send,
+      bank_details: {
+        bank_account_type_id: data?.type_cuenta_id,
+        bank_branch: data?.nombre_banco,
+        bank_key: data?.numero_cuenta,
+      },
 
-      info_additional: [
+      questions: [
         {
-          "vendor_inf_add_type_id": 12,
-          "value": data[('madre_padre')]
+          "id": 12,
+          "answer": data[('madre_padre')]
         },
         {
-          "vendor_inf_add_type_id": 13,
-          "value": data[('mascota')]
+          "id": 13,
+          "answer": data[('mascota')]
         },
         {
-          "vendor_inf_add_type_id": 14,
-          "value": data[('informacion_futura')]
+          "id": 14,
+          "answer": data[('informacion_futura')]
         },
         {
-          "vendor_inf_add_type_id": 15,
-          "value": data[('permisos_entidades')]
+          "id": 15,
+          "answer": data[('permisos_entidades')]
         },
         {
-          "vendor_inf_add_type_id": 16,
-          "value": data[('datos_otros')]
+          "id": 16,
+          "answer": data[('datos_otros')]
         },
         {
-          "vendor_inf_add_type_id": 17,
-          "value": data[('permisos_eventos')]
+          "id": 17,
+          "answer": data[('permisos_eventos')]
         },
         {
-          "vendor_inf_add_type_id": 18,
-          "value": data[('vinculo')],
+          "id": 18,
+          "answer": data[('vinculo')],
           "description": data[('vinculo_description')]
         },
         {
-          "vendor_inf_add_type_id": 20,
-          "value": data[('relacion')],
+          "id": 20,
+          "answer": data[('relacion')],
           "description": data[('relacion_description')]
         },
         {
-          "vendor_inf_add_type_id": 23,
-          "value": data[('restriccion')],
+          "id": 23,
+          "answer": data[('restriccion')],
           "description": data[('restriccion_description')]
         },
         {
-          "vendor_inf_add_type_id": 24,
-          "value": data[('alergia')],
+          "id": 24,
+          "answer": data[('alergia')],
           "description": data[('alergia_description')]
         },
         {
-          "vendor_inf_add_type_id": 26,
-          "value": data[('autorizacion_media')]
+          "id": 26,
+          "answer": data[('autorizacion_media')]
         },
         {
-          "vendor_inf_add_type_id": 27,
-          "value": data[('payroll')],
+          "id": 27,
+          "answer": data[('payroll')],
           "description": data[('payroll_description')]
         },
         {
-          "vendor_inf_add_type_id": 58,
-          "value": data[('informacion_futura_actor')]
+          "id": 58,
+          "answer": data[('informacion_futura_actor')]
         },
         {
-          "vendor_inf_add_type_id": 59,
-          "value": data[('autorizacion_media_actor')]
+          "id": 59,
+          "answer": data[('autorizacion_media_actor')]
         },
         {
-          "vendor_inf_add_type_id": 60,
-          "value": data[('permisos_entidades_actor')]
+          "id": 60,
+          "answer": data[('permisos_entidades_actor')]
         },
         {
-          "vendor_inf_add_type_id": 61,
-          "value": data[('datos_otros_actor')]
+          "id": 61,
+          "answer": data[('datos_otros_actor')]
         },
         {
-          "vendor_inf_add_type_id": 62,
-          "value": data[('permisos_eventos_actor')]
+          "id": 62,
+          "answer": data[('permisos_eventos_actor')]
         },
         {
-          "vendor_inf_add_type_id": 63,
-          "value": data[('vinculo_actor')],
+          "id": 63,
+          "answer": data[('vinculo_actor')],
           "description": data[('vinculo_description_actor')]
         },
         {
-          "vendor_inf_add_type_id": 65,
-          "value": data[('relacion_actor')],
+          "id": 65,
+          "answer": data[('relacion_actor')],
           "description": data[('relacion_description_actor')]
         },
         {
-          "vendor_inf_add_type_id": 75,
-          "value": data[('requirements')],
+          "id": 75,
+          "answer": data[('requirements')],
         },
         {
-          "vendor_inf_add_type_id": 76,
-          "value": data[('data_verification')],
+          "id": 76,
+          "answer": data[('data_verification')],
         },
         {
-          "vendor_inf_add_type_id": 77,
-          "value": data[('pec')],
+          "id": 77,
+          "answer": data[('pec')],
         },
         {
-          "vendor_inf_add_type_id": 70,
-          "value": data[('ethics_manual')],
+          "id": 70,
+          "answer": data[('ethics_manual')],
         },
         {
-          "vendor_inf_add_type_id": 71,
-          "value": data[('anti_corruption')],
+          "id": 71,
+          "answer": data[('anti_corruption')],
           "description": data[('anti_corruption_description')]
         },
         {
-          "vendor_inf_add_type_id": 72,
-          "value": data[('good_faith')],
+          "id": 72,
+          "answer": data[('good_faith')],
         },
         {
-          "vendor_inf_add_type_id": 73,
-          "value": data[('oath')],
+          "id": 73,
+          "answer": data[('oath')],
         },
         {
-          "vendor_inf_add_type_id": 74,
-          "value": data[('third_parties')],
+          "id": 74,
+          "answer": data[('third_parties')],
         },
         {
-          "vendor_inf_add_type_id": 78,
-          "value": data['poliza'],
+          "id": 78,
+          "answer": data['poliza'],
         },
       ]
     }
@@ -552,6 +541,8 @@ export class GlobalService {
   }
 
   setEditInitialForm(form: any, crew: any) {
+    form.get('pais_id')?.valueChanges.subscribe(() => this.setDocumentValidators(form));
+
     form.get('name')?.setValue(crew?.name || '');
     form.get('document_type_id')?.setValue(crew?.f_document_type_id || 0);
     form.get('document')?.setValue(crew?.document || '');
@@ -594,8 +585,6 @@ export class GlobalService {
     form.get('type_regimen_id')?.setValue(crew?.f_contractor_regime_types_id || '');
     form.get('requires_external_staff')?.setValue(crew?.requires_external_staff ? "1" : "0");
     form.get('employees_number')?.setValue(crew?.employees_number || '');
-
-    console.log(form.value);
 
 
     if (form.get('ciiu')) {
@@ -689,6 +678,7 @@ export class GlobalService {
   }
 
   setEditVinculationForm(form: any, crew: any, crewAnswers: any[]) {
+    form.get('fm_request_po_id')?.setValue(crew?.id || '');
     form.get('artistic_name')?.setValue(crew?.actor_artistic_name || '');
     form.get('fecha_nacimiento')?.setValue(crew?.birth_date || '');
     form.get('nacionalidad')?.setValue(crew?.nationality || '');
@@ -700,8 +690,8 @@ export class GlobalService {
     form.get('pension')?.setValue(crew?.afp || '');
     form.get('madre_padre_description')?.setValue(crew?.children_number || '');
     form.get('profesion')?.setValue(crew?.occupation || '');
-    form.get('nombre_banco')?.setValue(crew?.bank_branch || '');
-    form.get('numero_cuenta')?.setValue(crew?.bank_key || '');
+    form.get('nombre_banco')?.setValue(crew?.bank_details?.bank_name || '');
+    form.get('numero_cuenta')?.setValue(crew?.bank_details?.account_number || '');
     form.get('pago_medio_id')?.setValue(crew?.f_payment_regime_methods_id || '');
     form.get('grupo_sanguineo')?.setValue(crew?.blood_type_id || '');
     form.get('arl_id')?.setValue(crew?.occupational_risk_administrators_id || '');
@@ -710,7 +700,7 @@ export class GlobalService {
     form.get('nombre_emergencia')?.setValue(crew?.emergency_contact_name || '');
     form.get('telefono_emergencia')?.setValue(crew?.emergency_contact_telephone || '');
     form.get('eps_id')?.setValue(crew?.f_type_contributing_epses_id || '');
-    form.get('type_cuenta_id')?.setValue(crew?.f_vendor_bank_account_type_id || '');
+    form.get('type_cuenta_id')?.setValue(crew?.bank_details?.account_type || '');
     //yes or no
     form.get('madre_padre')?.setValue(this.getQuestionData(12, crewAnswers));
     form.get('mascota')?.setValue(this.getQuestionData(13, crewAnswers));
@@ -787,7 +777,15 @@ export class GlobalService {
 		this._snackBar.open(message, action, {
 			duration: duration,
 		});
-	}
+  }
+
+  setDocumentValidators(form: FormGroup) {
+    if (form.get('pais_id')?.value == Countries.Mex) {
+      form.get('document')?.setValidators([Validators.required, withoutSpacesPoints(), lettersAndNumbersValidator()]);
+    } else {
+      form.get('document')?.setValidators([Validators.required, withoutSpacesPoints(), onlyNumbersValidator()]);
+    }
+  }
 
   constructor(private _cS: CrewService, private _snackBar: MatSnackBar) { }
 }

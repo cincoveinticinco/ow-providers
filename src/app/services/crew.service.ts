@@ -87,7 +87,7 @@ export class CrewService {
 
   updateVinculation(values: any) {
     this.setHeaders();
-    return this.http.post(`${environment.apiUrl}dynamo/updateDetailCrewCastDocuments`, values, { headers: this.headers }).pipe(
+    return this.http.post(`${environment.apiUrl}finance_manager/save_po_vinculation_details`, values, { headers: this.headers }).pipe(
       map((response: any) => response));
   }
 

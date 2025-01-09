@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask';
 import { Countries } from '../../../shared/Interfaces/company_centers';
+import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
 
 @Component({
   selector: 'app-vendor-natural',
@@ -61,7 +62,7 @@ export class VendorNaturalComponent {
     private el: ElementRef
   ) {
     this.naturalForm = this.fb.group({
-      name: new FormControl('', Validators.compose([Validators.required])),
+      name: new FormControl('', Validators.compose([Validators.required, onlyLettersValidator()])),
       document_type_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), withoutSpacesPoints()])),
       lugar_expedicion: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),

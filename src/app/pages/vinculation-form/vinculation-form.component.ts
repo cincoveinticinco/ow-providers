@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { PreviousAnswersVendorComponent } from '../../components/vinculation-pages/previous-answers-vendor/previous-answers-vendor.component';
 import { VinculationVendorComponent } from '../../components/vinculation-pages/vinculation-vendor/vinculation-vendor.component';
-import { AcceptNegotiationConditionsComponent } from "../../components/accept-negotiation-conditions/accept-negotiation-conditions.component";
 import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
 
 @Component({
@@ -20,7 +19,6 @@ import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
     LateralMenuComponent,
     PreviousAnswersVendorComponent,
     VinculationVendorComponent,
-    AcceptNegotiationConditionsComponent
 ],
   templateUrl: './vinculation-form.component.html',
   styleUrl: './vinculation-form.component.scss'
@@ -32,8 +30,6 @@ export class VinculationFormComponent implements OnInit{
 
   typeCrew: any = null;
   crew: any = null;
-
-  @Output() notify: EventEmitter<any> = new EventEmitter();
 
   crewResponseDetail: any = null;
   crewAnswers: any[] = [];
@@ -62,6 +58,8 @@ export class VinculationFormComponent implements OnInit{
     this.loading = true;
     this._cS.getVinculationInfo(this.requestId).subscribe({
       next: (data: any) => {
+        this.crew = data?.data;
+        this.crew.id = this.requestId
         this.lists['generos'] = data.gender || [];
         this.lists['tiposSangre'] = data.blood_type || [];
         this.lists['arls'] = data.arl || [];
@@ -75,7 +73,7 @@ export class VinculationFormComponent implements OnInit{
         if (this.crewResponseDetail?.notes) {
           this.crewResponseDetail.notes = this.crewResponseDetail.notes?.replace(/\n/g, '<br>');
         }
-        this.crewAnswers = data.f_vendor_inf_add_types_aswered || [];
+        this.crewAnswers = this.crew.questions || [];
 
         this.loading = false;
       },
@@ -99,7 +97,7 @@ export class VinculationFormComponent implements OnInit{
     this.loading = true;
     this.changeView();
 
-    const formData = this._gS.setVinculationForm(this.currentForm?.value);
+    const formData = this._gS.setVinculationForm(this.currentForm?.value, true);
 
     this._cS.updateVinculation(formData).pipe(
       switchMap(() => {
@@ -111,7 +109,7 @@ export class VinculationFormComponent implements OnInit{
       })
     ).subscribe(() => {
         this.loading = false;
-        this.notify.emit();
+        //this.notify.emit();
     });
   }
 

@@ -13,7 +13,7 @@
                 formControlName="document_type_id"
                 name="document_type_id">
                 <option disabled value="0">Seleccione una opción</option>
-                @for (opt of lists['legal_documents_types']; track opt.id) {
+                @for (opt of lists['document_type_ids']; track opt.id) {
                     <option [value]="opt.id">{{opt.document_type_esp}}</option>
                 } @empty {
                     <option disabled>No hay opciones para mostrar</option>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="content-col m-4">
-            <label>NIT (Con dígito de verificación)*</label>
+            <label>NIT*</label>
             <p class="lbl-eng"></p>
             <input type="text" mask="000000000" name="document" formControlName="document" [allowNegativeNumbers]="true">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document'}"></ng-container>
@@ -55,7 +55,7 @@
                 formControlName="responsible_f_document_type_id"
                 name="responsible_f_document_type_id">
                 <option disabled value="0">Seleccione una opción</option>
-                @for (opt of lists['natural_documents_types']; track opt.id) {
+                @for (opt of lists['document_type_ids']; track opt.id) {
                     <option [value]="opt.id">{{opt.document_type_esp}}</option>
                 } @empty {
                     <option disabled>No hay opciones para mostrar</option>
@@ -235,7 +235,7 @@
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'rut_vendors'}"></ng-container>
         </div>
         <div class="content-col m-8">
-            <label>Certificado camara y comercio no mayor a 30 días *</label>
+            <label>Certificado cámara y comercio no mayor a 30 días *</label>
             <p class="lbl-eng"></p>
             <app-filebox [formControlName]="'camara_comercio'"></app-filebox>
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'camara_comercio'}"></ng-container>
@@ -270,5 +270,14 @@
     }
     @if (fJuridico[control].getError('email') != null && fJuridico[control].touched) {
         <span class="validation-label">Correo electrónico no válido</span>
+    }
+    @if (fJuridico[control].getError('only_numbers') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Solo números' }}</span>
+    }
+    @if (fJuridico[control].getError('letters_and_numbers') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Solo letras y números' }}</span>
+    }
+    @if (fJuridico[control].getError('only_letters') != null && fJuridico[control].touched) {
+        <span class="validation-label">{{ 'Solo letras' }}</span>
     }
 </ng-template>

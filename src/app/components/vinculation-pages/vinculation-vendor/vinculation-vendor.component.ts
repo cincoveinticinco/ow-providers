@@ -49,6 +49,7 @@ export class VinculationVendorComponent {
     private el: ElementRef
   ) {
     this.vinculationForm = this.fb.group({
+      fm_request_po_id: new FormControl(null),
       //Yes or no
       autorizacion_media: new FormControl('', Validators.required),
       datos_otros: new FormControl('', Validators.required),

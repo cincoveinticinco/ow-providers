@@ -11,6 +11,8 @@ import { info_files } from '../../../shared/Interfaces/files_types';
 import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask'
+import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
+import { onlyNumbersValidator } from '../../../shared/validators/only-numbers.validator';
 
 @Component({
   selector: 'app-vendor-juridico',
@@ -61,16 +63,16 @@ export class VendorJuridicoComponent {
     private el: ElementRef
   ) {
     this.juridicoForm = this.fb.group({
-      name: new FormControl('', Validators.compose([Validators.required])),
+      name: new FormControl('', Validators.compose([Validators.required, onlyLettersValidator()])),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(9), withoutSpacesPoints()])),
       representante_legal: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),
-      f_document_representative: new FormControl('', [Validators.required, withoutSpacesPoints()]),
+      f_document_representative: new FormControl('', [Validators.required, withoutSpacesPoints(), onlyNumbersValidator()]),
       manager_name: new FormControl(''),
       manager_email: new FormControl(''),
       responsible_f_document_type_id: new FormControl(0),
       pais_id: new FormControl({value: 0, disabled: true}, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
       jurisdiccion_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
-      actividad_economica_id: new FormControl({ value: 0, disabled: true }, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
+      actividad_economica_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       industria_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       pep: new FormControl(''),
       ciiu: new FormArray([]),

@@ -73,9 +73,6 @@ export class FormsHomeComponent implements OnInit {
 
         this._cS.setDocumentsList(data.document_vendor);
 
-        this.lists['legal_documents_types'] = this.lists['document_type_ids']?.filter((doc: any) => doc?.f_person_type_id == TIPOPERSONA.Juridica);
-        this.lists['natural_documents_types'] = this.lists['document_type_ids']?.filter((doc: any) => doc?.f_person_type_id == TIPOPERSONA.Natural);
-
         this.loading = false;
       },
       error: (e: any) => {

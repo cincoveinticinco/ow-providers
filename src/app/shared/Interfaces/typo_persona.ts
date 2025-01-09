@@ -6,3 +6,7 @@ export enum TIPOPERSONA {
     Fisica = 13,
     Moral = 14,
 }
+
+export enum DocumentType {
+    Nit = 16,
+}

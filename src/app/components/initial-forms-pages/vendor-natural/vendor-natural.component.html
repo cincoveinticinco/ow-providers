@@ -222,4 +222,13 @@
     @if (fNatural[control].getError('minlength') != null && fNatural[control].touched) {
         <span class="validation-label">{{ 'Minimo 4 carácteres' }}</span>
     }
+    @if (fNatural[control].getError('only_numbers') != null && fNatural[control].touched) {
+        <span class="validation-label">{{ 'Solo números' }}</span>
+    }
+    @if (fNatural[control].getError('letters_and_numbers') != null && fNatural[control].touched) {
+        <span class="validation-label">{{ 'Solo letras y números' }}</span>
+    }
+    @if (fNatural[control].getError('only_letters') != null && fNatural[control].touched) {
+        <span class="validation-label">{{ 'Solo letras' }}</span>
+    }
 </ng-template>
