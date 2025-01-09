@@ -61,7 +61,7 @@ export class InitialFormComponent implements OnInit {
     private _gS: GlobalService,
   ) {
     this.crewForm = this.fb.group({
-      type_persona_id: new FormControl<number>({ value: 0, disabled: false }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
+      type_persona_id: new FormControl<number>({ value: 0, disabled: true }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
     });
   }
 
