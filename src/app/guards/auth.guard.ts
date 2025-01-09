@@ -13,6 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         resolve(true)
         return
       }
+
       auth.logOut(crewId);
       resolve(false)
     });

@@ -5,6 +5,7 @@ import { FormsHomeComponent } from './pages/forms-home/forms-home.component';
 import { ThanksComponent } from './pages/thanks/thanks.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { VinculationFormComponent } from './pages/vinculation-form/vinculation-form.component';
+import { DocumentationFormComponent } from './pages/documentation-form/documentation-form.component';
 
 export const routes: Routes = [
   {
@@ -26,9 +27,14 @@ export const routes: Routes = [
     component: FormsHomeComponent
   },
   {
-    path: 'vinculation/:requestId',
-    //canActivate: [authGuard],
+    path: 'vinculation/:id/request/:requestId',
+    canActivate: [authGuard],
     component: VinculationFormComponent
+  },
+  {
+    path: 'documents/:id/request/:requestId',
+    canActivate: [authGuard],
+    component: DocumentationFormComponent,
   },
   {
     path: 'thanks/:id',

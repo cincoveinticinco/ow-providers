@@ -91,11 +91,12 @@ export class CrewService {
       map((response: any) => response));
   }
 
-  getDocumentsData() {
+  getDocumentsData(requestId: number) {
     this.setHeaders();
     return this.http.get(`${environment.apiUrl}dynamo/get_required_documents_List`, {
       headers: this.headers,
       params: new HttpParams()
+        .set('fm_request_po_id', requestId?.toString())
     });
   }
 

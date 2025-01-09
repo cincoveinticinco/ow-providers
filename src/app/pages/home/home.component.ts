@@ -70,7 +70,10 @@ export class HomeComponent implements OnInit{
           this.router.navigate(['complete-form', this.vendorId]);
           break;
         case 2:
-          this.router.navigate(['vinculation', this.requestId]);
+          this.router.navigate(['vinculation', this.vendorId, 'request', this.requestId]);
+          break;
+        case 3:
+          this.router.navigate(['documents', this.vendorId, 'request', this.requestId]);
           break;
         default:
           this.router.navigate(['thanks', this.vendorId]);

@@ -11,7 +11,7 @@ import { STATUSFORM } from '../../shared/Interfaces/status_form';
 import { GlobalService } from '../../services/global.service';
 import { Subscription, catchError, map, of, switchMap } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-documentation-form',
@@ -22,28 +22,38 @@ import { Router } from '@angular/router';
 })
 export class DocumentationFormComponent implements OnInit {
 
-  @Input() typeCrew: TIPOCREW | null = null;
-  @Input() crew: any = null;
+  typeCrew: TIPOCREW | null = null;
+  crew: any = null;
 
   readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
   readonly STATUSFORM = STATUSFORM;
 
-  loading: boolean = false;
+  loading: boolean = true;
   documents: any[] = [];
   documentForm: FormGroup;
   linkDocument: any = null;
   filesDynamic: {[key: number]: string} = {};
   subs: Subscription[] = [];
-  readonly onlyPDF = [306, 307, 308, 311, 312, 314, 315, 318, 319, 320, 321, 322];
   errorDocuments: boolean = false;
+  requestId: number = 0;
 
-  constructor(private _cS: CrewService, private fb: FormBuilder, private _gS: GlobalService, private router: Router) {
+  constructor(
+    private _cS: CrewService,
+    private fb: FormBuilder,
+    private _gS: GlobalService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     this.documentForm = this.fb.group({});
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.route.params.subscribe((params: any) => {
+      this.requestId = Number(params.requestId);
+      this.loadData();
+    });
+
     //subscription
     this.subs.push(this.documentForm.valueChanges.subscribe(valor => {
       Object.keys(this.documentForm.controls).forEach((controlName: any) => {
@@ -61,50 +71,42 @@ export class DocumentationFormComponent implements OnInit {
           }
         }
       });
+
       var data = {
         typeForm: STATUSFORM.SolicitudDocumentacion,
         typePerson: this.typeCrew,
         form: valor
       };
+
       this._cS.setGeneralForm(data);
     }));
   }
 
   loadData() {
     this.loading = true;
-    this.subs.push(this._cS.getDocumentsData().subscribe({
-      next: ((data: any) => {
+    this.subs.push(this._cS.getDocumentsData(this.requestId).subscribe({
+      next: (data: any) => {
         this.documents = data.f_vendor_document_types || [];
         this.setFormData();
         this.loading = false;
-      })
+      }
     }));
   }
 
   setFormData() {
     this.documents.forEach((dc: any) => {
-      this.documentForm.addControl(`document_${dc.id}`, new FormControl('', [Validators.required]));
+      this.documentForm.addControl(`document_${dc.id}`, new FormControl(''));
       this.documentForm.get(`document_${dc.id}`)?.setValue(this.setDynamicFiles(dc));
-      this.setNonRequiredDocuments(dc);
+      if (dc.required) {
+        this.documentForm.get(`document_${dc.id}`)?.setValidators([Validators.required]);
+      }
+
       dc['class'] = '';
-      if (dc.document_type.length > 120 ) dc['class'] = 'large-txt';
+      if (dc?.document_type?.length > 120 ) dc['class'] = 'large-txt';
     });
     this.documents.forEach((dc: any) => {
       this.filesDynamic[dc.id] = `document_${dc.id}`;
     })
-  }
-
-  setNonRequiredDocuments(doc: any) {
-    if (this.typeCrew == TIPOCREW.Vendor) {
-      if (this.crew?.f_person_type_id == TIPOPERSONA.Natural) {
-        if ([163].includes(doc.id)) this.documentForm.get(`document_${doc.id}`)?.clearValidators();
-      }
-      if ([44].includes(doc.id)) this.documentForm.get(`document_${doc.id}`)?.clearValidators();
-    }
-
-    if ([156].includes(doc.id)) this.documentForm.get(`document_${doc.id}`)?.clearValidators();
-
-    this.documentForm.get(`document_${doc.id}`)?.updateValueAndValidity();
   }
 
   onSubmit() {

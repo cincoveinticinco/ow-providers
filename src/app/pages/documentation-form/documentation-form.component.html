@@ -3,6 +3,8 @@
         <app-header></app-header>
         <app-lateral-menu [crew]="crew"></app-lateral-menu>
 
+        <h1 class="form-title">Formulario de vinculación - proveedor</h1>
+
         <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
             <div class="content-row">
                 <div class="content-col m-8">
@@ -13,48 +15,10 @@
                 @for (doc of documents; track doc.id) {
                     <div class="content-col m-8">
                         <label [class]="doc.class" style="text-transform: uppercase;">
-                            @if ((typeCrew == TIPOCREW.PersonalAdicional || crew?.cast_person_type_id == TIPOPERSONA.NaturalHonorarios) && doc.id == 29) {
-                                Certificación a EPS donde se evidencie que está activo (como independiente, beneficiario o subsidiado).
-                            } @else {
-                                {{ doc.document_type }}
-                                @if (onlyPDF.includes(doc.id)) {
-                                    - (Solo PDF)
-                                } @else {
-                                    - (PDF ó IMG)
-                                }
-                            }
+                            {{ doc.document_type }}
                         </label>
-
-                        @if (doc.id == 105) {
-                            @if ((typeCrew == TIPOCREW.Crew && crew?.f_person_type_id == TIPOPERSONA.Juridica) || (typeCrew == TIPOCREW.Cast && [TIPOPERSONA.Juridica, TIPOPERSONA.Manager].includes(crew?.f_person_type_id))) {
-                                <p class="small-p">
-                                    Examen médico ocupacional con énfasis osteomuscular, menor a 1 año, debe estar a nombre de la persona jurídica con quien se está contratando, si no cuenta con estos exámenes médicos vigentes nuestro proveedor sugerido es <a href="https://www.colmedicos.com/solicita-tu-cita/solicita-tu-cita-724" target="_blank">COLMÉDICOS</a> (en este link puede solicitar la cita para realizarlos) Recuerde que este examen corre por su cuenta, no es algo que pague el proyecto.
-                                    <br>
-                                    <span style="color: var(--secondary-color)">
-                                        No se aceptan exámenes médicos a nombre de personas naturales o personas jurídicas diferentes a la empresa con la que se esta realizando la contratación.
-                                    </span>
-                                </p>
-                            } @else {
-                                <p class="small-p">
-                                    Examen Médico Ocupacional con énfasis Osteomuscular, menor a 1 año, si no cuenta con estos exámenes vigentes, nuestro proveedor sugerido es: <a href="https://www.colmedicos.com/solicita-tu-cita/solicita-tu-cita-724" target="_blank">COLMÉDICOS</a> (en este link pueden solicitar la cita para realizarlos). Recuerde que este examen corre por su cuenta, no es algo que pague el proyecto.
-                                    <br>
-                                    <span style="color: var(--secondary-color)">El examen debe estar a nombre del contratista y no se acepta a nombre de ninguna otra empresa.</span>
-                                </p>
-                            }
-                        }
-
-                        @if (doc.id == 31) {
-                            <p class="small-p">Con vigencia no mayor a un mes descargar este certificado directamente en la página de su ARL para verificar el estado actual de su afiliación, (Retirado/Activo, Voluntario/Dependiente, Tipo de Riesgo).</p>
-                        }
-
                         <p class="lbl-eng"></p>
-
-                        @if (onlyPDF.includes(doc.id)) {
-                            <app-filebox [formControlName]="'document_' + doc.id" [onlyPdf]="true"></app-filebox>
-                        } @else {
-                            <app-filebox [formControlName]="'document_' + doc.id"></app-filebox>
-                        }
-
+                        <app-filebox [formControlName]="'document_' + doc.id"></app-filebox>
                         <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document_' + doc.id}"></ng-container>
                     </div>
                 }
