@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CrewService } from '../../services/crew.service';
+import { VendorService } from '../../services/vendor.service';
 import { AuthService } from '../../services/auth.service';
-import { STATUSFORM } from '../../shared/Interfaces/status_form';
 import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu.component';
 
 @Component({
@@ -14,31 +13,29 @@ import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu
 })
 export class ThanksComponent implements OnInit{
 
-  readonly STATUSFORM = STATUSFORM;
-
-  crewId: any = null;
+  vendorId: number = 0;
   loading: boolean = false;
   crew: any = null;
   typeRoute: string = '';
 
-  constructor(private route: ActivatedRoute, private _cS: CrewService, private auth: AuthService) {}
+  constructor(private route: ActivatedRoute, private _cS: VendorService, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.crewId = params.id;
+      this.vendorId = Number(params?.id);
       this.typeRoute = this.route.snapshot.data['type'];
       this.loadData();
     })
   }
 
   loadData() {
-    this._cS.getCrewInfo().subscribe({
+    this._cS.getVendorInfo().subscribe({
       next: (data: any) => {
         this.crew = data.crew[0] || null;
         this.loading = false;
       },
       error: (e: any) => {
-        if (e.status == 401) this.auth.logOut(this.crewId);
+        if (e.status == 401) this.auth.logOut(this.vendorId);
       }
     })
   }

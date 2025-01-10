@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { CrewService } from '../../services/crew.service';
+import { VendorService } from '../../services/vendor.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
-import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
 import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { Subscription, catchError, map, of, switchMap } from 'rxjs';
@@ -11,10 +10,10 @@ import { info_files } from '../../shared/Interfaces/files_types';
 import { GlobalService } from '../../services/global.service';
 import { HttpEventType } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { STATUSFORM } from '../../shared/Interfaces/status_form';
 import { VendorNaturalComponent } from '../../components/initial-forms-pages/vendor-natural/vendor-natural.component';
 import { VendorJuridicoComponent } from '../../components/initial-forms-pages/vendor-juridico/vendor-juridico.component';
 import { Countries } from '../../shared/Interfaces/company_centers';
+import { TypeView } from '../../shared/Interfaces/status_form';
 
 @Component({
   selector: 'app-initial-form',
@@ -34,16 +33,12 @@ import { Countries } from '../../shared/Interfaces/company_centers';
 export class InitialFormComponent implements OnInit {
 
   @Input() lists: any = {};
-  @Input() crewId: any = null;
-  @Input() typeCrew: TIPOCREW | null = null;
-  @Input() crew: any = null;
-  @Input() crewAnswers: any[] = [];
+  @Input() vendorId: number = 0;
+  @Input() vendor: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
 
   readonly TIPOPERSONA = TIPOPERSONA;
-  readonly TIPOCREW = TIPOCREW;
-  readonly STATUSFORM = STATUSFORM;
 
   loading: boolean = false;
   linkDocument: any = null;
@@ -51,29 +46,28 @@ export class InitialFormComponent implements OnInit {
     { id: TIPOPERSONA.Natural, value: 'Natural' },
     { id: TIPOPERSONA.Juridica, value: 'Jurídica' },
   ];
-  crewForm: FormGroup;
+  vendorForm: FormGroup;
   subs: Subscription[] = [];
 
   constructor(
-    private _cS: CrewService,
+    private _cS: VendorService,
     private router: Router,
     private fb: FormBuilder,
     private _gS: GlobalService,
   ) {
-    this.crewForm = this.fb.group({
+    this.vendorForm = this.fb.group({
       type_persona_id: new FormControl<number>({ value: 0, disabled: true }, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
     });
   }
 
   ngOnInit(): void {
-    if (this.crew) {
+    if (this.vendor) {
       this.setPersonsTypes();
-      this.fillForm();
     }
 
-    this.subs.push(this.crewForm.valueChanges.subscribe(valor => {
+    this.subs.push(this.vendorForm.valueChanges.subscribe(valor => {
       const data = {
-        typeForm: STATUSFORM.Creado,
+        typeForm: TypeView.InitialForm,
         typePerson: valor['type_persona_id'],
         form: valor
       };
@@ -82,7 +76,7 @@ export class InitialFormComponent implements OnInit {
   }
 
   setPersonsTypes() {
-    if (this.crew.country_id == Countries.Mex) {
+    if (this.vendor.country_id == Countries.Mex) {
       this.typePersons = [
         { id: TIPOPERSONA.Fisica, value: 'Fisica' },
         { id: TIPOPERSONA.Moral, value: 'Moral' },
@@ -90,38 +84,16 @@ export class InitialFormComponent implements OnInit {
     }
   }
 
-  fillForm() {
-    if (this.typeCrew == TIPOCREW.Cast) {
-      this.typePersons.push(
-        { id: TIPOPERSONA.Manager, value: 'A través de manager' },
-        { id: TIPOPERSONA.NaturalHonorarios, value: 'Persona natural con honorarios inferiores a 1 SMMLV' }
-      );
-      this.crewForm.get('type_persona_id')?.setValue(this.crew?.cast_person_type_id || '');
-      this.crewForm.get('type_persona_id')?.disable();
-    }
-
-    if (this.typeCrew != TIPOCREW.Cast) {
-      this.crewForm.get('type_persona_id')?.setValue(this.crew?.f_person_type_id || '');
-    }
-    if (this.typeCrew == TIPOCREW.Vendor) {
-      this.crewForm.get('type_persona_id')?.disable();
-    }
-  }
-
   sendForm(ev: any) {
     this.loading = true;
+    const formData = this._gS.setInitialForm(this.vendorForm.get('type_persona_id')?.value, ev.value);
 
-    const isMexForm = [TIPOCREW.CrewMexico, TIPOCREW.CastMexico].includes(this.typeCrew!);
-    const formData = isMexForm
-      ? this._gS.setInitialFormMx(this.crewForm.get('type_persona_id')?.value, ev.value)
-      : this._gS.setInitialForm(this.crewForm.get('type_persona_id')?.value, ev.value);
-
-    this._cS.updateCrewCast(formData).pipe(
+    this._cS.updateVendor(formData).pipe(
       switchMap(() => {
-        return this._cS.changeStatus({ second_form: isMexForm });
+        return this._cS.changeStatus();
       })
     ).subscribe(() => {
-      this.router.navigate(['thanks', this.crewId]);
+      this.router.navigate(['thanks', this.vendorId]);
 
       this.loading = false;
     });
@@ -129,8 +101,8 @@ export class InitialFormComponent implements OnInit {
 
   updateForm() {
     const dataForm = this._cS.getGeneralForm();
-    const formData = this._gS.setInitialForm(this.crewForm.get('type_persona_id')?.value, dataForm.form);
-    this._cS.updateCrewCast(formData).subscribe({
+    const formData = this._gS.setInitialForm(this.vendorForm.get('type_persona_id')?.value, dataForm.form);
+    this._cS.updateVendor(formData).subscribe({
       next: () => {
         this.notify.emit();
       }
@@ -147,12 +119,12 @@ export class InitialFormComponent implements OnInit {
 
     const documentId = this._gS.getDocumentLink(fileIdDocument)?.document_id;
     if (!value) {
-      this._cS.deleteCrewDocument(documentId)
+      this._cS.deleteDocument(documentId)
         .subscribe((data) => this.loading = false);
     }
     else {
       const nameFile = this._gS.normalizeString(value.name);
-      this._cS.getPresignedPutURL(nameFile, ev.crew_id).pipe(
+      this._cS.getPresignedPutURL(nameFile, ev.vendor_id).pipe(
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
@@ -183,10 +155,10 @@ export class InitialFormComponent implements OnInit {
         switchMap(
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
-            return this._cS.updateCrewDocument({
+            return this._cS.updateDocument({
               f_vendor_document_type_id: Number(uploadFile.id),
               link: uploadFile.url
-                ? `${ev.crew_id}/${nameFile}`
+                ? `${ev.vendor_id}/${nameFile}`
                 : ``,
             });
           }
@@ -201,10 +173,6 @@ export class InitialFormComponent implements OnInit {
           }, 3500)
         });
     }
-  }
-
-  get fCrew() {
-    return this.crewForm.controls;
   }
 
   ngOnDestroy() {

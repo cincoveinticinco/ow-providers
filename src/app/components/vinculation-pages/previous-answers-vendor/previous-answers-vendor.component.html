@@ -10,7 +10,7 @@
     <div class="content-col m-4">
         <label>Tipo de persona</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.person_type || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.person_type || '--'}}</p>
     </div>
     <div class="content-col m-4">
         <label>
@@ -61,7 +61,7 @@
             <p class="lbl-eng"></p>
             <p class="previus-answer small-p">{{crew?.address || '--'}}</p>
         </div>
-        <div class="content-col m-8">
+        <div class="content-col m-4">
             <label>Documento representante legal</label>
             <p class="lbl-eng"></p>
             <p class="previus-answer small-p">{{crew?.legal_representative_document || '--'}}</p>
@@ -76,7 +76,7 @@
     <div class="content-col m-4">
         <label>Teléfono</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{crew?.country || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.vendor_phone || '--'}}</p>
     </div>
 
     @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
@@ -90,24 +90,24 @@
     <div class="content-col m-4">
         <label>Pais donde esta creada la empresa</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.project_enterprise || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.country || '--'}}</p>
     </div>
 
     <div class="content-col m-4">
         <label>Jurisdicción de residencia</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.vendor_jurisdiction || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.vendor_jurisdiction || '--'}}</p>
     </div>
 
     <div class="content-col m-4">
         <label>Actividad economica a la que se dedica como persona natural o jurídica</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.vendor_economic_activity || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.vendor_economic_activity || '--'}}</p>
     </div>
     <div class="content-col m-4">
         <label>Industria a la que pertenece de acuerdo con su actividad económica</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.vendor_industry || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.vendor_industry || '--'}}</p>
     </div>
 
     @if (crew?.f_person_type_id == TIPOPERSONA.Juridica) {
@@ -127,7 +127,7 @@
     <div class="content-col m-4">
         <label>Valor en letras del total de la PO</label>
         <p class="lbl-eng"></p>
-        <p class="previus-answer small-p">{{detailCrew?.total_words || '--'}}</p>
+        <p class="previus-answer small-p">{{crew?.total_words || '--'}}</p>
     </div>
 
 </div>

@@ -1,11 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { TIPOCREW } from '../../../shared/Interfaces/typo_crew';
 import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
-import { STATUSFORM, VERIFICATION_DIGITS } from '../../../shared/Interfaces/status_form';
+import { TypeView, VERIFICATION_DIGITS } from '../../../shared/Interfaces/status_form';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GlobalService } from '../../../services/global.service';
-import { CrewService } from '../../../services/crew.service';
+import { VendorService } from '../../../services/vendor.service';
 import { withoutSpacesPoints } from '../../../shared/validators/without-spaces-points.validator';
 import { info_files } from '../../../shared/Interfaces/files_types';
 import { CommonModule } from '@angular/common';
@@ -29,15 +28,13 @@ import { onlyNumbersValidator } from '../../../shared/validators/only-numbers.va
 export class VendorJuridicoComponent {
 
   @Input() lists: any = null;
-  @Input() crew: any = null;
+  @Input() vendor: any = null;
   @Input() typePerson: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
   @Output() onSubmitFile: EventEmitter<any> = new EventEmitter();
 
-  readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
-  readonly STATUSFORM = STATUSFORM;
   readonly VERIFICATION_DIGITS = VERIFICATION_DIGITS;
 
   @HostListener('submit', ['$event'])
@@ -59,7 +56,7 @@ export class VendorJuridicoComponent {
   constructor(
     private fb: FormBuilder,
     private _gS: GlobalService,
-    private _cS: CrewService,
+    private _cS: VendorService,
     private el: ElementRef
   ) {
     this.juridicoForm = this.fb.group({
@@ -114,7 +111,7 @@ export class VendorJuridicoComponent {
             const fileData = {
               formControlName: controlName,
               value: control?.value?.file,
-              crew_id: this._cS.getCrewId(),
+              crew_id: this._cS.getVendorId(),
             };
             this.onSubmitFile.emit(fileData);
             control.markAsPristine();
@@ -122,7 +119,7 @@ export class VendorJuridicoComponent {
         }
       });
       var data = {
-        typeForm: STATUSFORM.Creado,
+        typeForm: TypeView.InitialForm,
         typePerson: TIPOPERSONA.Juridica,
         form: valor
       };
@@ -138,8 +135,8 @@ export class VendorJuridicoComponent {
     this.actividadesEconomicas = this.lists['economicActivities'];
     this.document_type_ids = this.lists['document_type_ids'];
 
-    if (this.crew) {
-      this._gS.setEditInitialForm(this.juridicoForm, this.crew);
+    if (this.vendor) {
+      this._gS.setEditInitialForm(this.juridicoForm, this.vendor);
     }
     this.updateControls();
   }

@@ -1,15 +1,15 @@
 <div class="main-content">
     <app-header></app-header>
-    <app-lateral-menu [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" [typeCrew]="typeCrew"></app-lateral-menu>
+    <app-lateral-menu [typePerson]="vendorForm.get('type_persona_id')?.value"></app-lateral-menu>
 
 
     <h1 class="form-title">Formulario de vinculación</h1>
-    <h1 class="form-title">{{ crew?.person_type_esp}}</h1>
+    <h1 class="form-title">{{ vendor?.person_type_esp}}</h1>
     <div class="section-title">
         Datos del contratista
     </div>
 
-    <form [formGroup]="crewForm" autocomplete="off">
+    <form [formGroup]="vendorForm" autocomplete="off">
         <div class="content-row">
             <div class="content-col m-8">
                 <label>Tipo de persona</label>
@@ -26,11 +26,11 @@
         </div>
     </form>
 
-    @if (TIPOPERSONA.Natural == crewForm.get('type_persona_id')?.value || TIPOPERSONA.Fisica == crewForm.get('type_persona_id')?.value) {
-        <app-vendor-natural [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+    @if (TIPOPERSONA.Natural == vendorForm.get('type_persona_id')?.value || TIPOPERSONA.Fisica == vendorForm.get('type_persona_id')?.value) {
+        <app-vendor-natural [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
     }
-    @if (TIPOPERSONA.Juridica == crewForm.get('type_persona_id')?.value || TIPOPERSONA.Moral == crewForm.get('type_persona_id')?.value) {
-        <app-vendor-juridico [lists]="lists" [crew]="crew" [typePerson]="fCrew['type_persona_id'].value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+    @if (TIPOPERSONA.Juridica == vendorForm.get('type_persona_id')?.value || TIPOPERSONA.Moral == vendorForm.get('type_persona_id')?.value) {
+        <app-vendor-juridico [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
     }
 </div>
 @if (loading) {

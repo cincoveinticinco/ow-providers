@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu.component';
-import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
 import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
-import { CrewService } from '../../services/crew.service';
+import { VendorService } from '../../services/vendor.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FileboxComponent } from '../../components/filebox/filebox.component';
 import { CommonModule } from '@angular/common';
-import { STATUSFORM } from '../../shared/Interfaces/status_form';
 import { GlobalService } from '../../services/global.service';
 import { Subscription, catchError, map, of, switchMap } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TypeView } from '../../shared/Interfaces/status_form';
 
 @Component({
   selector: 'app-documentation-form',
@@ -22,12 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DocumentationFormComponent implements OnInit {
 
-  typeCrew: TIPOCREW | null = null;
   crew: any = null;
-
-  readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
-  readonly STATUSFORM = STATUSFORM;
 
   loading: boolean = true;
   documents: any[] = [];
@@ -39,7 +34,7 @@ export class DocumentationFormComponent implements OnInit {
   requestId: number = 0;
 
   constructor(
-    private _cS: CrewService,
+    private _cS: VendorService,
     private fb: FormBuilder,
     private _gS: GlobalService,
     private router: Router,
@@ -64,7 +59,7 @@ export class DocumentationFormComponent implements OnInit {
             const fileData = {
               formControlName: controlName,
               value: control?.value?.file,
-              crew_id: this._cS.getCrewId(),
+              crew_id: this._cS.getVendorId(),
             };
             this.submitFile(fileData);
             control.markAsPristine();
@@ -73,8 +68,7 @@ export class DocumentationFormComponent implements OnInit {
       });
 
       var data = {
-        typeForm: STATUSFORM.SolicitudDocumentacion,
-        typePerson: this.typeCrew,
+        typeForm: TypeView.Docs,
         form: valor
       };
 
@@ -119,7 +113,7 @@ export class DocumentationFormComponent implements OnInit {
             return;
           }
           this.loading = false;
-          this.router.navigate(['thanks-docs', this._cS.getCrewId()]);
+          this.router.navigate(['thanks-docs', this._cS.getVendorId()]);
         }
       }));
     }
@@ -143,7 +137,7 @@ export class DocumentationFormComponent implements OnInit {
     );
     const documentId = this._gS.getDocumentLink(fileIdDocument)?.document_id;
     if (!value) {
-      this._cS.deleteCrewDocument(documentId)
+      this._cS.deleteDocument(documentId)
       .subscribe((data) => this.loading = false);
     }
     else {
@@ -179,7 +173,7 @@ export class DocumentationFormComponent implements OnInit {
         switchMap(
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
-            return this._cS.updateCrewDocument({
+            return this._cS.updateDocument({
               crew_document_type_id: Number(uploadFile.id),
               link: uploadFile.url
               ? `${ev.crew_id}/${nameFile}`

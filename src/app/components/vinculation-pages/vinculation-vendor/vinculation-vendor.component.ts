@@ -1,12 +1,12 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { STATUSFORM } from '../../../shared/Interfaces/status_form';
 import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GlobalService } from '../../../services/global.service';
-import { CrewService } from '../../../services/crew.service';
+import { VendorService } from '../../../services/vendor.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import { TypeView } from '../../../shared/Interfaces/status_form';
 
 @Component({
   selector: 'app-vinculation-vendor',
@@ -20,7 +20,6 @@ import { environment } from '../../../../environments/environment';
 export class VinculationVendorComponent {
 
   @Input() lists: any = null;
-  @Input() typeCrew: any = null;
   @Input() crew: any = null;
   @Input() crewAnswers: any[] = [];
   @Input() personType: any = null;
@@ -35,7 +34,6 @@ export class VinculationVendorComponent {
     }
   }
 
-  readonly STATUSFORM = STATUSFORM;
   readonly TIPOPERSONA = TIPOPERSONA;
   readonly apiUrlFront = environment.apiUrlFront;
 
@@ -45,7 +43,7 @@ export class VinculationVendorComponent {
   constructor(
     private fb: FormBuilder,
     public _gS: GlobalService,
-    private _cS: CrewService,
+    private _cS: VendorService,
     private el: ElementRef
   ) {
     this.vinculationForm = this.fb.group({
@@ -75,16 +73,13 @@ export class VinculationVendorComponent {
   }
 
   ngOnInit(): void {
-    if (this.typeCrew) {
-      this.vinculationForm.addControl('type_crew_id', new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]));
-    }
     if (this.crew) {
       this._gS.setEditVinculationForm(this.vinculationForm, this.crew, this.crewAnswers);
     }
     //Subscription
     this.subs.push(this.vinculationForm.valueChanges.subscribe(valor => {
       var data = {
-        typeForm: STATUSFORM.CompletaVinculacion,
+        typeForm: TypeView.VinculationForm,
         form: valor
       };
       this._cS.setGeneralForm(data);

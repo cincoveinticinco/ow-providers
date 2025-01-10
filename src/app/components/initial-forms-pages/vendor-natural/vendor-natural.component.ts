@@ -1,9 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
-import { STATUSFORM } from '../../../shared/Interfaces/status_form';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { CrewService } from '../../../services/crew.service';
+import { VendorService } from '../../../services/vendor.service';
 import { GlobalService } from '../../../services/global.service';
 import { info_files } from '../../../shared/Interfaces/files_types';
 import { withoutSpacesPoints } from '../../../shared/validators/without-spaces-points.validator';
@@ -12,6 +11,7 @@ import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask';
 import { Countries } from '../../../shared/Interfaces/company_centers';
 import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
+import { TypeView } from '../../../shared/Interfaces/status_form';
 
 @Component({
   selector: 'app-vendor-natural',
@@ -28,7 +28,7 @@ import { onlyLettersValidator } from '../../../shared/validators/only-letters.va
 export class VendorNaturalComponent {
 
   @Input() lists: any = null;
-  @Input() crew: any = null;
+  @Input() vendor: any = null;
   @Input() typePerson: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
@@ -43,7 +43,6 @@ export class VendorNaturalComponent {
   }
 
   readonly TIPOPERSONA = TIPOPERSONA;
-  readonly STATUSFORM = STATUSFORM;
 
   naturalForm: FormGroup;
   document_type_ids: any[] = [];
@@ -57,7 +56,7 @@ export class VendorNaturalComponent {
 
   constructor(
     private fb: FormBuilder,
-    private _cS: CrewService,
+    private _cS: VendorService,
     public _gS: GlobalService,
     private el: ElementRef
   ) {
@@ -95,7 +94,7 @@ export class VendorNaturalComponent {
             const fileData = {
               formControlName: controlName,
               value: control.value?.file,
-              crew_id: this._cS.getCrewId(),
+              crew_id: this._cS.getVendorId(),
             };
             this.onSubmitFile.emit(fileData);
             control.markAsPristine();
@@ -103,7 +102,7 @@ export class VendorNaturalComponent {
         }
       });
       var data = {
-        typeForm: STATUSFORM.Creado,
+        typeForm: TypeView.InitialForm,
         typePerson: TIPOPERSONA.Natural,
         form: valor
       };
@@ -112,7 +111,7 @@ export class VendorNaturalComponent {
   }
 
   setData() {
-    if (this.crew?.country_id == Countries.Col) {
+    if (this.vendor?.country_id == Countries.Col) {
       this.lists.typeRegimens = this.lists?.typeRegimens?.filter((item: any) => [1, 2].includes(item.id));
     }
 
@@ -121,8 +120,8 @@ export class VendorNaturalComponent {
     this.industrias = this.lists['industrias'];
     this.paises = this.lists['paises'];
     this.document_type_ids = this.lists['document_type_ids'];
-    if (this.crew) {
-      this._gS.setEditInitialForm(this.naturalForm, this.crew);
+    if (this.vendor) {
+      this._gS.setEditInitialForm(this.naturalForm, this.vendor);
     }
     if (this.typePerson == TIPOPERSONA.Natural) {
       this.naturalForm.get(`pais_id`)?.setValidators([Validators.required, Validators.pattern(/^[1-9]\d*$/)]);

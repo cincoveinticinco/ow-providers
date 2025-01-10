@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { CrewService } from '../../services/crew.service';
-import { STATUSFORM } from '../../shared/Interfaces/status_form';
+import { VendorService } from '../../services/vendor.service';
 import { GlobalService } from '../../services/global.service';
-import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
+import { TypeView } from '../../shared/Interfaces/status_form';
 
 @Component({
   selector: 'app-lateral-menu',
@@ -14,45 +13,33 @@ import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
 })
 export class LateralMenuComponent {
 
-  @Input() crew: any = null;
   @Input() typePerson: any = null;
   @Input() hideSave: boolean = false;
-  @Input() typeCrew: TIPOCREW | null = null;
 
-  TIPOCREW = TIPOCREW;
-
-  readonly STATUSFORM = STATUSFORM;
-
-  constructor(private auth: AuthService, private _gS: GlobalService, private _cS: CrewService) { }
+  constructor(private auth: AuthService, private _gS: GlobalService, private _cS: VendorService) { }
 
   logOut() {
-    this.auth.logOut(this._cS.getCrewId());
+    this.auth.logOut(this._cS.getVendorId());
   }
 
   guardarProgreso() {
     const dataForm = this._cS.getGeneralForm();
     if (dataForm) {
       switch (dataForm.typeForm) {
-        case STATUSFORM.Creado:
-          const formData = [TIPOCREW.CrewMexico, TIPOCREW.CastMexico].includes(this.typeCrew!)
-            ? this._gS.setInitialFormMx(this.typePerson, dataForm.form)
-            : this._gS.setInitialForm(this.typePerson, dataForm.form);
+        case TypeView.InitialForm:
+          const formData = this._gS.setInitialForm(this.typePerson, dataForm.form);
 
-          this._cS.updateCrewCast(formData).subscribe({
+          this._cS.updateVendor(formData).subscribe({
             next: () => {
               this._gS.openSnackBar('Cambios guardados', '', 5000);
             },
             error: (e: any) => {
-              if (e.status == 401) this.auth.logOut(this._cS.getCrewId());
+              if (e.status == 401) this.auth.logOut(this._cS.getVendorId());
             }
           });
           break;
 
-        case STATUSFORM.SolicitudDocumentacion:
-          this._gS.openSnackBar('Cambios guardados', '', 5000);
-          break;
-
-        case STATUSFORM.CompletaVinculacion:
+        case TypeView.VinculationForm:
           const formDataVin = this._gS.setVinculationForm(dataForm.form);
 
           this._cS.updateVinculation(formDataVin).subscribe({
@@ -60,9 +47,13 @@ export class LateralMenuComponent {
               this._gS.openSnackBar('Cambios guardados', '', 5000);
             },
             error: (e: any) => {
-              if (e.status == 401) this.auth.logOut(this._cS.getCrewId());
+              if (e.status == 401) this.auth.logOut(this._cS.getVendorId());
             }
           });
+          break;
+
+        case TypeView.Docs:
+          this._gS.openSnackBar('Cambios guardados', '', 5000);
           break;
       }
     }

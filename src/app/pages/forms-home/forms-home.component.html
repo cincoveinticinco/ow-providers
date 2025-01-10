@@ -6,10 +6,10 @@
 @else {
     @switch (typeView) {
         @case (TypeView.InitialForm) {
-            <app-initial-form [lists]="lists" [crewId]="crewId" [typeCrew]="typeCrew" [crew]="crew" [crewAnswers]="crewAnswers" (notify)="loadData()"></app-initial-form>
+            <app-initial-form [lists]="lists" [vendorId]="vendorId" [vendor]="vendor" (notify)="loadData()"></app-initial-form>
         }
         @default {
-            <app-welcome-pending [crew]="crew" [typeCrew]="typeCrew"></app-welcome-pending>
+            <app-welcome-pending></app-welcome-pending>
         }
     }
 }

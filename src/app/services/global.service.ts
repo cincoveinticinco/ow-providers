@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CrewService } from './crew.service';
+import { VendorService } from './vendor.service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Countries } from '../shared/Interfaces/company_centers';
@@ -259,7 +259,7 @@ export class GlobalService {
 
   setInitialFormMx(typePerson: any, data: any) {
     var formData = {
-      crew_id: this._cS.getCrewId(),
+      vendor_id: this._cS.getVendorId(),
       f_document_type_id: data['f_document_type_id'],
       name: data['name'],
       document: data['document'],
@@ -362,7 +362,7 @@ export class GlobalService {
 
   setInitialForm(typePerson: any, data: any) {
     var formData = {
-      crew_id: this._cS.getCrewId(),
+      vendor_id: this._cS.getVendorId(),
       name: data['name'],
       f_vendor_type_id: typePerson,
       document: data['document'],
@@ -787,5 +787,5 @@ export class GlobalService {
     }
   }
 
-  constructor(private _cS: CrewService, private _snackBar: MatSnackBar) { }
+  constructor(private _cS: VendorService, private _snackBar: MatSnackBar) { }
 }

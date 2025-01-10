@@ -10,7 +10,6 @@ import { shareReplay, tap } from 'rxjs';
 export class AuthService {
 
   private loginApiUrl: string = environment.apiUrlFront;
-  crewId: any = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private route: ActivatedRoute) { }
 
@@ -53,11 +52,8 @@ export class AuthService {
     else return null;
   }
 
-  logOut(crewId: any) {
-    this.route.params.subscribe((params: any) => {
-      this.crewId = params.id;
-      localStorage.clear();
-      window.location.href = this.loginApiUrl + 'home/' + crewId;
-    })
+  logOut(vendorId: number) {
+    localStorage.clear();
+    window.location.href = this.loginApiUrl + 'home/' + vendorId;
   }
 }

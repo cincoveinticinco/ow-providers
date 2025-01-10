@@ -1,9 +1,9 @@
 <div class="main-content">
     <app-header></app-header>
-    <app-lateral-menu [crew]="crew"></app-lateral-menu>
+    <app-lateral-menu></app-lateral-menu>
     @if (!loading) {
         <h1 class="form-title">Formulario de vinculación - PROVEEDOR</h1>
-        <app-previous-answers-vendor [crew]="crew" [typeCrew]="typeCrew" [detailCrew]="crewResponseDetail" />
+        <app-previous-answers-vendor [crew]="crew" />
         <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [crewAnswers]="crewAnswers" />
     } @else {
         <div class="loader">

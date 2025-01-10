@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu.component';
-import { CrewService } from '../../services/crew.service';
+import { VendorService } from '../../services/vendor.service';
 import { AuthService } from '../../services/auth.service';
 import { switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,13 +24,10 @@ import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
 })
 export class VinculationFormComponent implements OnInit{
 
-  readonly TIPOCREW = TIPOCREW;
   readonly TIPOPERSONA = TIPOPERSONA;
 
-  typeCrew: any = null;
   crew: any = null;
 
-  crewResponseDetail: any = null;
   crewAnswers: any[] = [];
   loading: boolean = false;
   lists: any = {};
@@ -40,7 +36,7 @@ export class VinculationFormComponent implements OnInit{
   requestId: number = 0;
 
   constructor(
-    private _cS: CrewService,
+    private _cS: VendorService,
     private auth: AuthService,
     private router: Router,
     private _gS: GlobalService,
@@ -61,17 +57,12 @@ export class VinculationFormComponent implements OnInit{
         this.crew = data?.data;
         this.crew.id = this.requestId
         this.lists['typeAccounts'] = data?.data?.account_types || [];
-        this.crewResponseDetail = data.crew_response_detail;
-
-        if (this.crewResponseDetail?.notes) {
-          this.crewResponseDetail.notes = this.crewResponseDetail.notes?.replace(/\n/g, '<br>');
-        }
         this.crewAnswers = this.crew.questions || [];
 
         this.loading = false;
       },
       error: (e: any) => {
-        if (e.status == 401) this.auth.logOut(this._cS.getCrewId());
+        if (e.status == 401) this.auth.logOut(this._cS.getVendorId());
       }
     });
   }
@@ -79,11 +70,7 @@ export class VinculationFormComponent implements OnInit{
   submitForm(ev: any) {
     this.currentForm = ev;
 
-    if (this.typeCrew == TIPOCREW.Cast) {
-      this.view = 'viewNegotiationConditions';
-    } else {
-      this.sendForm();
-    }
+    this.sendForm();
   }
 
   sendForm(declineNegotiationConditions: boolean = false, reason?: string) {

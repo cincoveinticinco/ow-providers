@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CrewService {
+export class VendorService {
 
   tokenSession: any = null;
   private headers: HttpHeaders | undefined;
   private _generalForm: any = null;
-  private _crewId: any = null;
+  private _vendorId: number = 0;
   private _documentsList: any[] = [];
 
   setGeneralForm(data: any) {
@@ -25,13 +25,13 @@ export class CrewService {
     return this._generalForm;
   }
 
-  setCrewId(data: any) {
-    this._crewId = null;
-    this._crewId = data;
+  setVendorId(data: number) {
+    this._vendorId = 0;
+    this._vendorId = data;
   }
 
-  getCrewId() {
-    return this._crewId;
+  getVendorId() {
+    return this._vendorId;
   }
 
   setDocumentsList(data: any[]) {
@@ -51,14 +51,14 @@ export class CrewService {
     });
   }
 
-  getCrewInfo() {
+  getVendorInfo() {
     this.setHeaders();
     return this.http.get(`${environment.apiUrl}finance_manager/detail_provider`, {
       headers: this.headers,
     });
   }
 
-  updateCrewCast(values: any) {
+  updateVendor(values: any) {
     return this.http.post(`${environment.apiUrl}finance_manager/update_provider`, values, { headers: this.headers}).pipe(
       map((response: any) => response));
   }
@@ -120,13 +120,13 @@ export class CrewService {
 		return this.http.request(req);
 	}
 
-  updateCrewDocument(formData: any){
+  updateDocument(formData: any){
     this.setHeaders();
     return this.http.post(`${environment.apiUrl}finance_manager/add_document_provider`, {...formData}, { headers: this.headers })
     .pipe(map( response => response))
   }
 
-  deleteCrewDocument(documentId: any){
+  deleteDocument(documentId: any){
     this.setHeaders();
 
     let params = new HttpParams().set('document_id', documentId);
