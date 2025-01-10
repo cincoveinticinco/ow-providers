@@ -5,17 +5,14 @@ import { STATUSFORM, TypeView } from '../../shared/Interfaces/status_form';
 import { COMPANYCENTERS } from '../../shared/Interfaces/company_centers';
 import { InitialFormComponent } from '../initial-form/initial-form.component';
 import { WelcomePendingComponent } from '../welcome-pending/welcome-pending.component';
-import { VinculationFormComponent } from '../vinculation-form/vinculation-form.component';
-import { DocumentationFormComponent } from '../documentation-form/documentation-form.component';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { TIPOCREW } from '../../shared/Interfaces/typo_crew';
-import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
 
 @Component({
   selector: 'app-forms-home',
   standalone: true,
-  imports: [InitialFormComponent, WelcomePendingComponent, VinculationFormComponent, DocumentationFormComponent],
+  imports: [InitialFormComponent, WelcomePendingComponent],
   templateUrl: './forms-home.component.html',
   styleUrl: './forms-home.component.scss'
 })

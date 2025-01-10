@@ -60,14 +60,7 @@ export class VinculationFormComponent implements OnInit{
       next: (data: any) => {
         this.crew = data?.data;
         this.crew.id = this.requestId
-        this.lists['generos'] = data.gender || [];
-        this.lists['tiposSangre'] = data.blood_type || [];
-        this.lists['arls'] = data.arl || [];
-        this.lists['typeRegimens'] = data.f_contractor_regime_type || [];
-        this.lists['typeRegimensCompanies'] = data.f_type_of_company_regimes || [];
-        this.lists['typeAccounts'] = data.f_vendor_bank_account_types || [];
-        this.lists['epss'] = data.f_type_contributing_epses || [];
-        this.lists['regimenMethods'] = data.f_payment_regime_methods || [];
+        this.lists['typeAccounts'] = data?.data?.account_types || [];
         this.crewResponseDetail = data.crew_response_detail;
 
         if (this.crewResponseDetail?.notes) {
