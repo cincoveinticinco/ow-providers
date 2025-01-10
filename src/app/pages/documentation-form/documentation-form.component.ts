@@ -45,7 +45,8 @@ export class DocumentationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.requestId = Number(params.requestId);
+      this.requestId = Number(params?.requestId);
+      this._cS.setVendorId(Number(params?.id));
       this.loadData();
     });
 
@@ -59,7 +60,7 @@ export class DocumentationFormComponent implements OnInit {
             const fileData = {
               formControlName: controlName,
               value: control?.value?.file,
-              crew_id: this._cS.getVendorId(),
+              vendor_id: this._cS.getVendorId(),
             };
             this.submitFile(fileData);
             control.markAsPristine();
@@ -142,7 +143,7 @@ export class DocumentationFormComponent implements OnInit {
     }
     else {
       const nameFile = this._gS.normalizeString(value.name);
-      this._cS.getPresignedPutURL(nameFile, ev.crew_id).pipe(
+      this._cS.getPresignedPutURL(nameFile, ev.vendor_id).pipe(
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
@@ -176,7 +177,7 @@ export class DocumentationFormComponent implements OnInit {
             return this._cS.updateDocument({
               crew_document_type_id: Number(uploadFile.id),
               link: uploadFile.url
-              ? `${ev.crew_id}/${nameFile}`
+              ? `${ev.vendor_id}/${nameFile}`
               : '',
             });
           }

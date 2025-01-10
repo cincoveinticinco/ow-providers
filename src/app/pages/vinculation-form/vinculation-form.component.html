@@ -4,7 +4,7 @@
     @if (!loading) {
         <h1 class="form-title">Formulario de vinculación - PROVEEDOR</h1>
         <app-previous-answers-vendor [crew]="crew" />
-        <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [crewAnswers]="crewAnswers" />
+        <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [poRequestAnswers]="poRequestAnswers" />
     } @else {
         <div class="loader">
             <div class="custom-loader"></div>

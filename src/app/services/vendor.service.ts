@@ -63,13 +63,6 @@ export class VendorService {
       map((response: any) => response));
   }
 
-  getCrewEmail(crew_id: any) {
-    return this.http.get(`${environment.apiUrl}dynamo/get_crew_and_cast_id`, {
-      params: new HttpParams()
-        .set('id', crew_id)
-    });
-  }
-
   getVinculationInfo(requestId: number) {
     this.setHeaders();
     return this.http.get(`${environment.apiUrl}finance_manager/vinculation_po_request`, {

@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit{
 
   error: string = '';
   view: string = 'home';
-  crewCastEmailSecret: string = '';
+  vendorEmailSecret: string = '';
   token: string = '';
   vendorId: number = 0;
   requestId: number | null = null;
@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit{
   generateToken(){
     this.loading = true;
     this.error = '';
-    this.subs.push(this.auth.generateCrewToken(this.vendorId, this.requestId).subscribe((data:any) => {
-      this.crewCastEmailSecret = data.email;
+    this.subs.push(this.auth.generateVendorToken(this.vendorId, this.requestId).subscribe((data:any) => {
+      this.vendorEmailSecret = data.email;
       if(data.error){
         this.error = data.msg;
         this.loading = false;
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit{
 
   sendToken(){
     this.loading = true;
-    this.subs.push(this.auth.loginCrew(this.token, this.vendorId, this.requestId).subscribe((data:any) => {
+    this.subs.push(this.auth.loginVendor(this.token, this.vendorId, this.requestId).subscribe((data:any) => {
       if(data.error){
         this.error = data.msg;
         this.loading = false;

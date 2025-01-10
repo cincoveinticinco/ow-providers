@@ -28,7 +28,7 @@ export class VinculationFormComponent implements OnInit{
 
   crew: any = null;
 
-  crewAnswers: any[] = [];
+  poRequestAnswers: any[] = [];
   loading: boolean = false;
   lists: any = {};
   view: string = '';
@@ -38,14 +38,15 @@ export class VinculationFormComponent implements OnInit{
   constructor(
     private _cS: VendorService,
     private auth: AuthService,
-    private router: Router,
     private _gS: GlobalService,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.requestId = Number(params.requestId);
+      this.requestId = Number(params?.requestId);
+      this._cS.setVendorId(Number(params?.id));
       this.loadData();
     });
   }
@@ -57,7 +58,7 @@ export class VinculationFormComponent implements OnInit{
         this.crew = data?.data;
         this.crew.id = this.requestId
         this.lists['typeAccounts'] = data?.data?.account_types || [];
-        this.crewAnswers = this.crew.questions || [];
+        this.poRequestAnswers = this.crew.questions || [];
 
         this.loading = false;
       },
@@ -73,23 +74,14 @@ export class VinculationFormComponent implements OnInit{
     this.sendForm();
   }
 
-  sendForm(declineNegotiationConditions: boolean = false, reason?: string) {
+  sendForm() {
     this.loading = true;
     this.changeView();
 
     const formData = this._gS.setVinculationForm(this.currentForm?.value, true);
 
-    this._cS.updateVinculation(formData).pipe(
-      switchMap(() => {
-        var params: any = { second_form: true };
-        if (declineNegotiationConditions) params['decline'] = true;
-        if (reason) params['decline_comment'] = reason;
-
-        return this._cS.changeStatus(params);
-      })
-    ).subscribe(() => {
-        this.loading = false;
-        //this.notify.emit();
+    this._cS.updateVinculation(formData).subscribe(() => {
+      this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.requestId]);
     });
   }
 

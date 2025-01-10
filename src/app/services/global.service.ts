@@ -283,57 +283,57 @@ export class GlobalService {
       info_additional: [
         {
           "vendor_inf_add_type_id": 12, // Madre padre
-          "value": data[('madre_padre')],
+          "answer": data[('madre_padre')],
           "description": data[('madre_padre_description')]  // description
         },
         {
           "vendor_inf_add_type_id": 14, // Información futura 100
-          "value": data[('informacion_futura')]
+          "answer": data[('informacion_futura')]
         },
         {
           "vendor_inf_add_type_id": 16, // Datos otros 103
-          "value": data[('datos_otros')]
+          "answer": data[('datos_otros')]
         },
         {
           "vendor_inf_add_type_id": 17, // Permisos eventos 101
-          "value": data[('permisos_eventos')]
+          "answer": data[('permisos_eventos')]
         },
         {
           "vendor_inf_add_type_id": 18, // Vinculo
-          "value": data[('vinculo')],
+          "answer": data[('vinculo')],
           "description": data[('vinculo_description')]
         },
         {
           "vendor_inf_add_type_id": 20, // Relación
-          "value": data[('relacion')],
+          "answer": data[('relacion')],
           "description": data[('relacion_description')]
         },
         {
           "vendor_inf_add_type_id": 23, // Restricción
-          "value": data[('restriccion')],
+          "answer": data[('restriccion')],
           "description": data[('restriccion_description')]
         },
         {
           "vendor_inf_add_type_id": 24, // alergia
-          "value": data[('alergia')],
+          "answer": data[('alergia')],
           "description": data[('alergia_description')]
         },
         {
           "vendor_inf_add_type_id": 26, // Autorización de medios 102
-          "value": data[('autorizacion_media')]
+          "answer": data[('autorizacion_media')]
         },
         {
           "vendor_inf_add_type_id": 104, // Verificacion datos, nuevo campo
-          "value": data[('verificacion_datos')],
+          "answer": data[('verificacion_datos')],
         },
         {
           "vendor_inf_add_type_id": 105, // REPSE
-          "value": data[('repse')],
+          "answer": data[('repse')],
           "description": data[('repse_register_description')]
         },
         {
           "vendor_inf_add_type_id": 50,
-          "value": data[('lr_actor')],
+          "answer": data[('lr_actor')],
         },
       ],
       emergency_contact_name: data[('nombre_emergencia')],
@@ -511,11 +511,11 @@ export class GlobalService {
           "answer": data[('pec')],
         },
         {
-          "id": 70,
+          "id": 69,
           "answer": data[('ethics_manual')],
         },
         {
-          "id": 71,
+          "id": 70,
           "answer": data[('anti_corruption')],
           "description": data[('anti_corruption_description')]
         },
@@ -716,9 +716,9 @@ export class GlobalService {
     form.get('requirements')?.setValue(this.getQuestionData(75, crewAnswers, 'requirements', form));
     form.get('data_verification')?.setValue(this.getQuestionData(76, crewAnswers, 'data_verification', form));
     form.get('pec')?.setValue(this.getQuestionData(77, crewAnswers, 'pec', form));
-    form.get('anti_corruption')?.setValue(this.getQuestionData(71, crewAnswers, 'anti_corruption', form));
-    form.get('anti_corruption_description')?.setValue(this.getDescription(71, crewAnswers));
-    form.get('ethics_manual')?.setValue(this.getQuestionData(70, crewAnswers, 'ethics_manual', form));
+    form.get('anti_corruption')?.setValue(this.getQuestionData(70, crewAnswers, 'anti_corruption', form));
+    form.get('anti_corruption_description')?.setValue(this.getDescription(70, crewAnswers));
+    form.get('ethics_manual')?.setValue(this.getQuestionData(69, crewAnswers, 'ethics_manual', form));
     form.get('good_faith')?.setValue(this.getQuestionData(72, crewAnswers, 'good_faith', form));
     form.get('oath')?.setValue(this.getQuestionData(73, crewAnswers, 'oath', form));
     form.get('third_parties')?.setValue(this.getQuestionData(74, crewAnswers, 'third_parties', form));
@@ -745,14 +745,14 @@ export class GlobalService {
 
     if (!answer) return null;
 
-    if (answer.value === true && controlName) {
+    if (answer.answer === true && controlName) {
       form.get(`${controlName}_description`)?.setValidators(Validators.required);
     }
-    else if (answer.value !== true && controlName){
+    else if (answer.answer !== true && controlName){
       form.get(`${controlName}_description`)?.removeValidators(Validators.required);
     }
 
-    if (answer) return answer.value === true ? "1" : (answer.value === false ? "0" : null);
+    if (answer) return answer.answer === true ? "1" : (answer.answer === false ? "0" : null);
     else return null;
   }
 

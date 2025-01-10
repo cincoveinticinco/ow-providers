@@ -15,7 +15,6 @@ export class ThanksComponent implements OnInit{
 
   vendorId: number = 0;
   loading: boolean = false;
-  crew: any = null;
   typeRoute: string = '';
 
   constructor(private route: ActivatedRoute, private _cS: VendorService, private auth: AuthService) {}
@@ -30,10 +29,6 @@ export class ThanksComponent implements OnInit{
 
   loadData() {
     this._cS.getVendorInfo().subscribe({
-      next: (data: any) => {
-        this.crew = data.crew[0] || null;
-        this.loading = false;
-      },
       error: (e: any) => {
         if (e.status == 401) this.auth.logOut(this.vendorId);
       }

@@ -11,7 +11,7 @@
                     <button class="btn-center" (click)="generateToken(); view = 'token'">Continuar</button>
                 }
                 @case ('token') {
-                    <p class="align-center">Hemos enviado el token de seguridad a {{ crewCastEmailSecret }}. Por favor ingresa este token para continuar</p>
+                    <p class="align-center">Hemos enviado el token de seguridad a {{ vendorEmailSecret }}. Por favor ingresa este token para continuar</p>
                     <div class="bottom-gap">
                       <app-input-token
                         #tokenInput="ngModel"
@@ -22,7 +22,7 @@
                     <span class="lgl-content">Haz <a (click)="generateToken(); view = 'new-token'">clic acá</a> para generar un nuevo token</span>
                 }
                 @case ('new-token') {
-                    <p class="align-center">Hemos enviado el token de seguridad a {{ crewCastEmailSecret }}. Por favor ingresa este token para continuar</p>
+                    <p class="align-center">Hemos enviado el token de seguridad a {{ vendorEmailSecret }}. Por favor ingresa este token para continuar</p>
                     <button class="btn-center" (click)="setView('token')">Continuar</button>
                 }
             }

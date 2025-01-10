@@ -94,7 +94,7 @@ export class VendorNaturalComponent {
             const fileData = {
               formControlName: controlName,
               value: control.value?.file,
-              crew_id: this._cS.getVendorId(),
+              vendor_id: this._cS.getVendorId(),
             };
             this.onSubmitFile.emit(fileData);
             control.markAsPristine();

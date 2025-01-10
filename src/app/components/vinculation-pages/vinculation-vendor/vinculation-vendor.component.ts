@@ -21,7 +21,7 @@ export class VinculationVendorComponent {
 
   @Input() lists: any = null;
   @Input() crew: any = null;
-  @Input() crewAnswers: any[] = [];
+  @Input() poRequestAnswers: any[] = [];
   @Input() personType: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
@@ -74,7 +74,7 @@ export class VinculationVendorComponent {
 
   ngOnInit(): void {
     if (this.crew) {
-      this._gS.setEditVinculationForm(this.vinculationForm, this.crew, this.crewAnswers);
+      this._gS.setEditVinculationForm(this.vinculationForm, this.crew, this.poRequestAnswers);
     }
     //Subscription
     this.subs.push(this.vinculationForm.valueChanges.subscribe(valor => {

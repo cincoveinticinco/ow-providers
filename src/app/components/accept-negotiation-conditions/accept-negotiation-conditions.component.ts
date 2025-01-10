@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
@@ -13,8 +13,6 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
   styleUrl: './accept-negotiation-conditions.component.scss'
 })
 export class AcceptNegotiationConditionsComponent {
-
-  @Input() crew: any = null;
 
   @Output() onAccept = new EventEmitter<boolean>();
   @Output() onDecline = new EventEmitter<string>();

@@ -13,22 +13,22 @@ export class AuthService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private route: ActivatedRoute) { }
 
-  loginCrew(token: string, vendorId: number, requestId?: number | null) {
+  loginVendor(token: string, vendorId: number, requestId?: number | null) {
     let params = new HttpParams().set('token', token);
     params = params.set('id', vendorId.toString());
     if (requestId) params = params.set('fm_request_po_id', requestId.toString());
 
     return this.http.get(`${environment.apiUrl}finance_manager/validateToken`, {params}).pipe(
-      tap(res => this.setCrewSession(res)),
+      tap(res => this.setVendorSession(res)),
       shareReplay(1)
     )
   }
 
-  private setCrewSession(authResult: any) {
+  private setVendorSession(authResult: any) {
     localStorage.setItem('id_crew_token', authResult.vendor_token);
   }
 
-  generateCrewToken(vendorId: any, requestId?: number | null) {
+  generateVendorToken(vendorId: any, requestId?: number | null) {
     return this.http.post(`${environment.apiUrl}finance_manager/sendToken`, { id: vendorId, fm_request_po_id: requestId }).pipe(
       shareReplay(1)
     )
