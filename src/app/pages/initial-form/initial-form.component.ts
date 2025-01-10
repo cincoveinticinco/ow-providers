@@ -63,6 +63,7 @@ export class InitialFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.vendor) {
       this.setPersonsTypes();
+      this.vendorForm.get('type_persona_id')?.setValue(this.vendor?.f_person_type_id || '');
     }
 
     this.subs.push(this.vendorForm.valueChanges.subscribe(valor => {
