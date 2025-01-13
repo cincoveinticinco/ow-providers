@@ -26,14 +26,14 @@ export class VinculationFormComponent implements OnInit{
 
   readonly TIPOPERSONA = TIPOPERSONA;
 
-  crew: any = null;
+  serviceType: any = null;
 
   poRequestAnswers: any[] = [];
   loading: boolean = false;
   lists: any = {};
   view: string = '';
   currentForm: any = null;
-  requestId: number = 0;
+  serviceTypeId: number = 0;
 
   constructor(
     private _cS: VendorService,
@@ -45,7 +45,7 @@ export class VinculationFormComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.requestId = Number(params?.requestId);
+      this.serviceTypeId = Number(params?.serviceTypeId);
       this._cS.setVendorId(Number(params?.id));
       this.loadData();
     });
@@ -53,12 +53,12 @@ export class VinculationFormComponent implements OnInit{
 
   loadData() {
     this.loading = true;
-    this._cS.getVinculationInfo(this.requestId).subscribe({
+    this._cS.getVinculationInfo(this.serviceTypeId).subscribe({
       next: (data: any) => {
-        this.crew = data?.data;
-        this.crew.id = this.requestId
+        this.serviceType = data?.data;
+        this.serviceType.id = this.serviceTypeId
         this.lists['typeAccounts'] = data?.data?.account_types || [];
-        this.poRequestAnswers = this.crew.questions || [];
+        this.poRequestAnswers = this.serviceType.questions || [];
 
         this.loading = false;
       },
@@ -81,7 +81,7 @@ export class VinculationFormComponent implements OnInit{
     const formData = this._gS.setVinculationForm(this.currentForm?.value, true);
 
     this._cS.updateVinculation(formData).subscribe(() => {
-      this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.requestId]);
+      this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.serviceTypeId]);
     });
   }
 

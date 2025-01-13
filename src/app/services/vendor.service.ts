@@ -63,12 +63,12 @@ export class VendorService {
       map((response: any) => response));
   }
 
-  getVinculationInfo(requestId: number) {
+  getVinculationInfo(serviceTypeId: number) {
     this.setHeaders();
     return this.http.get(`${environment.apiUrl}finance_manager/vinculation_po_request`, {
       headers: this.headers,
       params: new HttpParams()
-        .set('fm_request_po_id', requestId?.toString()),
+        .set('fm_request_po_id', serviceTypeId?.toString()),
     });
   }
 
@@ -84,12 +84,12 @@ export class VendorService {
       map((response: any) => response));
   }
 
-  getDocumentsData(requestId: number) {
+  getDocumentsData(serviceTypeId: number) {
     this.setHeaders();
     return this.http.get(`${environment.apiUrl}finance_manager/list_documents_po`, {
       headers: this.headers,
       params: new HttpParams()
-        .set('fm_request_po_id', requestId?.toString())
+        .set('fm_request_po_id', serviceTypeId?.toString())
     });
   }
 

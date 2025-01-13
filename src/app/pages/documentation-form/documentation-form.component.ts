@@ -21,7 +21,6 @@ import { TypeView } from '../../shared/Interfaces/status_form';
 })
 export class DocumentationFormComponent implements OnInit {
 
-  crew: any = null;
   readonly TIPOPERSONA = TIPOPERSONA;
 
   loading: boolean = true;
@@ -31,7 +30,7 @@ export class DocumentationFormComponent implements OnInit {
   filesDynamic: {[key: number]: string} = {};
   subs: Subscription[] = [];
   errorDocuments: boolean = false;
-  requestId: number = 0;
+  serviceTypeId: number = 0;
 
   constructor(
     private _cS: VendorService,
@@ -45,7 +44,7 @@ export class DocumentationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
-      this.requestId = Number(params?.requestId);
+      this.serviceTypeId = Number(params?.serviceTypeId);
       this._cS.setVendorId(Number(params?.id));
       this.loadData();
     });
@@ -79,7 +78,7 @@ export class DocumentationFormComponent implements OnInit {
 
   loadData() {
     this.loading = true;
-    this.subs.push(this._cS.getDocumentsData(this.requestId).subscribe({
+    this.subs.push(this._cS.getDocumentsData(this.serviceTypeId).subscribe({
       next: (data: any) => {
         this.documents = data?.data || [];
         this.setFormData();

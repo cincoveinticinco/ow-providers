@@ -13,10 +13,10 @@ export class AuthService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient, private route: ActivatedRoute) { }
 
-  loginVendor(token: string, vendorId: number, requestId?: number | null) {
+  loginVendor(token: string, vendorId: number, serviceTypeId?: number | null) {
     let params = new HttpParams().set('token', token);
     params = params.set('id', vendorId.toString());
-    if (requestId) params = params.set('fm_request_po_id', requestId.toString());
+    if (serviceTypeId) params = params.set('fm_request_po_id', serviceTypeId.toString());
 
     return this.http.get(`${environment.apiUrl}finance_manager/validateToken`, {params}).pipe(
       tap(res => this.setVendorSession(res)),
@@ -28,8 +28,8 @@ export class AuthService {
     localStorage.setItem('id_crew_token', authResult.vendor_token);
   }
 
-  generateVendorToken(vendorId: any, requestId?: number | null) {
-    return this.http.post(`${environment.apiUrl}finance_manager/sendToken`, { id: vendorId, fm_request_po_id: requestId }).pipe(
+  generateVendorToken(vendorId: any, serviceTypeId?: number | null) {
+    return this.http.post(`${environment.apiUrl}finance_manager/sendToken`, { id: vendorId, fm_request_po_id: serviceTypeId }).pipe(
       shareReplay(1)
     )
   }

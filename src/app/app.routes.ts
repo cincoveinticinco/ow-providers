@@ -16,7 +16,7 @@ export const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'request/:requestId',
+        path: 'request/:serviceTypeId',
         component: HomeComponent,
       }
     ]
@@ -27,12 +27,12 @@ export const routes: Routes = [
     component: FormsHomeComponent
   },
   {
-    path: 'vinculation/:id/request/:requestId',
+    path: 'vinculation/:id/request/:serviceTypeId',
     canActivate: [authGuard],
     component: VinculationFormComponent
   },
   {
-    path: 'documents/:id/request/:requestId',
+    path: 'documents/:id/request/:serviceTypeId',
     canActivate: [authGuard],
     component: DocumentationFormComponent,
   },

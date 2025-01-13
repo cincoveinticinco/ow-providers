@@ -3,8 +3,8 @@
     <app-lateral-menu></app-lateral-menu>
     @if (!loading) {
         <h1 class="form-title">Formulario de vinculación - PROVEEDOR</h1>
-        <app-previous-answers-vendor [crew]="crew" />
-        <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [crew]="crew" [poRequestAnswers]="poRequestAnswers" />
+        <app-previous-answers-vendor [serviceType]="serviceType" />
+        <app-vinculation-vendor (notify)="submitForm($event)" [lists]="lists" [serviceType]="serviceType" [poRequestAnswers]="poRequestAnswers" />
     } @else {
         <div class="loader">
             <div class="custom-loader"></div>

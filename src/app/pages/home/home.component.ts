@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit{
   vendorEmailSecret: string = '';
   token: string = '';
   vendorId: number = 0;
-  requestId: number | null = null;
+  serviceTypeId: number | null = null;
   loading: boolean = false;
   subs: Subscription[] = [];
 
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     this.subs.push(this.route.params.subscribe((params: any) => {
       this.vendorId = Number(params.id);
-      this.requestId = Number(params?.requestId) || null;
+      this.serviceTypeId = Number(params?.serviceTypeId) || null;
     }));
   }
 
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit{
   generateToken(){
     this.loading = true;
     this.error = '';
-    this.subs.push(this.auth.generateVendorToken(this.vendorId, this.requestId).subscribe((data:any) => {
+    this.subs.push(this.auth.generateVendorToken(this.vendorId, this.serviceTypeId).subscribe((data:any) => {
       this.vendorEmailSecret = data.email;
       if(data.error){
         this.error = data.msg;
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit{
 
   sendToken(){
     this.loading = true;
-    this.subs.push(this.auth.loginVendor(this.token, this.vendorId, this.requestId).subscribe((data:any) => {
+    this.subs.push(this.auth.loginVendor(this.token, this.vendorId, this.serviceTypeId).subscribe((data:any) => {
       if(data.error){
         this.error = data.msg;
         this.loading = false;
@@ -70,10 +70,10 @@ export class HomeComponent implements OnInit{
           this.router.navigate(['complete-form', this.vendorId]);
           break;
         case 2:
-          this.router.navigate(['vinculation', this.vendorId, 'request', this.requestId]);
+          this.router.navigate(['vinculation', this.vendorId, 'request', this.serviceTypeId]);
           break;
         case 3:
-          this.router.navigate(['documents', this.vendorId, 'request', this.requestId]);
+          this.router.navigate(['documents', this.vendorId, 'request', this.serviceTypeId]);
           break;
         default:
           this.router.navigate(['thanks', this.vendorId]);

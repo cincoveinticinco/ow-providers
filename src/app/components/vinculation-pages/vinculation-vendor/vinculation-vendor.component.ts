@@ -20,7 +20,7 @@ import { TypeView } from '../../../shared/Interfaces/status_form';
 export class VinculationVendorComponent {
 
   @Input() lists: any = null;
-  @Input() crew: any = null;
+  @Input() serviceType: any = null;
   @Input() poRequestAnswers: any[] = [];
   @Input() personType: any = null;
 
@@ -73,8 +73,8 @@ export class VinculationVendorComponent {
   }
 
   ngOnInit(): void {
-    if (this.crew) {
-      this._gS.setEditVinculationForm(this.vinculationForm, this.crew, this.poRequestAnswers);
+    if (this.serviceType) {
+      this._gS.setEditVinculationForm(this.vinculationForm, this.serviceType, this.poRequestAnswers);
     }
     //Subscription
     this.subs.push(this.vinculationForm.valueChanges.subscribe(valor => {

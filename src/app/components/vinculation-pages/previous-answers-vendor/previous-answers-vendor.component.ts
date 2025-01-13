@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PreviousAnswersVendorComponent {
 
-  @Input() crew: any = null;
+  @Input() serviceType: any = null;
 
   readonly TIPOPERSONA = TIPOPERSONA;
 
