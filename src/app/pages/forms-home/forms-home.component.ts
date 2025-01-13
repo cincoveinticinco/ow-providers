@@ -65,6 +65,10 @@ export class FormsHomeComponent implements OnInit, OnDestroy {
         this.vendor.ciiu = data?.ciiu || [];
         this.typeView = data?.type_view || null;
 
+        data?.document_vendor?.map((doc: any) => {
+          doc.name = doc.link;
+        });
+
         this._cS.setDocumentsList(data.document_vendor);
 
         this.loading = false;

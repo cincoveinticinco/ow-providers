@@ -86,7 +86,7 @@ export class VendorService {
 
   getDocumentsData(requestId: number) {
     this.setHeaders();
-    return this.http.get(`${environment.apiUrl}dynamo/get_required_documents_List`, {
+    return this.http.get(`${environment.apiUrl}finance_manager/list_documents_po`, {
       headers: this.headers,
       params: new HttpParams()
         .set('fm_request_po_id', requestId?.toString())
@@ -113,9 +113,15 @@ export class VendorService {
 		return this.http.request(req);
 	}
 
-  updateDocument(formData: any){
+  updateVendorDocument(formData: any){
     this.setHeaders();
     return this.http.post(`${environment.apiUrl}finance_manager/add_document_provider`, {...formData}, { headers: this.headers })
+    .pipe(map( response => response))
+  }
+
+  updateDocument(formData: any){
+    this.setHeaders();
+    return this.http.post(`${environment.apiUrl}finance_manager/save_documents_po`, {...formData}, { headers: this.headers })
     .pipe(map( response => response))
   }
 

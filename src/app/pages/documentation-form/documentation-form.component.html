@@ -15,7 +15,7 @@
                 @for (doc of documents; track doc.id) {
                     <div class="content-col m-8">
                         <label [class]="doc.class" style="text-transform: uppercase;">
-                            {{ doc.document_type }}
+                            {{ doc.document_type_esp }}
                         </label>
                         <p class="lbl-eng"></p>
                         <app-filebox [formControlName]="'document_' + doc.id"></app-filebox>

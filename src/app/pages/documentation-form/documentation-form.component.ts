@@ -81,8 +81,9 @@ export class DocumentationFormComponent implements OnInit {
     this.loading = true;
     this.subs.push(this._cS.getDocumentsData(this.requestId).subscribe({
       next: (data: any) => {
-        this.documents = data.f_vendor_document_types || [];
+        this.documents = data?.data || [];
         this.setFormData();
+        this._cS.setDocumentsList(this.documents);
         this.loading = false;
       }
     }));
@@ -136,9 +137,9 @@ export class DocumentationFormComponent implements OnInit {
       (key) =>
       this.filesDynamic[key as unknown as keyof typeof this.filesDynamic] == formControlName
     );
-    const documentId = this._gS.getDocumentLink(fileIdDocument)?.document_id;
+    const document = this._gS.getDocumentLink(fileIdDocument);
     if (!value) {
-      this._cS.deleteDocument(documentId)
+      this._cS.deleteDocument(document?.document_id)
       .subscribe((data) => this.loading = false);
     }
     else {
@@ -174,12 +175,15 @@ export class DocumentationFormComponent implements OnInit {
         switchMap(
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
-            return this._cS.updateDocument({
-              crew_document_type_id: Number(uploadFile.id),
-              link: uploadFile.url
-              ? `${ev.vendor_id}/${nameFile}`
-              : '',
-            });
+            let data: any = {
+              link: uploadFile.urlb ? `${ev.vendor_id}/${nameFile}` : '',
+            }
+            console.log(document);
+
+            if (document?.f_person_type_id) data.f_person_type_id = uploadFile.id;
+            if (document?.pr_service_type_id) data.pr_service_type_id = uploadFile.id;
+
+            return this._cS.updateDocument(data);
           }
         ),
         map((response: any) => {

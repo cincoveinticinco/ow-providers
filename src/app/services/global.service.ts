@@ -764,9 +764,7 @@ export class GlobalService {
 
   getDocumentLink(id: any) {
     let documentsList = this._cS.getDocumentsList();
-    let document = documentsList.find((dl: any) => dl.id == id);
-    const file = document?.link ? { name: document.link, url: document.link, document_id: document?.document_id } : null;
-    return file;
+    return documentsList.find((dl: any) => dl.id == id);
   }
 
   normalizeString(strAccents:string) {

@@ -156,7 +156,7 @@ export class InitialFormComponent implements OnInit {
         switchMap(
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
-            return this._cS.updateDocument({
+            return this._cS.updateVendorDocument({
               f_vendor_document_type_id: Number(uploadFile.id),
               link: uploadFile.url
                 ? `${ev.vendor_id}/${nameFile}`
