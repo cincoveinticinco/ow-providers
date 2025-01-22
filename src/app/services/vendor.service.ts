@@ -137,6 +137,14 @@ export class VendorService {
     .pipe(map( response => response))
   }
 
+
+  sendDocumentsForm() {
+    this.setHeaders();
+    return this.http.get(`${environment.apiUrl}finance_manager/send_documents_vinculation`, {
+      headers: this.headers,
+    });
+  }
+
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 }

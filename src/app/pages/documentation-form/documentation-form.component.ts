@@ -81,6 +81,12 @@ export class DocumentationFormComponent implements OnInit {
     this.subs.push(this._cS.getDocumentsData(this.serviceTypeId).subscribe({
       next: (data: any) => {
         this.documents = data?.data || [];
+        this.documents.map((doc: any) => {
+          doc.link = doc?.f_vendor_document?.link || '';
+          doc.document_id = doc?.f_vendor_document?.id || null;
+          doc.id = doc?.f_vendor_document_type_id || doc?.f_vendor_document?.f_vendor_document_type_id || null;
+        });
+
         this.setFormData();
         this._cS.setDocumentsList(this.documents);
         this.loading = false;
@@ -107,8 +113,8 @@ export class DocumentationFormComponent implements OnInit {
   onSubmit() {
     if (!this.documentForm.invalid) {
       var params = { third_form: true }
-      this.subs.push(this._cS.changeStatus(params).subscribe({
-        next: (data) => {
+      this.subs.push(this._cS.sendDocumentsForm().subscribe({
+        next: (data: any) => {
           if (data?.error) {
             this.errorDocuments = true;
             return;
@@ -143,7 +149,7 @@ export class DocumentationFormComponent implements OnInit {
     }
     else {
       const nameFile = this._gS.normalizeString(value.name);
-      this._cS.getPresignedPutURL(nameFile, ev.vendor_id).pipe(
+      this._cS.getPresignedPutURL(nameFile, ev.serviceTypeId).pipe(
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
@@ -175,12 +181,14 @@ export class DocumentationFormComponent implements OnInit {
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
             let data: any = {
-              link: uploadFile.urlb ? `${ev.vendor_id}/${nameFile}` : '',
+              link: uploadFile.urlb ? `${this.serviceTypeId}/${nameFile}` : 'text.png',
+              f_vendor_document_type_id: fileIdDocument,
             }
+
             console.log(document);
 
-            if (document?.f_person_type_id) data.f_person_type_id = uploadFile.id;
-            if (document?.pr_service_type_id) data.pr_service_type_id = uploadFile.id;
+            if (document?.f_person_type_id) data.f_person_type_id = document.f_person_type_id;
+            if (document?.pr_service_type_id) data.pr_service_type_id = document.pr_service_type_id;
 
             return this._cS.updateDocument(data);
           }
