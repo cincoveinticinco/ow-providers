@@ -14,7 +14,9 @@
                 name="document_type_id">
                 <option disabled value="0">Seleccione una opción</option>
                 @for (opt of document_type_ids; track opt.id) {
+                  @if (opt.id != DocumentType.Nit) {
                     <option [value]="opt.id">{{opt.document_type_esp}}</option>
+                  }
                 } @empty {
                     <option disabled>No hay opciones para mostrar</option>
                 }

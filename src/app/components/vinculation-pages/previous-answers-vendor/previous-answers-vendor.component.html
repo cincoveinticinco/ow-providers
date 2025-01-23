@@ -54,17 +54,17 @@
         <div class="content-col m-4">
             <label>Nombre representante legal</label>
             <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{serviceType?.legal_representative_name || '--'}}</p>
+            <p class="previus-answer small-p">{{serviceType?.legal_representative?.name || '--'}}</p>
         </div>
         <div class="content-col m-4">
             <label>Tipo documento representante legal</label>
             <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{serviceType?.address || '--'}}</p>
+            <p class="previus-answer small-p">{{serviceType?.legal_representative?.f_document_type?.document_type_esp || '--'}}</p>
         </div>
         <div class="content-col m-4">
             <label>Documento representante legal</label>
             <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{serviceType?.legal_representative_document || '--'}}</p>
+            <p class="previus-answer small-p">{{serviceType?.legal_representative?.document || '--'}}</p>
         </div>
     }
 

@@ -84,7 +84,7 @@ export class DocumentationFormComponent implements OnInit {
         this.documents.map((doc: any) => {
           doc.link = doc?.f_vendor_document?.link || '';
           doc.document_id = doc?.f_vendor_document?.id || null;
-          doc.id = doc?.f_vendor_document_type_id || doc?.f_vendor_document?.f_vendor_document_type_id || null;
+          doc.id = doc.f_vendor_document_type_id;
         });
 
         this.setFormData();
