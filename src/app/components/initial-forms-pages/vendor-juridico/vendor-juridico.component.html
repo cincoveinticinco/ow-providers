@@ -79,9 +79,7 @@
                 name="type_regimen_id">
                 <option disabled value="0">Seleccione una opción</option>
                 @for (opt of lists['typeRegimens']; track opt.id) {
-                    @if (opt.id == 1) {
-                        <option [value]="opt.id">{{opt.name}}</option>
-                    }
+                  <option [value]="opt.id">{{opt.name}}</option>
                 } @empty {
                     <option disabled>No hay opciones para mostrar</option>
                 }
