@@ -6,7 +6,7 @@
 @else {
     @switch (typeView) {
         @case (TypeView.InitialForm) {
-            <app-initial-form [lists]="lists" [vendorId]="vendorId" [vendor]="vendor" (notify)="loadData()"></app-initial-form>
+          <app-initial-form [lists]="lists" [vendorId]="vendorId" [vendor]="vendor" (notify)="loadData()"></app-initial-form>
         }
         @default {
             <app-welcome-pending></app-welcome-pending>

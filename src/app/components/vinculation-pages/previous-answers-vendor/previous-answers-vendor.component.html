@@ -88,7 +88,13 @@
     }
 
     <div class="content-col m-4">
-        <label>Pais donde esta creada la empresa</label>
+        <label>
+          @if (serviceType?.f_person_type_id == TIPOPERSONA.Natural) {
+            País
+          } @else {
+            País donde esta creada la empresa
+          }
+        </label>
         <p class="lbl-eng"></p>
         <p class="previus-answer small-p">{{serviceType?.country || '--'}}</p>
     </div>

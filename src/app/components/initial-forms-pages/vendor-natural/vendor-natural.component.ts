@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
+import { DocumentType, TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { VendorService } from '../../../services/vendor.service';
@@ -43,6 +43,7 @@ export class VendorNaturalComponent {
   }
 
   readonly TIPOPERSONA = TIPOPERSONA;
+  readonly DocumentType = DocumentType;
 
   naturalForm: FormGroup;
   document_type_ids: any[] = [];
@@ -61,7 +62,7 @@ export class VendorNaturalComponent {
     private el: ElementRef
   ) {
     this.naturalForm = this.fb.group({
-      name: new FormControl('', Validators.compose([Validators.required, onlyLettersValidator()])),
+      name: new FormControl('', Validators.compose([Validators.required])),
       document_type_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(4), withoutSpacesPoints()])),
       lugar_expedicion: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),

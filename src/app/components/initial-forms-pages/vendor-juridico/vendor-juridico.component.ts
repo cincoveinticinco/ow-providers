@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
+import { DocumentType, TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
 import { TypeView, VERIFICATION_DIGITS } from '../../../shared/Interfaces/status_form';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -36,6 +36,7 @@ export class VendorJuridicoComponent {
 
   readonly TIPOPERSONA = TIPOPERSONA;
   readonly VERIFICATION_DIGITS = VERIFICATION_DIGITS;
+  readonly DocumentType = DocumentType;
 
   @HostListener('submit', ['$event'])
   onFormSubmit() {
@@ -60,9 +61,9 @@ export class VendorJuridicoComponent {
     private el: ElementRef
   ) {
     this.juridicoForm = this.fb.group({
-      name: new FormControl('', Validators.compose([Validators.required, onlyLettersValidator()])),
+      name: new FormControl('', Validators.compose([Validators.required])),
       document: new FormControl('', Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(9), withoutSpacesPoints()])),
-      representante_legal: new FormControl('', [Validators.required, Validators.pattern(/^[^\d]*$/)]),
+      representante_legal: new FormControl('', [Validators.required]),
       f_document_representative: new FormControl('', [Validators.required, withoutSpacesPoints(), onlyNumbersValidator()]),
       manager_name: new FormControl(''),
       manager_email: new FormControl(''),
