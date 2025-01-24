@@ -85,6 +85,8 @@ export class DocumentationFormComponent implements OnInit {
           doc.link = doc?.f_vendor_document?.link || '';
           doc.document_id = doc?.f_vendor_document?.id || null;
           doc.id = doc.f_vendor_document_type_id;
+          doc.allowed_extensions = doc?.allowed_extensions ? doc.allowed_extensions.split(',') : [];
+          console.log(doc);
         });
 
         this.setFormData();
@@ -149,7 +151,7 @@ export class DocumentationFormComponent implements OnInit {
     }
     else {
       const nameFile = this._gS.normalizeString(value.name);
-      this._cS.getPresignedPutURL(nameFile, ev.serviceTypeId, 'poservices').pipe(
+      this._cS.getPresignedPutURL(nameFile, this.serviceTypeId, 'poservices').pipe(
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
@@ -181,7 +183,7 @@ export class DocumentationFormComponent implements OnInit {
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
             let data: any = {
-              link: uploadFile.url ? `${this.serviceTypeId}/${nameFile}` : 'text.png',
+              link: uploadFile.url ? `poservices/${this.serviceTypeId}/${nameFile}` : 'text.png',
               f_vendor_document_type_id: fileIdDocument,
             }
 

@@ -82,7 +82,11 @@ export class VinculationFormComponent implements OnInit{
 
     this._cS.updateVinculation(formData).subscribe({
       next: (data: any) => {
-        this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.serviceTypeId]);
+        if (data?.status_po == 4) {
+          this.router.navigate(['thanks', this._cS.getVendorId()]);
+        } else {
+          this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.serviceTypeId]);
+        }
       }
     });
   }

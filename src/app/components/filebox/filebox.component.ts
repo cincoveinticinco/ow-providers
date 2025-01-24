@@ -1,4 +1,4 @@
-import { Component, Input, Optional, Self } from '@angular/core';
+import { Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { DragAndDropFileDirective } from '../../shared/directives/drag-and-drop-file.directive';
 import { AbstractControl, ControlValueAccessor, FormControl, NgControl, ValidationErrors, Validator } from '@angular/forms';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
@@ -10,9 +10,9 @@ import { DialogComponent } from '../../shared/components/dialog/dialog.component
   templateUrl: './filebox.component.html',
   styleUrl: './filebox.component.scss'
 })
-export class FileboxComponent implements ControlValueAccessor, Validator {
+export class FileboxComponent implements ControlValueAccessor, Validator, OnInit {
 
-  @Input() onlyPdf = false;
+  @Input() allowedExtensions: string[] = [];
 
   onChange = (value: string) => {}
   onTouched = () => {}
@@ -22,11 +22,17 @@ export class FileboxComponent implements ControlValueAccessor, Validator {
   disabled: boolean = false;
   fileName: any;
   view: string = '';
+  allowedExtensionsString: string = '';
 
   constructor(@Optional() @Self() public ngControl: NgControl) {
     if(this.ngControl != null){
       this.ngControl.valueAccessor = this;
     }
+  }
+
+  ngOnInit(): void {
+    if (!this.allowedExtensions?.length) this.allowedExtensions = ['pdf', 'PDF', 'jpeg', 'jpg', 'png'];
+    this.allowedExtensionsString = this.allowedExtensions.map(ext => `.${ext}`).join(', ');
   }
 
   onFileChange(event: Event){

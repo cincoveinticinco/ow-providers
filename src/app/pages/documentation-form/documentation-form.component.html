@@ -18,7 +18,7 @@
                             {{ doc.document_type }}
                         </label>
                         <p class="lbl-eng"></p>
-                        <app-filebox [formControlName]="'document_' + doc.id"></app-filebox>
+                        <app-filebox [formControlName]="'document_' + doc.id" [allowedExtensions]="doc?.allowed_extensions"></app-filebox>
                         <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document_' + doc.id}"></ng-container>
                     </div>
                 }
