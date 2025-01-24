@@ -93,12 +93,13 @@ export class VendorService {
     });
   }
 
-  getPresignedPutURL(filename: string, folder: string) {
+  getPresignedPutURL(filename: string, id: number, folder?: string) {
     this.setHeaders();
-    let params = {
+    let params: any = {
 			'filename': filename,
-			'vendor_id': folder
-		};
+      'vendor_id': id,
+    };
+    if (folder) params.folder = folder;
 		return this.http
 			.post(`${environment.apiUrl}finance/getPresignedUrlService`, params, { headers: this.headers })
 			.pipe(map(response => response));

@@ -149,7 +149,7 @@ export class DocumentationFormComponent implements OnInit {
     }
     else {
       const nameFile = this._gS.normalizeString(value.name);
-      this._cS.getPresignedPutURL(nameFile, ev.serviceTypeId).pipe(
+      this._cS.getPresignedPutURL(nameFile, ev.serviceTypeId, 'poservices').pipe(
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
@@ -181,7 +181,7 @@ export class DocumentationFormComponent implements OnInit {
           (uploadFile: any) => {
             if (!uploadFile) return of(false);
             let data: any = {
-              link: uploadFile.urlb ? `${this.serviceTypeId}/${nameFile}` : 'text.png',
+              link: uploadFile.url ? `${this.serviceTypeId}/${nameFile}` : 'text.png',
               f_vendor_document_type_id: fileIdDocument,
             }
 

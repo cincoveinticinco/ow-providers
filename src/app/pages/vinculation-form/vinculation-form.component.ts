@@ -80,8 +80,10 @@ export class VinculationFormComponent implements OnInit{
 
     const formData = this._gS.setVinculationForm(this.currentForm?.value, true);
 
-    this._cS.updateVinculation(formData).subscribe(() => {
-      this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.serviceTypeId]);
+    this._cS.updateVinculation(formData).subscribe({
+      next: (data: any) => {
+        this.router.navigate(['documents', this._cS.getVendorId(), 'request', this.serviceTypeId]);
+      }
     });
   }
 
