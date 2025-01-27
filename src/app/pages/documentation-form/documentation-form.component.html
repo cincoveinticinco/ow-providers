@@ -15,9 +15,15 @@
                 @for (doc of documents; track doc.id) {
                     <div class="content-col m-8">
                         <label [class]="doc.class" style="text-transform: uppercase;">
-                            {{ doc.document_type }}
+                            {{ doc.document_type }} ({{ doc?.allowed_extensions?.join(', ') }}) {{ doc?.required ? '*' : '' }}
                         </label>
-                        <p class="lbl-eng"></p>
+
+                        @if (!!doc?.description) {
+                          <p class="lbl-eng">
+                            {{ doc.description }}
+                          </p>
+                        }
+
                         <app-filebox [formControlName]="'document_' + doc.id" [allowedExtensions]="doc?.allowed_extensions"></app-filebox>
                         <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document_' + doc.id}"></ng-container>
                     </div>

@@ -117,6 +117,8 @@ label {
 }
 p.lbl-eng {
     margin-bottom: 5px;
+    font-size: var(--size-gap);
+
 }
 
 @for $i from 1 through $max-columns {
