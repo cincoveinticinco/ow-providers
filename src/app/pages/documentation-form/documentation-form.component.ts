@@ -11,11 +11,12 @@ import { Subscription, catchError, map, of, switchMap } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TypeView } from '../../shared/Interfaces/status_form';
+import { DragAndDropFileDirective } from '../../shared/directives/drag-and-drop-file.directive';
 
 @Component({
   selector: 'app-documentation-form',
   standalone: true,
-  imports: [HeaderComponent, LateralMenuComponent, ReactiveFormsModule, FileboxComponent, CommonModule],
+  imports: [HeaderComponent, LateralMenuComponent, ReactiveFormsModule, FileboxComponent, CommonModule, DragAndDropFileDirective],
   templateUrl: './documentation-form.component.html',
   styleUrl: './documentation-form.component.scss'
 })
@@ -200,7 +201,7 @@ export class DocumentationFormComponent implements OnInit {
         })
       )
       .subscribe((value) => {
-        setTimeout(() => { this.loading = false }, 3000)
+        setTimeout(() => { this.loading = false }, 0)
       });
     }
   }

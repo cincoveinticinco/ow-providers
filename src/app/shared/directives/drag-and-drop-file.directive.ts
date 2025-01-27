@@ -33,7 +33,7 @@ export class DragAndDropFileDirective {
     evt.stopPropagation();
     this.colorFondo = 'inherit';
 
-    var archivos = this.multiple ? evt.dataTransfer.files : [evt.dataTransfer.files[0]];
+    var archivos = this.multiple ? evt.dataTransfer.files : (evt.dataTransfer.files?.length ? [evt.dataTransfer.files[0]] : []);
     var archivos_validos: Array<File> = [];
     var archivos_invalidos: Array<File> = [];
 
@@ -42,7 +42,7 @@ export class DragAndDropFileDirective {
         var ext = file.name.split('.')[file.name.split('.').length - 1];
         if (this.extensiones_permitidas.lastIndexOf(ext) != -1 || !this.extensiones_permitidas.length) {
           archivos_validos.push(file);
-        } 
+        }
         else {
           archivos_invalidos.push(file);
           this.colorFondo = 'var(--background-light-color)';
@@ -54,6 +54,7 @@ export class DragAndDropFileDirective {
         }
       }
     }
+
     this.onChangeFile.emit(archivos_validos);
     this.onInvalidFile.emit(archivos_invalidos);
   }
