@@ -79,13 +79,11 @@
         <p class="previus-answer small-p">{{serviceType?.vendor_phone || '--'}}</p>
     </div>
 
-    @if (serviceType?.f_person_type_id == TIPOPERSONA.Juridica) {
-        <div class="content-col m-4">
-            <label>Tipo de regimen</label>
-            <p class="lbl-eng"></p>
-            <p class="previus-answer small-p">{{serviceType?.f_contractor_regime_type || '--'}}</p>
-        </div>
-    }
+    <div class="content-col m-4">
+        <label>Tipo de regimen</label>
+        <p class="lbl-eng"></p>
+        <p class="previus-answer small-p">{{serviceType?.f_contractor_regime_type || '--'}}</p>
+    </div>
 
     <div class="content-col m-4">
         <label>
