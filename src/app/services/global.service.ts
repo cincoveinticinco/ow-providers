@@ -6,7 +6,6 @@ import { Countries } from '../shared/Interfaces/company_centers';
 import { withoutSpacesPoints } from '../shared/validators/without-spaces-points.validator';
 import { onlyNumbersValidator } from '../shared/validators/only-numbers.validator';
 import { lettersAndNumbersValidator } from '../shared/validators/only-letters-numbers.validator';
-import { DocumentType } from '../shared/Interfaces/typo_persona';
 
 @Injectable({
   providedIn: 'root'

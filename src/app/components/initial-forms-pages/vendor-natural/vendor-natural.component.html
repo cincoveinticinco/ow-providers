@@ -26,7 +26,7 @@
         <div class="content-col m-5">
             <label>Número de identificación *</label>
             <p class="lbl-eng"></p>
-            <input type="text" name="document" formControlName="document" [maxlength]="naturalForm.get('document_type_id')?.value == DocumentType.CC ? 10 : null">
+            <input type="text" name="document" formControlName="document" [maxlength]="naturalForm.get('document_type_id')?.value == DocumentType.CC ? 10 : 20">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'document'}"></ng-container>
         </div>
         <div class="content-col m-4">
