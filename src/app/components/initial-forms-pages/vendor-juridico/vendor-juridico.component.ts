@@ -68,7 +68,7 @@ export class VendorJuridicoComponent {
       manager_name: new FormControl(''),
       manager_email: new FormControl(''),
       responsible_f_document_type_id: new FormControl(0),
-      pais_id: new FormControl({value: 0, disabled: true}, Validators.compose([Validators.required, Validators.pattern(/^[1-9]\d*$/)])),
+      pais_id: new FormControl(34, Validators.required),
       jurisdiccion_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       actividad_economica_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),
       industria_id: new FormControl(0, [Validators.required, Validators.pattern(/^[1-9]\d*$/)]),

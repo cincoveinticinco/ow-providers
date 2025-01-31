@@ -547,7 +547,7 @@ export class GlobalService {
     form.get('document')?.setValue(provider?.document || '');
     form.get('lugar_expedicion')?.setValue(provider?.expedition_place || '');
     form.get('nacionalidad')?.setValue(provider?.nationality || '');
-    form.get('pais_id')?.setValue(provider?.country_id || 0);
+    form.get('pais_id')?.setValue(provider?.country_id || 34);
     form.get('jurisdiccion_id')?.setValue(provider?.d_jurisdiction_id || 0);
     form.get('actividad_economica_id')?.setValue(provider?.f_vendor_economic_act_id || 0);
     form.get('industria_id')?.setValue(provider?.d_industry_id || 0);
@@ -611,7 +611,7 @@ export class GlobalService {
     form.get('f_nacionalidad_representative')?.setValue(vendor?.city_representative|| '');
     form.get('direccion')?.setValue(vendor?.address || '');
     form.get('colonia')?.setValue(vendor?.population || '');
-    form.get('pais_id')?.setValue(vendor?.country_id || 0);
+    form.get('pais_id')?.setValue(vendor?.country_id || 34);
     form.get('pais')?.setValue(vendor?.nationality || 0);
     form.get('jurisdiccion_id')?.setValue(vendor?.d_jurisdiction_id || 0);
     form.get('actividad_economica_id')?.setValue(vendor?.f_vendor_economic_act_id || 0);

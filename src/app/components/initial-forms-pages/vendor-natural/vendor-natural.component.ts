@@ -71,7 +71,7 @@ export class VendorNaturalComponent {
       direccion: new FormControl('', Validators.required),
       type_regimen_id: new FormControl(null, Validators.required),
       rut_vendors: new FormControl(null, Validators.required),
-      pais_id: new FormControl({value: 0, disabled: true}),
+      pais_id: new FormControl(34),
       jurisdiccion_id: new FormControl(0),
       actividad_economica_id: new FormControl(0),
       industria_id: new FormControl(0),
