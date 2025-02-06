@@ -140,7 +140,7 @@
                     <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ciiu'}"></ng-container>
                 </div>
 
-                @if (i == 0) {
+                @if (i == 0 && ciiu.controls.length < 4) {
                     <div class="content-col m-4 left-ciiu">
                         <div class="add-ciiu" (click)="addCiiu()">
                             <button type="button" class="add-button">

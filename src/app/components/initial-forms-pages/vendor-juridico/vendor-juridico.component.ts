@@ -184,7 +184,7 @@ export class VendorJuridicoComponent {
   }
 
   addCiiu() {
-    this.ciiu.push(new FormControl('', Validators.pattern('^[0-9]*$')));
+    this.ciiu.push(new FormControl('', [Validators.pattern('^[0-9]*$'), Validators.required]));
   }
 
   deleteCiiu(index: number) {
