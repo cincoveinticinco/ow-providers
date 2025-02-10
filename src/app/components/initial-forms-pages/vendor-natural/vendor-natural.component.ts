@@ -48,6 +48,7 @@ export class VendorNaturalComponent {
   naturalForm: FormGroup;
   document_type_ids: any[] = [];
   jurisdicciones: any[] = [];
+  filteredJurisdicciones: any[] = [];
   actividadesEconomicas: any[] = [];
   industrias: any[] = [];
   paises: any[] = [];
@@ -109,6 +110,12 @@ export class VendorNaturalComponent {
       };
       this._cS.setGeneralForm(data);
     }));
+
+    this.subcribeForm();
+  }
+
+  subcribeForm() {
+    this.naturalForm.get('pais_id')?.valueChanges.subscribe(() => this.filterJurisdicciones());
   }
 
   setData() {
@@ -117,6 +124,7 @@ export class VendorNaturalComponent {
     }
 
     this.jurisdicciones = this.lists['jurisdicciones'];
+    this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.jurisdicciones));
     this.actividadesEconomicas = this.lists['economicActivities'];
     this.industrias = this.lists['industrias'];
     this.paises = this.lists['paises'];
@@ -172,6 +180,14 @@ export class VendorNaturalComponent {
 
   deleteCiiu(index: number) {
     this.ciiu.removeAt(index);
+  }
+
+  filterJurisdicciones() {
+    if (this.naturalForm.get('pais_id')?.value == Countries.Col) {
+      this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.jurisdicciones));
+    } else {
+      this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.lists['foreigner_jurisdiction']));
+    }
   }
 
   ngOnDestroy() {

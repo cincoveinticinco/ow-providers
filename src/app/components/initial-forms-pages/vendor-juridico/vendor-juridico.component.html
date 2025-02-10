@@ -122,7 +122,7 @@
                 formControlName="jurisdiccion_id"
                 name="jurisdiccion_id">
                 <option disabled value="0">Seleccione una opción</option>
-                @for (opt of jurisdicciones; track opt.id) {
+                @for (opt of filteredJurisdicciones; track opt.id) {
                     <option [value]="opt.id">{{opt.name}}</option>
                 } @empty {
                     <option disabled>No hay opciones para mostrar</option>
