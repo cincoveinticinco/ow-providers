@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask';
 import { Countries } from '../../../shared/Interfaces/company_centers';
-import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
 import { TypeView } from '../../../shared/Interfaces/status_form';
 
 @Component({
@@ -175,7 +174,7 @@ export class VendorNaturalComponent {
   }
 
   addCiiu() {
-    this.ciiu.push(new FormControl('', Validators.pattern('^[0-9]*$')));
+    this.ciiu.push(new FormControl('', [Validators.pattern('^[0-9]*$'), Validators.required]));
   }
 
   deleteCiiu(index: number) {

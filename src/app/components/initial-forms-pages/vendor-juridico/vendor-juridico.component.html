@@ -134,7 +134,7 @@
         <ng-container formArrayName="ciiu">
             @for (CIIU of ciiu.controls; track $index; let i = $index) {
                 <div class="content-col m-4">
-                    <label>CIIU</label>
+                    <label>CIIU *</label>
                     <p class="lbl-eng"></p>
                     <input type="text" name="ciiu_{{i}}" [formControlName]="i" mask="0000" [maxlength]="4">
                     <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ciiu'}"></ng-container>

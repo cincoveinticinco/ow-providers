@@ -143,13 +143,13 @@
         <ng-container formArrayName="ciiu">
             @for (CIIU of ciiu.controls; track $index; let i = $index) {
                 <div class="content-col m-4">
-                    <label>CIIU</label>
+                    <label>CIIU *</label>
                     <p class="lbl-eng"></p>
                     <input type="text" name="ciiu_{{i}}" [formControlName]="i" mask="0000" [maxlength]="4">
                     <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'ciiu'}"></ng-container>
                 </div>
 
-                @if (i == 0) {
+                @if (i == 0 && ciiu.controls.length < 4) {
                     <div class="content-col m-4 left-ciiu">
                         <div class="add-ciiu" (click)="addCiiu()">
                             <button type="button" class="add-button">

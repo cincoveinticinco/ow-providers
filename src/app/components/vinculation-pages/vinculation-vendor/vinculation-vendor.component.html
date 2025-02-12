@@ -6,7 +6,7 @@
         <div class="content-col m-8">
             <label>No. Cuenta bancaria para pago *</label>
             <p class="lbl-eng"></p>
-            <input type="number" name="numero_cuenta" formControlName="numero_cuenta">
+            <input type="text" name="numero_cuenta" formControlName="numero_cuenta">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'numero_cuenta'}"></ng-container>
         </div>
         <div class="content-col m-4">
