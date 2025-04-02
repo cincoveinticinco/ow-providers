@@ -9,5 +9,6 @@ export enum TIPOPERSONA {
 
 export enum DocumentType {
   CC = 13,
+  PASSPORT = 15,
   Nit = 16,
 }

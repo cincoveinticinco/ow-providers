@@ -147,6 +147,16 @@ export class VendorNaturalComponent {
     return control.value instanceof FileList;
   }
 
+  changePatterDocument() {
+    if (this.naturalForm.get('document_type_id')?.value == DocumentType.PASSPORT) {
+      this.naturalForm.get('document')?.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/), Validators.minLength(4), withoutSpacesPoints()]);
+    } else {
+      this.naturalForm.get('document')?.setValidators([Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(4), withoutSpacesPoints()]);
+    }
+
+    this.naturalForm.get('document')?.updateValueAndValidity();
+  }
+
   setDescriptionControl(control: any, nameControl: string) {
     if (control == 1) {
       this.naturalForm.get(`${nameControl}_description`)?.setValidators(Validators.required);

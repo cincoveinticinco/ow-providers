@@ -10,6 +10,7 @@
             <label>Tipo de identificación *</label>
             <p class="lbl-eng"></p>
             <select
+                (ngModelChange)="changePatterDocument()"
                 formControlName="document_type_id"
                 name="document_type_id">
                 <option disabled value="0">Seleccione una opción</option>
