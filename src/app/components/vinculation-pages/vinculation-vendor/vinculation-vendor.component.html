@@ -6,7 +6,7 @@
         <div class="content-col m-8">
             <label>No. Cuenta bancaria para pago *</label>
             <p class="lbl-eng"></p>
-            <input type="number" name="numero_cuenta" formControlName="numero_cuenta">
+            <input type="text" name="numero_cuenta" formControlName="numero_cuenta">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'numero_cuenta'}"></ng-container>
         </div>
         <div class="content-col m-4">
@@ -112,51 +112,28 @@
                 Para nosotros es muy importante estar en contacto con usted, por ello deseamos contar con su autorización a LA PRODUCTORA para la recolección, almacenamiento y uso de los datos para las finalidades que se relacionan a continuación adicionales a las propias derivadas del contrato suscrito entre las partes. (Aplica para proveedores localizados dentro y fuera de Colombia)
             </p>
         </div>
+
+
         <div class="content-col m-8">
-            <label class="large-txt">Atender los requerimientos por parte de las áreas involucradas en cuanto a alternativas de proveedores efectivos para la prestación de servicios y realizar cotizaciones *</label>
-            <p class="lbl-eng"></p>
-            <div class="input-choose-option">
-                <label><input name="requirements" type="radio" value="1" formControlName="requirements" (ngModelChange)="setDescriptionControl($event, 'requirements')"> Si</label>
-                <label><input name="requirements" type="radio" value="0" formControlName="requirements" (ngModelChange)="setDescriptionControl($event, 'requirements')"> No</label>
-            </div>
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'requirements'}"></ng-container>
-        </div>
-        <div class="content-col m-8">
-            <label>Invitar a eventos y capacitaciones *</label>
-            <p class="lbl-eng"></p>
-            <div class="input-choose-option">
-                <label><input name="permisos_eventos" type="radio" value="1" formControlName="permisos_eventos"> Si</label>
-                <label><input name="permisos_eventos" type="radio" value="0" formControlName="permisos_eventos"> No</label>
-            </div>
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'permisos_eventos'}"></ng-container>
-        </div>
-        <div class="content-col m-8">
-            <label class="large-txt">Utilizar fotos e imágenes en páginas web, redes sociales, prensa escrita y digital *</label>
-            <p class="lbl-eng"></p>
-            <div class="input-choose-option">
-                <label><input name="autorizacion_media" type="radio" value="1" formControlName="autorizacion_media"> Si</label>
-                <label><input name="autorizacion_media" type="radio" value="0" formControlName="autorizacion_media"> No</label>
-            </div>
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'autorizacion_media'}"></ng-container>
-        </div>
-        <div class="content-col m-8">
-            <label class="large-txt">Compartir datos con contratistas, productores, empresas y agentes del mercado, siempre y cuando tenga relación con el desarrollo de las actividades propias de la industria de producción de material audiovisual *</label>
-            <p class="lbl-eng"></p>
-            <div class="input-choose-option">
-                <label><input name="datos_otros" type="radio" value="1" formControlName="datos_otros"> Si</label>
-                <label><input name="datos_otros" type="radio" value="0" formControlName="datos_otros"> No</label>
-            </div>
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'datos_otros'}"></ng-container>
-        </div>
-        <div class="content-col m-8">
-            <label class="large-txt">Realizar verificación de datos y referencias *</label>
-            <p class="lbl-eng"></p>
-            <div class="input-choose-option">
-                <label><input name="data_verification" type="radio" value="1" formControlName="data_verification"> Si</label>
-                <label><input name="data_verification" type="radio" value="0" formControlName="data_verification"> No</label>
-            </div>
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'data_verification'}"></ng-container>
-        </div>
+          <ol class="small-p">
+              <li>Consolidar información para contactar para futuros proyectos.</li>
+              <li>Utilizar fotos e imágenes en páginas web, redes sociales, prensa escrita y digital.</li>
+              <li>Gestionar permisos para entidades y los permisos de ingresos a locaciones.</li>
+              <li>Compartir los datos personales con otros productores, empresas y agentes del mercado, siempre y cuando sea necesario y útil para fines de proyecto.</li>
+              <li>Invitación a eventos y capacitaciones.</li>
+          </ol>
+      </div>
+      <div class="content-col m-8">
+        <label class="small-p" style="margin: 0; cursor: pointer; margin-bottom: 10px;">
+            <input type="checkbox" class="checkbox-p" formControlName="tratamiento_datos_personales" name="tratamiento_datos_personales">
+            Autorizo el uso de mis datos para los fines
+            mencionados, los cuales hacen parte la Política de tratamiento de Datos Personales,
+            publicada en la
+            <a href="https://dynamo.net/es/politicas-de-tratamiento-de-datos-personales/" target="_blank">página web</a>
+            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'tratamiento_datos_personales'}"></ng-container>
+          </label>
+      </div>
+
         <div class="content-col m-8">
             <p class="small-p">
                 En cumplimento de la Ley Estatutaria 1581 de 2012, reglamentada por el Decreto No. 1377 de 2013, así como en lo dispuesto por el Concepto 235910 de 2013 como Titular de la información tiene derecho a conocer, actualizar y rectificar sus datos personales, solicitar prueba de la autorización otorgada para su tratamiento, ser informado sobre el uso que se ha dado a los mismos, presentar quejas ante la SIC por infracción a la ley, revocar la autorización y/o solicitar la supresión de sus datos en los casos en que sea procedente y acceder en forma gratuita a los mismos. Nuestra política de tratamiento de la información puede ser consultada en nuestra página web.

@@ -49,16 +49,11 @@ export class VinculationVendorComponent {
     this.vinculationForm = this.fb.group({
       fm_request_po_id: new FormControl(null),
       //Yes or no
-      autorizacion_media: new FormControl('', Validators.required),
-      datos_otros: new FormControl('', Validators.required),
-      permisos_eventos: new FormControl('', Validators.required),
       poliza: new FormControl('', Validators.required),
       vinculo: new FormControl('', Validators.required),
       vinculo_description: new FormControl(''),
       relacion: new FormControl('', Validators.required),
       relacion_description: new FormControl(''),
-      requirements: new FormControl('', Validators.required),
-      data_verification: new FormControl('', Validators.required),
       pec: new FormControl('', Validators.required),
       ethics_manual: new FormControl('', Validators.required),
       anti_corruption: new FormControl('', Validators.required),
@@ -69,6 +64,7 @@ export class VinculationVendorComponent {
       numero_cuenta: new FormControl(null, Validators.required),
       nombre_banco: new FormControl('', Validators.required),
       type_cuenta_id: new FormControl(null, Validators.required),
+      tratamiento_datos_personales: new FormControl(false, Validators.requiredTrue),
     });
   }
 

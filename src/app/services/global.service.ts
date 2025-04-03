@@ -598,7 +598,7 @@ export class GlobalService {
   }
 
   addCiiu(form: FormGroup, ciiu: any) {
-    const control = new FormControl(ciiu?.ciiu || '', Validators.pattern('^[0-9]*$'));
+    const control = new FormControl(ciiu?.ciiu || '', [Validators.pattern('^[0-9]*$'), Validators.required]);
     (<FormArray>form.get('ciiu')).push(control);
   }
 

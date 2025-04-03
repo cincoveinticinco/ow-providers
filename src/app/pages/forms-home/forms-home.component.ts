@@ -50,6 +50,7 @@ export class FormsHomeComponent implements OnInit, OnDestroy {
     this.subs.push(this._cS.getVendorInfo().subscribe({
       next: (data: any) => {
         this.lists['jurisdicciones'] = data.jurisdiction || [];
+        this.lists['foreigner_jurisdiction'] = data.foreigner_jurisdiction || [];
         this.lists['actividadesEconomicas'] = data.economic_activity || [];
         this.lists['industrias'] = data.industry || [];
         this.lists['paises'] = data.countries || [];
@@ -61,6 +62,7 @@ export class FormsHomeComponent implements OnInit, OnDestroy {
         this.lists['rFiscales'] = data.f_contractor_regime_type || [];
         this.lists['generos'] = data.gender || [];
         this.lists['tiposSangre'] = data.blood_type || [];
+
         this.vendor = data.vendor[0] || null;
         this.vendor.ciiu = data?.ciiu || [];
         this.typeView = data?.type_view || null;

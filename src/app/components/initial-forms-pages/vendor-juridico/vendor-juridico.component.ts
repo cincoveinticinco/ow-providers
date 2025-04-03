@@ -12,6 +12,7 @@ import { FileboxComponent } from '../../filebox/filebox.component';
 import { NgxMaskDirective } from 'ngx-mask'
 import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
 import { onlyNumbersValidator } from '../../../shared/validators/only-numbers.validator';
+import { Countries } from '../../../shared/Interfaces/company_centers';
 
 @Component({
   selector: 'app-vendor-juridico',
@@ -48,6 +49,7 @@ export class VendorJuridicoComponent {
 
   juridicoForm: FormGroup;
   jurisdicciones: any[] = [];
+  filteredJurisdicciones: any[] = [];
   actividadesEconomicas: any[] = [];
   industrias: any[] = [];
   paises: any[] = [];
@@ -126,10 +128,17 @@ export class VendorJuridicoComponent {
       };
       this._cS.setGeneralForm(data);
     }));
+
+    this.subcribeForm();
+  }
+
+  subcribeForm() {
+    this.juridicoForm.get('pais_id')?.valueChanges.subscribe(() => this.filterJurisdicciones());
   }
 
   setData() {
     this.jurisdicciones = this.lists['jurisdicciones'];
+    this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.jurisdicciones));
     this.actividadesEconomicas = this.lists['actividadesEconomicas'];
     this.industrias = this.lists['industrias'];
     this.paises = this.lists['paises'];
@@ -189,6 +198,14 @@ export class VendorJuridicoComponent {
 
   deleteCiiu(index: number) {
     this.ciiu.removeAt(index);
+  }
+
+  filterJurisdicciones() {
+    if (this.juridicoForm.get('pais_id')?.value == Countries.Col) {
+      this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.jurisdicciones));
+    } else {
+      this.filteredJurisdicciones = JSON.parse(JSON.stringify(this.lists['foreigner_jurisdiction']));
+    }
   }
 
   ngOnDestroy() {
