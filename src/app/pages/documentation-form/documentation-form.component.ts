@@ -86,7 +86,6 @@ export class DocumentationFormComponent implements OnInit {
           doc.document_id = doc?.f_vendor_document?.id || null;
           doc.id = doc.f_vendor_document_type_id;
           doc.allowed_extensions = doc?.allowed_extensions ? doc.allowed_extensions.split(',') : [];
-          console.log(doc);
         });
 
         this.setFormData();
@@ -185,9 +184,7 @@ export class DocumentationFormComponent implements OnInit {
             let data: any = {
               link: uploadFile.url ? `poservices/${this.serviceTypeId}/${nameFile}` : 'text.png',
               f_vendor_document_type_id: fileIdDocument,
-            }
-
-            console.log(document);
+            };
 
             if (document?.f_person_type_id) data.f_person_type_id = document.f_person_type_id;
             if (document?.pr_service_type_id) data.pr_service_type_id = document.pr_service_type_id;

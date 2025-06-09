@@ -13,6 +13,7 @@ import { NgxMaskDirective } from 'ngx-mask'
 import { onlyLettersValidator } from '../../../shared/validators/only-letters.validator';
 import { onlyNumbersValidator } from '../../../shared/validators/only-numbers.validator';
 import { Countries } from '../../../shared/Interfaces/company_centers';
+import { NumberUtils } from '../../../shared/utils/number.utils';
 
 @Component({
   selector: 'app-vendor-juridico',
@@ -94,7 +95,7 @@ export class VendorJuridicoComponent {
       manager_telephone: new FormControl(''),
       autorizacion_datos: new FormControl(false, Validators.compose([Validators.requiredTrue])),
       actor_pep_description: new FormControl(''),
-      verification_digit: new FormControl(null, Validators.required),
+      verification_digit: new FormControl({ value: null, disabled: true }, Validators.required),
     });
   }
 
@@ -134,6 +135,15 @@ export class VendorJuridicoComponent {
 
   subcribeForm() {
     this.juridicoForm.get('pais_id')?.valueChanges.subscribe(() => this.filterJurisdicciones());
+    this.juridicoForm.get('document')?.valueChanges.subscribe((value) => {
+      this.setVerificationDigit();
+    });
+  }
+
+  setVerificationDigit() {
+    this.juridicoForm.get('verification_digit')?.setValue(
+      NumberUtils.getVerificationDigit(this.juridicoForm.get('document')?.value)
+    );
   }
 
   setData() {
@@ -148,11 +158,12 @@ export class VendorJuridicoComponent {
     if (this.vendor) {
       this._gS.setEditInitialForm(this.juridicoForm, this.vendor);
     }
+
+    this.setVerificationDigit();
     this.updateControls();
   }
 
   submitForm() {
-    console.log(this.juridicoForm);
     if (!this.juridicoForm.invalid) {
       this.notify.emit(this.juridicoForm);
     }

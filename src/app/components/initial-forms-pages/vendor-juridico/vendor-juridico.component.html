@@ -33,22 +33,15 @@
         <div class="content-col m-1">
             <label>DV*</label>
             <p class="lbl-eng"></p>
-            <select
-                formControlName="verification_digit"
-                name="verification_digit">
-                <option disabled value="0">Seleccione una opción</option>
-                @for (opt of VERIFICATION_DIGITS; track opt.id) {
-                    <option [value]="opt.id">{{opt.name}}</option>
-                }
-            </select>
+            <input type="text" name="verification_digit" formControlName="verification_digit">
             <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'verification_digit'}"></ng-container>
         </div>
 
         <div class="content-col m-8">
-            <label>Nombre representante legal *</label>
-            <p class="lbl-eng"></p>
-            <input type="text" name="representante_legal" formControlName="representante_legal">
-            <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'representante_legal'}"></ng-container>
+          <label>Nombre representante legal *</label>
+          <p class="lbl-eng"></p>
+          <input type="text" name="representante_legal" formControlName="representante_legal">
+          <ng-container *ngTemplateOutlet="errorTemplate; context:{'control': 'representante_legal'}"></ng-container>
         </div>
         <div class="content-col m-3">
             <label>Tipo documento representante legal *</label>
