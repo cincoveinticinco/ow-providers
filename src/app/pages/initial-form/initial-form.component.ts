@@ -97,6 +97,8 @@ export class InitialFormComponent implements OnInit {
     this.formData = this._gS.setInitialForm(this.vendorForm.get('type_persona_id')?.value, ev.value);
     this.sortVendor = sortVendor;
 
+    await lastValueFrom(this._cS.updateVendor(this.formData));
+
     const { error, error_code, name, document } = await lastValueFrom(this._cS.getValidateInfoDocument());
     if (error) {
       switch (error_code) {
@@ -113,11 +115,12 @@ export class InitialFormComponent implements OnInit {
       }
       return;
     }
-    this._cS.updateVendor(this.formData).pipe(
-      switchMap(() => {
-        return this._cS.changeStatus();
-      })
-    ).subscribe(() => {
+    //todo: change updatevendor function to call before of getValidateInfoDocument
+    // this._cS.updateVendor(this.formData).pipe(
+    //   switchMap(() => {
+    //     return this._cS.changeStatus();
+    //   })
+    this._cS.changeStatus().subscribe(() => {
       this.router.navigate(['thanks', this.vendorId]);
 
       this.loading = false;
