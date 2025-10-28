@@ -27,14 +27,42 @@
     </form>
 
     @if (TIPOPERSONA.Natural == vendorForm.get('type_persona_id')?.value || TIPOPERSONA.Fisica == vendorForm.get('type_persona_id')?.value) {
-        <app-vendor-natural [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+        <app-vendor-natural [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event, 'natural')" (onSubmitFile)="submitFile($event)" [newData]="newData" />
     }
     @if (TIPOPERSONA.Juridica == vendorForm.get('type_persona_id')?.value || TIPOPERSONA.Moral == vendorForm.get('type_persona_id')?.value) {
-        <app-vendor-juridico [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event)" (onSubmitFile)="submitFile($event)" />
+        <app-vendor-juridico [lists]="lists" [vendor]="vendor" [typePerson]="vendorForm.get('type_persona_id')?.value" (notify)="sendForm($event, 'juridica')" (onSubmitFile)="submitFile($event)" [newData]="newData" />
     }
 </div>
 @if (loading) {
     <div class="sp-loader-container">
         <div class="custom-loader"></div>
     </div>
+}
+
+
+@if (view == 'error-document') {
+  <app-dialog
+    type="alert"
+    title="Documento ilegible"
+    message="La cédula no es legible y debes cargar una nueva cédula para validación de los datos."
+    (closeModal)="changeView()">
+  </app-dialog>
+}
+
+@if (view == 'error-data-incorrect') {
+  <app-dialog
+    type="confirmation"
+    title="Datos incorrectos"
+    message="
+    Los datos de la cédula no coinciden con los datos proporcionados.
+    <br>
+    ¿Deseas confirmar los siguientes datos?
+    <br>
+    <br>
+    Nombre: {{ correctName }}
+    <br>
+    Cédula: {{ correctDocument }}"
+    (confirmModal)="confirmCorrectData()"
+    (closeModal)="changeView()">
+  </app-dialog>
 }

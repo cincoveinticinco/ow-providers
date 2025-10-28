@@ -146,6 +146,13 @@ export class VendorService {
     });
   }
 
+  getValidateInfoDocument() {
+    this.setHeaders();
+    return this.http.get<{error: boolean, error_code: number, document: string, name: string}>(`${environment.apiUrl}finance_manager/get_validate_info_document`, {
+      headers: this.headers,
+    });
+  }
+
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 }

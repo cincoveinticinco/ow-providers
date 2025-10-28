@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } 
 import { TIPOPERSONA } from '../../shared/Interfaces/typo_persona';
 import { LateralMenuComponent } from '../../components/lateral-menu/lateral-menu.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { Subscription, catchError, map, of, switchMap } from 'rxjs';
+import { Subscription, catchError, lastValueFrom, map, of, switchMap } from 'rxjs';
 import { info_files } from '../../shared/Interfaces/files_types';
 import { GlobalService } from '../../services/global.service';
 import { HttpEventType } from '@angular/common/http';
@@ -14,6 +14,7 @@ import { VendorNaturalComponent } from '../../components/initial-forms-pages/ven
 import { VendorJuridicoComponent } from '../../components/initial-forms-pages/vendor-juridico/vendor-juridico.component';
 import { Countries } from '../../shared/Interfaces/company_centers';
 import { TypeView } from '../../shared/Interfaces/status_form';
+import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-initial-form',
@@ -21,7 +22,7 @@ import { TypeView } from '../../shared/Interfaces/status_form';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-
+    DialogComponent,
     HeaderComponent,
     LateralMenuComponent,
     VendorNaturalComponent,
@@ -48,6 +49,12 @@ export class InitialFormComponent implements OnInit {
   ];
   vendorForm: FormGroup;
   subs: Subscription[] = [];
+  view: string = '';
+  correctName: string = '';
+  correctDocument: string = '';
+  newData: any = null;
+  formData: any = null;
+  sortVendor: 'natural' | 'juridica' = 'natural';
 
   constructor(
     private _cS: VendorService,
@@ -85,11 +92,28 @@ export class InitialFormComponent implements OnInit {
     }
   }
 
-  sendForm(ev: any) {
+  async sendForm(ev: any, sortVendor: 'natural' | 'juridica' = 'natural') {
     this.loading = true;
-    const formData = this._gS.setInitialForm(this.vendorForm.get('type_persona_id')?.value, ev.value);
+    this.formData = this._gS.setInitialForm(this.vendorForm.get('type_persona_id')?.value, ev.value);
+    this.sortVendor = sortVendor;
 
-    this._cS.updateVendor(formData).pipe(
+    const { error, error_code, name, document } = await lastValueFrom(this._cS.getValidateInfoDocument());
+    if (error) {
+      switch (error_code) {
+        case 1:
+          this.changeView('error-document');
+          this.loading = false;
+          break;
+        case 2:
+          this.correctDocument = document;
+          this.correctName = name;
+          this.changeView('error-data-incorrect');
+          this.loading = false;
+          break;
+      }
+      return;
+    }
+    this._cS.updateVendor(this.formData).pipe(
       switchMap(() => {
         return this._cS.changeStatus();
       })
@@ -98,6 +122,22 @@ export class InitialFormComponent implements OnInit {
 
       this.loading = false;
     });
+  }
+
+  async confirmCorrectData() {
+    this.newData = { correctDocument: this.correctDocument, correctName: this.correctName };
+    if (this.sortVendor = 'natural') {
+      this.formData.name = this.correctName;
+      this.formData.document = this.correctDocument;
+    } else {
+      this.formData.representante_legal = this.correctName;
+      this.formData.f_document_representative = this.correctDocument;
+    }
+    try {
+      await lastValueFrom(this._cS.updateVendor(this.formData));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   updateForm() {
@@ -129,11 +169,12 @@ export class InitialFormComponent implements OnInit {
         catchError((error) =>
           of({ id: fileIdDocument, file: value, key: '', url: '' })
         ),
-        map((putUrl: any) => ({
-          ...putUrl,
+        map((putUrl: any) => {
+          console.log(putUrl)
+          return {...putUrl,
           id: fileIdDocument,
-          file: value,
-        })),
+          file: value,}
+        }),
         switchMap((uploadFile: any) => {
           if (!uploadFile.url) {
             return of({ blobFile: null, uploadFile });
@@ -174,6 +215,10 @@ export class InitialFormComponent implements OnInit {
           }, 3500)
         });
     }
+  }
+
+  changeView(view: string = '') {
+    this.view = view;
   }
 
   ngOnDestroy() {

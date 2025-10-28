@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DocumentType, TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
 import { TypeView, VERIFICATION_DIGITS } from '../../../shared/Interfaces/status_form';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -27,11 +27,12 @@ import { NumberUtils } from '../../../shared/utils/number.utils';
   ],
   templateUrl: './vendor-juridico.component.html',
 })
-export class VendorJuridicoComponent {
+export class VendorJuridicoComponent implements OnInit, OnChanges {
 
   @Input() lists: any = null;
   @Input() vendor: any = null;
   @Input() typePerson: any = null;
+  @Input() newData: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
   @Output() onSubmitFile: EventEmitter<any> = new EventEmitter();
@@ -131,6 +132,14 @@ export class VendorJuridicoComponent {
     }));
 
     this.subcribeForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if(changes['newData'].currentValue) {
+        const newData = changes['newData'].currentValue;
+        this.juridicoForm.get('representante_legal')?.setValue(newData.correctName);
+        this.juridicoForm.get('f_document_representative')?.setValue(newData.correctDocument);
+      }
   }
 
   subcribeForm() {

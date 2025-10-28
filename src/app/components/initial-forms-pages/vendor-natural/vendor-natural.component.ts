@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DocumentType, TIPOPERSONA } from '../../../shared/Interfaces/typo_persona';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -24,11 +24,12 @@ import { TypeView } from '../../../shared/Interfaces/status_form';
   ],
   templateUrl: './vendor-natural.component.html',
 })
-export class VendorNaturalComponent {
+export class VendorNaturalComponent implements OnChanges, OnInit {
 
   @Input() lists: any = null;
   @Input() vendor: any = null;
   @Input() typePerson: any = null;
+  @Input() newData: any = null;
 
   @Output() notify: EventEmitter<any> = new EventEmitter();
   @Output() onSubmitFile: EventEmitter<any> = new EventEmitter();
@@ -111,6 +112,14 @@ export class VendorNaturalComponent {
     }));
 
     this.subcribeForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if(changes['newData'].currentValue) {
+        const newData = changes['newData'].currentValue;
+        this.naturalForm.get('name')?.setValue(newData.correctName);
+        this.naturalForm.get('document')?.setValue(newData.correctDocument);
+      }
   }
 
   subcribeForm() {
